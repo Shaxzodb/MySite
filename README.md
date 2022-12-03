@@ -15,6 +15,7 @@
 	    @$(py) createsuperuser
 ---
 ### CMD or PWSH or GIT BASH
+
 `video: https://www.youtube.com/watch?v=1JWOVGzzgMc`
 ---
 ```cmd
