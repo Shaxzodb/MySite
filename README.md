@@ -16,7 +16,7 @@
 ---
 ### CMD or PWSH or GIT BASH
 
-`video: https://www.youtube.com/watch?v=1JWOVGzzgMc`
+[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/vt5fpE0bzSY)
 
 ```cmd
 make run
