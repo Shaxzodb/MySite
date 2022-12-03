@@ -5,7 +5,7 @@
 </p>
 
 
-#
+
 ### CMD or PWSH or GIT BASH
 #
 
@@ -31,7 +31,7 @@ make superuser
 ```
 
 ### MAKE-FILE
-**py = py manage.py**
+**py = py manage.py**<br>
 @$(py) runserver<br>
 @$(py) makemigrations $(APP)<br>
 @$(py) collectstatic<br>
