@@ -1,3 +1,5 @@
+![AnVIL Image](https://www.img-studios.com/wp-content/uploads/2016/10/IMG-LOGO-HOMEPAGE.png "AnVIL Portal Image!")
+
     py = py manage.py
     run:
 	    @$(py) runserver
@@ -11,9 +13,10 @@
 	    @$(py) startapp $(APP)
     superuser:
 	    @$(py) createsuperuser
--------
+---
 ### CMD or PWSH or GIT BASH
-------
+`video: https://www.youtube.com/watch?v=1JWOVGzzgMc`
+---
 ```cmd
 make run
 ```
