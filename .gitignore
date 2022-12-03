@@ -1,0 +1,6 @@
+migrations
+/__pycache__/
+!migrations/__init__.py
+.forestadmin-schema.json
+db.sqlite3
+.env
