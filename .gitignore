@@ -1,5 +1,5 @@
 migrations/*
-__pycache__/
+__pycache__
 !migrations/__init__.py
 .forestadmin-schema.json
 db.sqlite3
