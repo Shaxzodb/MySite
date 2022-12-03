@@ -35,7 +35,6 @@ from collections.abc import Mapping
 # Application definition
 
 INSTALLED_APPS = [
-    #'django_forest',
     
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,15 +44,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # Middleware Apps
-    
+    'django_db_logger',
     # My Apps
+    
     'App.apps.AppConfig',
+    'APIs.apps.ApisConfig',
     'Users.apps.UsersConfig',
     'Profile.apps.ProfileConfig',
     'Articles.apps.ArticlesConfig',
     'Comments.apps.CommentsConfig',
 ]
-
 
 
 MIDDLEWARE = [
@@ -67,13 +67,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Config.urls'
-
-# FOREST = {
-#    'FOREST_URL': 'https://api.forestadmin.com',
-#    'FOREST_ENV_SECRET': 'a7dc19b6a057386e8a017e8fc726cccce5f02dc0bf3a9e929b096f0f9d670956',
-#    'FOREST_AUTH_SECRET': 'f19d34842317bfc2e415fcdec826726f657e59b200b2862e'
-# }
-# APPEND_SLASH=False
 
 TEMPLATES = [
     {
@@ -127,6 +120,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
+
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -136,8 +131,52 @@ USE_I18N = True
 USE_TZ = True
 
 
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    
+    'handlers': {
+        'db_log': {
+            'level': 'DEBUG',
+            'class': 'django_db_logger.db_log_handler.DatabaseLogHandler'
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR.joinpath('error.log'),
+        },
+    },
+    'loggers': {
+        'db': {
+            'handlers': ['db_log'],
+            'level': 'DEBUG'
+        },
+        'django': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django.request': { 
+            # logging 500 errors to database
+            'handlers': ['db_log'],
+            'level': 'ERROR',
+            'propagate': False,
+        }
+    },
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(asctime)s %(message)s'
+        },
+    },
+}
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
+
 STATIC_URL = 'static/'
 STATICFILES_DIRS=[str(BASE_DIR.joinpath('static'))]
 STATIC_ROOT=str(BASE_DIR.joinpath('staticfile'))
