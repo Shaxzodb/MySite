@@ -1,18 +1,9 @@
+
 <p align="center" width="100%">
 <img width="50%" src="https://www.img-studios.com/wp-content/uploads/2016/10/IMG-LOGO-HOMEPAGE.png">
 <!-- ![AnVIL Image](https://www.img-studios.com/wp-content/uploads/2016/10/IMG-LOGO-HOMEPAGE.png "AnVIL Portal Image!") -->
 </p>
 
-
-
-### MAKE-FILE
-**py = py manage.py**
-> @$(py) runserver<br>
-> @$(py) makemigrations $(APP)<br>
-> @$(py) collectstatic<br>
-> @$(py) migrate $(APP)<br>
-> @$(py) startapp $(APP)<br>
-> @$(py) createsuperuser<br>
 
 #
 ### CMD or PWSH or GIT BASH
@@ -39,3 +30,14 @@ make APP=NEW_APP_NAME startapp
 make superuser
 ```
 
+### MAKE-FILE
+**py = py manage.py**
+@$(py) runserver<br>
+@$(py) makemigrations $(APP)<br>
+@$(py) collectstatic<br>
+@$(py) migrate $(APP)<br>
+@$(py) startapp $(APP)<br>
+@$(py) createsuperuser<br>
+
+#
+> ### Django My Project
