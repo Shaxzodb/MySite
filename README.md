@@ -3,19 +3,17 @@
 <!-- ![AnVIL Image](https://www.img-studios.com/wp-content/uploads/2016/10/IMG-LOGO-HOMEPAGE.png "AnVIL Portal Image!") -->
 </p>
 
-    py = py manage.py
-    run:
-	    @$(py) runserver
-    make:
-	    @$(py) makemigrations $(APP)
-    static:
-	    @$(py) collectstatic
-    migrate:
-	    @$(py) migrate $(APP)
-    createapp:
-	    @$(py) startapp $(APP)
-    superuser:
-	    @$(py) createsuperuser
+
+
+### MAKE-FILE
+**py = py manage.py**
+> @$(py) runserver<br>
+> @$(py) makemigrations $(APP)<br>
+> @$(py) collectstatic<br>
+> @$(py) migrate $(APP)<br>
+> @$(py) startapp $(APP)<br>
+> @$(py) createsuperuser<br>
+
 #
 ### CMD or PWSH or GIT BASH
 #
