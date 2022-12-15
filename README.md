@@ -1,22 +1,16 @@
+<<<<<<< HEAD
 <p align ="center" width="100%">
 <img width="33%" src="https://www.img-studios.com/wp-content/uploads/2016/10/IMG-LOGO-HOMEPAGE.png">
+=======
+
+<p align="center" width="100%">
+<img width="50%" src="https://www.img-studios.com/wp-content/uploads/2016/10/IMG-LOGO-HOMEPAGE.png">
+>>>>>>> 4d975e4ede5a7abf829611d4ab231905527990c6
 <!-- ![AnVIL Image](https://www.img-studios.com/wp-content/uploads/2016/10/IMG-LOGO-HOMEPAGE.png "AnVIL Portal Image!") -->
 </p>
 
-    py = py manage.py
-    run:
-	    @$(py) runserver
-    make:
-	    @$(py) makemigrations $(APP)
-    static:
-	    @$(py) collectstatic
-    migrate:
-	    @$(py) migrate $(APP)
-    createapp:
-	    @$(py) startapp $(APP)
-    superuser:
-	    @$(py) createsuperuser
-#
+
+
 ### CMD or PWSH or GIT BASH
 #
 
@@ -41,3 +35,14 @@ make APP=NEW_APP_NAME startapp
 make superuser
 ```
 
+### MAKE-FILE
+**py = py manage.py**<br>
+@$(py) runserver<br>
+@$(py) makemigrations $(APP)<br>
+@$(py) collectstatic<br>
+@$(py) migrate $(APP)<br>
+@$(py) startapp $(APP)<br>
+@$(py) createsuperuser<br>
+
+#
+> ### Django My Project
