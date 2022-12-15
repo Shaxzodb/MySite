@@ -18,10 +18,17 @@ migrate:
 	@$(py) migrate $(APP)
 
 # make APP=NEW_APP_NAME startapp
-createapp:
+startapp:
 	@$(py) startapp $(APP)
 
 # make superuser
 superuser:
 	@$(py) createsuperuser
 
+compile:
+	@$(py) compilemessages
+
+message:
+	@$(py) makemessages
+test:
+	@$(py) test

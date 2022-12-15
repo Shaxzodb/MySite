@@ -1,8 +1,8 @@
 migrations/*
 !migrations/__init__.py
-
+media
+staticfile
 __pycache__
-.forestadmin-schema.json
 db.sqlite3
 .env
 error.log
