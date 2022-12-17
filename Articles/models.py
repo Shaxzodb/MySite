@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 from hitcount.models import HitCountMixin, HitCount
 from django.contrib.contenttypes.fields import GenericRelation
+from django.urls import reverse
 # here is an example model with a GenericRelation
 # Create your models here.
 class ArticleModel(models.Model, HitCountMixin):
@@ -61,6 +62,10 @@ class ArticleModel(models.Model, HitCountMixin):
             allow_unicode = True
         )
         super().save(*args, **kwargs)
+    
+    def get_absolute_url(self):
+        return reverse("article_detail", kwargs={"pk": self.pk})
+    
     
     def __str__(self):
         return (self.title[:35] + '...') if len(self.title) > 35 else self.title
