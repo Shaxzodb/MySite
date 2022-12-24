@@ -1,8 +1,11 @@
+
+
+
 migrations/*
 !migrations/__init__.py
 media
-staticfile
-__pycache__
 db.sqlite3
 .env
+staticfile
+__pycache__
 error.log
