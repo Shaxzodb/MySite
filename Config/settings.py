@@ -168,8 +168,6 @@ CACHES = {
             str(os.getenv('REDIS', 'redis://127.0.0.1:6379'))
         ],
         # 'TIMEOUT': 300 ,
-
-
     }
 }
 
@@ -233,7 +231,7 @@ LOGGING = {
             'interval': 27,
             'backupCount': 3,
             'encoding': 'utf8',
-            'filename': BASE_DIR.joinpath('error.log'),
+            'filename': BASE_DIR.joinpath('LOGS/error.log'),
         },
         'mail_admins': {
             'level': 'ERROR',
@@ -257,7 +255,6 @@ LOGGING = {
             'propagate': False,
         }
     },
-
 }
 
 # Email Sozlamalari
@@ -267,7 +264,6 @@ EMAIL_POST = 587
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -339,7 +335,6 @@ CKEDITOR_5_CONFIGS = {
                 'alignRight',
                 'alignCenter',
             ]
-
         },
         'table': {
             'contentToolbar': ['tableColumn', 'tableRow', 'mergeTableCells',
