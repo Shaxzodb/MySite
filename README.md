@@ -1,11 +1,9 @@
-<<<<<<< HEAD
+
 <p align ="center" width="100%">
 <img width="33%" src="https://www.img-studios.com/wp-content/uploads/2016/10/IMG-LOGO-HOMEPAGE.png">
 =======
 
-<p align="center" width="100%">
-<img width="50%" src="https://www.img-studios.com/wp-content/uploads/2016/10/IMG-LOGO-HOMEPAGE.png">
->>>>>>> 4d975e4ede5a7abf829611d4ab231905527990c6
+
 <!-- ![AnVIL Image](https://www.img-studios.com/wp-content/uploads/2016/10/IMG-LOGO-HOMEPAGE.png "AnVIL Portal Image!") -->
 </p>
 
@@ -47,3 +45,4 @@ make superuser
 #
 > ### Django My Project
 # my_site
+# MySite
