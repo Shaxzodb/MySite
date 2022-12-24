@@ -1,8 +1,9 @@
 migrations/*
-# !migrations/__init__.py
+!migrations/__init__.py
 __pycache__
 media
 db.sqlite3
 staticfile
 error.log
+Pipfile.lock
 .env
