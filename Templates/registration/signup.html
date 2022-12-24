@@ -1,0 +1,59 @@
+{% extends 'index.html' %}
+
+    {% block title %}
+    Ruyhattan utish
+    {% endblock title %}
+
+{% block content %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
+<form method="post" class=''>
+    <div class="card">
+    
+      <div class="card-body">
+
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Signup</button>
+        <button type="reset" class="btn btn">Reset</button>
+      </div>
+    </div>
+    </form>
+
+    <div class="dropdown">
+        
+      {{LANGUAGE_CODE}}
+     
+     <ul class="dropdown-menu">
+         {% for i in languages %}
+         <li><a class="dropdown-item" href='/{{i.code}}'>{{i.name_local}}</a></li>
+     
+ {% endfor %}
+
+     </ul>
+   </div>
+
+ {% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
+<div class="languages">
+<p>{% trans "Language" %}: </p>
+  <ul class="languages">
+    {% for language in languages %}
+      <li>
+        <a href="/{{ language.code }}/{{request.get_full_path|slice:"4:"}}"
+          {% if language.code == LANGUAGE_CODE %} class="selected"{% endif %}>
+          {{ language.name_local }}
+        </a>
+      </li>
+
+    {% endfor %}
+  </ul>
+</div>
+<script>
+  console.log('{{request.get_full_path}}')
+</script>
+    {% endblock content %}

@@ -1,0 +1,27 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+redis = "*"
+django = "*"
+pillow = "*"
+whitenoise = "*"
+django-axes = "*"
+django-compressor = "*"
+django-admin-interface = "*"
+django-colorfield = "*"
+phonenumbers = "*"
+django-phonenumber-field = "*"
+django-db-logger = "*"
+django-hitcount = "*"
+django-ckeditor-5 = "*"
+django-ratelimit = "*"
+gunicorn = "*"
+python-dotenv = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"

@@ -1,0 +1,12 @@
+<form method="post" class=''>
+    <div class="card">
+   
+      <div class="card-body">
+   
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Signup</button>
+        <button type="reset" class="btn btn">Reset</button>
+      </div>
+    </div>
+    </form>
