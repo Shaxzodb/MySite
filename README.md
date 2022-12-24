@@ -44,6 +44,5 @@ make superuser
 
 #
 > ### Django My Project
-# my_site
-# MySite
+
 # mysite
