@@ -30,9 +30,13 @@ django-phonenumber-field==7.0.1
 
 django-ratelimit==4.0.0
 
+gunicorn==20.1.0
+
 phonenumbers==8.13.3
 
 pillow==9.3.0
+
+python-dotenv==0.21.0
 
 rcssmin==1.1.0
 
