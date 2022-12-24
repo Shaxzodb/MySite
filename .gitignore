@@ -1,5 +1,5 @@
-migrations/*
-!migrations/__init__.py
+_migrations/*
+!_migrations/__init__.py
 __pycache__
 media
 db.sqlite3
