@@ -1,0 +1,17 @@
+{% load static %}
+<link rel="stylesheet" href={% static 'css/styles.css' %} type="text/css">
+
+{% for article in object_list %}
+
+    <div class='ck-content'>
+        
+        <a href="{% url 'detail' article.slug%}">{{article.title}}</a>
+    {{article.content|safe}}
+    {{article.created_at|date:'Y/m/d'}}
+        <hr/>
+    {% for comment in article.article_comments.all %}
+    <b>{{comment.comment|safe}}</b>
+    {% endfor %}
+    </div>
+    <br/>
+{% endfor %}
