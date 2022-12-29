@@ -1,4 +1,3 @@
-
 py = py manage.py
 
 # make run
@@ -17,10 +16,6 @@ static:
 migrate:
 	@$(py) migrate $(APP)
 
-# make APP=NEW_APP_NAME startapp
-startapp:
-	@$(py) startapp $(APP)
-
 # make superuser
 superuser:
 	@$(py) createsuperuser
@@ -30,5 +25,11 @@ compile:
 
 message:
 	@$(py) makemessages
+
 test:
 	@$(py) test
+
+# make APP=NEW_APP_NAME app
+app:
+	@$(py) startapp $(APP)
+

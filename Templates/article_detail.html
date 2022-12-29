@@ -1,1 +1,16 @@
+{% load hitcount_tags %}
+{% load static %}
 {{object.title}}
+<link rel="stylesheet" href={% static 'css/styles.css' %} type="text/css">
+<br>
+{% get_hit_count for object %}
+{{object.created_at}}
+<div class='ck-content'>
+{{object.content|safe}}
+</div>
+{# whether or not the hit for this request was counted (true/false) #}
+{{ hitcount.hit_counted }}
+
+{# the message form the UpdateHitCountResponse #}
+{{ hitcount.hit_message }}
+Barcha Maqolaalar Ko'rishlar: {{ hitcount.pk }}

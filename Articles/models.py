@@ -12,50 +12,42 @@ class ArticleModel(models.Model, HitCountMixin):
         get_user_model(),
         on_delete=models.CASCADE,
     )
-    
     title = models.CharField(
         max_length = 256
     )
-    
     image = models.ImageField(
         upload_to = 'articles_images/', 
         null =True,
         blank = True
     )
-    
     content = CKEditor5Field(
         config_name='extends_article'
     )
-    
     created_at = models.DateTimeField(
         auto_now_add = True
     )
-    
     updated_at = models.DateTimeField(
         auto_now = True
     )
-    
     slug = models.SlugField(
         max_length=256,
         null = True,
         blank = True,
         unique = True
     )
-    
     is_check = models.BooleanField(
         default = True
     )
-    
     likes = models.ManyToManyField(
         get_user_model(),
         blank = True,
         related_name='article_likes'
     )
-    
     hit_count_generic = GenericRelation(
         HitCount, object_id_field='object_pk',
         related_query_name='hit_count_generic_relation'
     )
+    
     def save(self, *args, **kwargs):
         self.slug = slugify(
             str(self.title),
@@ -63,11 +55,10 @@ class ArticleModel(models.Model, HitCountMixin):
         )
         super().save(*args, **kwargs)
     
-    def get_absolute_url(self):
-        return reverse("article_detail", kwargs={"pk": self.pk})
-    
-    
-    def __str__(self):
+    def __str__(self) -> str:
         return (self.title[:35] + '...') if len(self.title) > 35 else self.title
+    
+    def get_absolute_url(self):
+        return reverse("article_detail", kwargs={"slug": self.slug})
     
     

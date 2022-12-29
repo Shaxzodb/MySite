@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import Base
+from .views import Homepage, Ratelimited
 
 urlpatterns = [
-    path('',Base,name='base')
+    path('', Homepage, name='homepage'),
+    path('ratelimited/', Ratelimited)
 ]

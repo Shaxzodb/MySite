@@ -36,13 +36,15 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'admin_interface',
     'colorfield',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-
+    
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
+    
     "whitenoise.runserver_nostatic",
     'django.contrib.staticfiles',
 
@@ -51,17 +53,17 @@ INSTALLED_APPS = [
     # Axes app can be in any position in the INSTALLED_APPS list.
     'axes',
     'hitcount',
+    'crispy_forms',
+    "crispy_bootstrap5",
     'django_ckeditor_5',
-
     # My Apps
     'App.apps.AppConfig',
     'APIs.apps.ApisConfig',
     'Users.apps.UsersConfig',
     'Codes.apps.CodesConfig',
-    'Profile.apps.ProfileConfig',
+    #'Profile.apps.ProfileConfig',
     'Articles.apps.ArticlesConfig',
     'Comments.apps.CommentsConfig',
-    
 ]
 
 SITE_ID = 1
@@ -69,6 +71,7 @@ SITE_ID = 1
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'middleware.language.LocaleMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -87,7 +90,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Config.urls'
-
 
 TEMPLATES = [
     {
@@ -138,13 +140,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-AXES_ENABLED = True  # os.getenv('AXES_ENABLED',True)
-AXES_FAILURE_LIMIT = 10  # Notug'ri Kirishlar soni
+# Kirishlar Cheklovi AXES Sozlamalari
+AXES_ENABLED = os.getenv('AXES_ENABLED',True)
+AXES_FAILURE_LIMIT = 6  # Notug'ri Kirishlar soni
 AXES_ACCESS_FAILURE_LOG_PER_USER_LIMIT = 100
 # True Agar muvaqiyatli kirish avalgi muvaqiyatsiz kirishlarni uchiradi
 AXES_RESET_ON_SUCCESS = True
-AXES_ONLY_ADMIN_SITE = False  # True bo'lsa faqat Admin panel uchun urinli
+AXES_ONLY_ADMIN_SITE = True  # True bo'lsa faqat Admin panel uchun urinli
 AXES_COOLOFF_TIME = 1  # Soat
 AXES_LOCKOUT_TEMPLATE = 'accounts/user-block.html'  # Shablon
 AXES_HTTP_RESPONSE_CODE = 429  # Status code
@@ -154,17 +156,17 @@ AXES_NEVER_LOCKOUT_GET = True
 AUTHENTICATION_BACKENDS = [
     # AxesStandaloneBackend should be the first backend in the AUTHENTICATION_BACKENDS list.
     'axes.backends.AxesStandaloneBackend',
-
     # Django ModelBackend is the default authentication backend.
     'django.contrib.auth.backends.ModelBackend',
 ]
 
+# So'rovlar Cheklovi RATELIMIT Sozlamalari
+RATELIMIT_VIEW = 'App.views.ratelimited'
 
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
         'LOCATION': [
-
             str(os.getenv('REDIS', 'redis://127.0.0.1:6379'))
         ],
         # 'TIMEOUT': 300 ,
@@ -173,7 +175,6 @@ CACHES = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
-
 
 # Til Sozlamalari
 
@@ -224,14 +225,13 @@ LOGGING = {
             'class': 'django_db_logger.db_log_handler.DatabaseLogHandler'
         },
         'file': {
-            # 'class': 'logging.FileHandler',
             'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'when': 'D',
             'interval': 27,
             'backupCount': 3,
             'encoding': 'utf8',
-            'filename': BASE_DIR.joinpath('LOGS/error.log'),
+            'filename': BASE_DIR.joinpath('logs/error.log'),
         },
         'mail_admins': {
             'level': 'ERROR',
@@ -363,16 +363,10 @@ CKEDITOR_5_CONFIGS = {
         }
     },
     
-    'extends-profile':{
-        'blockToolbar': [
-            'paragraph', 'heading1', 'heading2', 'heading3',
-            '|',
-            'bulletedList', 'numberedList',
-            '|',
-            'blockQuote',
-        ],
+    'extends_profile':{
+        'blockToolbar': [],
         'toolbar': [ 
-            'bold', 'italic', 'link','highlight','|','fontFamily', 'fontColor', 'fontBackgroundColor'
+            'bold', 'italic', 'link','highlight','|','fontFamily'
         ],
         
     },
@@ -391,10 +385,19 @@ CKEDITOR_5_CONFIGS = {
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'Users.CustomUserModel'
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'base'
+LOGIN_REDIRECT_URL = 'homepage'
 LOGOUT_REDIRECT_URL = 'login'
 
 # Xafsizlik HTTP -> HTTPS
 # CSRF_COOKIE_SECURE = True
 # SESSION_COOKIE_SECURE = True
 # SECURE_SSL_REDIRECT = True
+
+# CRISPY FORMS FONTS
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+# default value 7
+HITCOUNT_KEEP_HIT_ACTIVE = { 'days': 30 }
+# default value
+HITCOUNT_KEEP_HIT_IN_DATABASE = { 'days': 30 }

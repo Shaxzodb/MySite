@@ -1,11 +1,12 @@
 {% load static %}
+
 <link rel="stylesheet" href={% static 'css/styles.css' %} type="text/css">
 
 {% for article in object_list %}
 
     <div class='ck-content'>
         
-        <a href="{% url 'detail' article.slug%}">{{article.title}}</a>
+        <a href="{% url 'article_detail' article.slug%}">{{article.title}}</a>
     {{article.content|safe}}
     {{article.created_at|date:'Y/m/d'}}
         <hr/>
