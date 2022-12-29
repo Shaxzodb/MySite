@@ -10,7 +10,7 @@ class HEADCode(models.Model):
         blank = True,
         null = True
     )
-    html_code = models.TextField()
+    code = models.TextField()
 
     def __str__(self) -> str:
         return self.name
@@ -24,7 +24,7 @@ class BODYCode(models.Model):
         blank = True,
         null = True
     )
-    script_code = models.TextField()
+    code = models.TextField()
 
     def __str__(self) -> str:
         return self.name
