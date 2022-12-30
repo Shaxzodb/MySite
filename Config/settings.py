@@ -180,7 +180,7 @@ CACHES = {
 
 LANGUAGE_CODE = 'uz'
 
-TIME_ZONE = 'GMT'
+TIME_ZONE = 'Asia/Tashkent'
 
 USE_I18N = True
 
@@ -191,7 +191,7 @@ LANGUAGES = (
     ('en', _('English')),
     ('ru', _('Russian')),
 )
-LANGUAGE_COOKIE_NAME = 'language'
+LANGUAGE_COOKIE_NAME = '_language'
 
 LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 
