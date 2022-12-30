@@ -4,7 +4,7 @@ __pycache__
 media
 db.sqlite3
 staticfile
-logs
+logs/*
 Pipfile.lock
 .env
 .vscode
