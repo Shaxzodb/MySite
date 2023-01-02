@@ -1,9 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUserModel
+from .models import CustomUserModel, Profile, Token
 from .forms import CustomCreateUserForm, CustomUpdateUserForm
-from .models import Profile
-
 # Register your models here.
 @admin.register(CustomUserModel)
 class CustomUserAdmin(UserAdmin):
@@ -26,6 +24,7 @@ class CustomUserAdmin(UserAdmin):
             {
                 'fields' : (
                     'phone',
+                    'email_verification',
                 )
             }
         ),
@@ -37,4 +36,6 @@ class CustomUserAdmin(UserAdmin):
     
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['username','email','phone','last_name','first_name']
+    list_display = ['user','email','phone','last_name','first_name']
+    
+admin.site.register(Token)

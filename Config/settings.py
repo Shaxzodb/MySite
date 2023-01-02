@@ -72,6 +72,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'middleware.language.LocaleMiddleware',
+    
     'django.middleware.locale.LocaleMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -79,6 +80,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'middleware.email_verification.EmailVerification',
 
     # AxesMiddleware should be the last middleware in the MIDDLEWARE list.
     # It only formats user lockout messages and renders Axes lockout responses
@@ -115,12 +117,20 @@ WSGI_APPLICATION = 'Config.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+    
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'db_pos',
+        'USER' : 'postgres',
+        'PASSWORD' : '*************',
+        'HOST' : 'localhost',
+        'PORT' : '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -142,13 +152,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Kirishlar Cheklovi AXES Sozlamalari
 AXES_ENABLED = os.getenv('AXES_ENABLED',True)
-AXES_FAILURE_LIMIT = 6  # Notug'ri Kirishlar soni
+AXES_FAILURE_LIMIT = 10  # Notug'ri Kirishlar soni
 AXES_ACCESS_FAILURE_LOG_PER_USER_LIMIT = 100
 # True Agar muvaqiyatli kirish avalgi muvaqiyatsiz kirishlarni uchiradi
 AXES_RESET_ON_SUCCESS = True
-AXES_ONLY_ADMIN_SITE = True  # True bo'lsa faqat Admin panel uchun urinli
+AXES_ONLY_ADMIN_SITE = False  # True bo'lsa faqat Admin panel uchun urinli
 AXES_COOLOFF_TIME = 1  # Soat
-AXES_LOCKOUT_TEMPLATE = 'accounts/user-block.html'  # Shablon
+AXES_LOCKOUT_TEMPLATE = 'accounts/user_block.html'  # Shablon
 AXES_HTTP_RESPONSE_CODE = 429  # Status code
 # Agar bo'lsa True, Axes hech qachon HTTP GET so'rovlarini bloklamaydi.
 AXES_NEVER_LOCKOUT_GET = True
@@ -194,10 +204,6 @@ LANGUAGES = (
 LANGUAGE_COOKIE_NAME = '_language'
 
 LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
-
-# Boshqaruvshilar Ruyxati
-ADMINS = [('Shaxzod', 'shaxzodbmaster@gmail.com')]
-MANAGERS = [('Shaxzod', 'shaxzodbmaster@gmail.com')]
 
 # Xatolar Ustida ishlash
 LOGGING = {
@@ -265,6 +271,9 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 
+# Boshqaruvshilar Ruyxati
+ADMINS = [('Shaxzod', EMAIL_HOST_USER)]
+MANAGERS = [('Shaxzod', EMAIL_HOST_USER)]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 

@@ -2,10 +2,10 @@ from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
-from hitcount.models import HitCountMixin, HitCount
+from hitcount.models import HitCount, HitCountMixin
 from django.contrib.contenttypes.fields import GenericRelation
 from django.urls import reverse
-# here is an example model with a GenericRelation
+
 # Create your models here.
 class ArticleModel(models.Model, HitCountMixin):
     author = models.ForeignKey(
@@ -41,12 +41,22 @@ class ArticleModel(models.Model, HitCountMixin):
     likes = models.ManyToManyField(
         get_user_model(),
         blank = True,
-        related_name='article_likes'
+        related_name='likes'
+    )
+    dislikes = models.ManyToManyField(
+        get_user_model(),
+        blank = True,
+        related_name='dislikes'
     )
     hit_count_generic = GenericRelation(
         HitCount, object_id_field='object_pk',
         related_query_name='hit_count_generic_relation'
     )
+    def total_likes(self):
+        return self.likes.count()
+    
+    def total_dislikes(self):
+        return self.dislikes.count()
     
     def save(self, *args, **kwargs):
         self.slug = slugify(
@@ -56,7 +66,7 @@ class ArticleModel(models.Model, HitCountMixin):
         super().save(*args, **kwargs)
     
     def __str__(self) -> str:
-        return (self.title[:35] + '...') if len(self.title) > 35 else self.title
+        return str(self.title[:35] + '...') if len(self.title) > 35 else str(self.title)
     
     def get_absolute_url(self):
         return reverse("article_detail", kwargs={"slug": self.slug})

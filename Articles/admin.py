@@ -47,7 +47,8 @@ class ArticlesAdmin(admin.ModelAdmin):
                 'author',
                 'content',
                 'image',
-                'likes'
+                'likes',
+                'dislikes'
             ),
         }),
     )

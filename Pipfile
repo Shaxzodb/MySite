@@ -24,6 +24,7 @@ django-crispy-forms = "*"
 crispy-bootstrap5 = "*"
 django-allauth = "*"
 django-filter = "*"
+psycopg2 = "*"
 
 [dev-packages]
 

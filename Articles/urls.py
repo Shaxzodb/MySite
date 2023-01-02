@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import ArticleListView, ArticleDetailView
+from .views import ArticleListView, ArticleDetailView,\
+    LikesView, UnLikesView
 from django_ratelimit.decorators import ratelimit
 
 urlpatterns = [
@@ -21,4 +22,6 @@ urlpatterns = [
         (ArticleDetailView.as_view()),
         name = 'article_detail'
     ),
+    path('likes/<slug:slug>', LikesView, name ='likes'),
+    path('dislikes/<slug:slug>', UnLikesView, name ='dislikes')
 ]

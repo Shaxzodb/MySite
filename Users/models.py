@@ -6,21 +6,33 @@ from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 from django_ckeditor_5.fields import CKEditor5Field
 
-# Create your models here.
+# Create your models here.     
 class CustomUserModel(AbstractUser):
     phone = PhoneNumberField(
         null = True,
         blank = True
     )
-    
+    email_verification = models.BooleanField(
+        default = False
+    )
     def __str__(self) -> str:
         return str(self.username)
     
     def get_absolute_url(self):
         return reverse('login')
+
+class Token(models.Model):
+    user = models.OneToOneField(
+        get_user_model(),
+        on_delete = models.CASCADE 
+    )
+    token = models.CharField(max_length=256)
+        
+    def __str__(self) -> str:
+        return str(self.user)
     
 class Profile(models.Model):
-    username = models.OneToOneField(
+    user = models.OneToOneField(
         get_user_model(),
         on_delete = models.CASCADE 
     )
@@ -71,7 +83,7 @@ class Profile(models.Model):
     )
     
     def save(self, *args, **kwargs):
-        value = self.username.username
+        value = self.user.username
         self.slug = slugify(
             value, 
             allow_unicode = True
@@ -79,7 +91,7 @@ class Profile(models.Model):
         super().save(*args, **kwargs)
         
     def __str__(self) -> str:
-        return str(self.username)
+        return str(self.user)
     
     def get_absolute_url(self):
         return reverse("profile", kwargs={"slug": self.slug})
