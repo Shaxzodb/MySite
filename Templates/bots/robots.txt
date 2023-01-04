@@ -4,4 +4,4 @@ Disallow: /directory/
 Disallow: /page1
 Disallow: /page2
 
-Sitemap: https://domain.com/sitemap.xml
+Sitemap: http://{{site_domain}}/sitemap.xml

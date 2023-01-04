@@ -8,19 +8,20 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
 class ArticleListView(ListView):
     model = ArticleModel
-    template_name = 'article_list.html'
-    
+    template_name = 'articles/article_list.html'
+
     def get_queryset(self):
         qs =  super().get_queryset()
-        return qs.all().order_by('likes', 'hit_count_generic', '-dislikes')
+        return qs.all().order_by('likes', 'hit_count_generic', '-dislikes', 'created_at')
 
 class ArticleDetailView(HitCountDetailView):
     model = ArticleModel
-    template_name: str = 'article_detail.html'
+    template_name: str = 'articles/article_detail.html'
     count_hit = True
-    
+   
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         stuff = get_object_or_404(
@@ -36,13 +37,14 @@ class ArticleDetailView(HitCountDetailView):
         total_dislikes = stuff.total_dislikes()
         context["likes"] = total_likes
         context["dislikes"] = total_dislikes
+        
         return context
-    
 
-@login_required
+
+@login_required()
 def LikesView(request, slug):
     if request.method == 'POST':
-        article = get_object_or_404(ArticleModel, id = request.POST.get('likes_id'))
+        article = get_object_or_404(ArticleModel, slug = slug)
         if article.likes.filter(id=request.user.id).exists():
             article.likes.remove(request.user)
         else:
@@ -52,19 +54,14 @@ def LikesView(request, slug):
             article.likes.add(request.user)
     return HttpResponseRedirect(reverse('article_detail', args=[str(slug)]))
 
-@login_required
+@login_required()
 def UnLikesView(request, slug):
     if request.method == 'POST':
-        article = get_object_or_404(ArticleModel, id = request.POST.get('dislikes_id'))
+        article = get_object_or_404(ArticleModel, slug = slug)
         if article.dislikes.filter(id=request.user.id).exists():
             article.dislikes.remove(request.user)
         else:
             if article.likes.filter(id=request.user.id).exists():
                 article.likes.remove(request.user)
             article.dislikes.add(request.user)
-    return HttpResponseRedirect(reverse('article_detail', args=[str(slug)]))
-      
-
-        
-    
-    
+    return HttpResponseRedirect(reverse('article_detail', args=[str(slug)]))  

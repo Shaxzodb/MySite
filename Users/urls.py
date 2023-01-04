@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import CreateUserView, CustomLoginView, email_verify
+from .views import CreateUserView, CustomLoginView,\
+    ProfileView, ProfileUpdateView, email_verify
 from django_ratelimit.decorators import ratelimit
 urlpatterns = [
     path('registration/signup/',
@@ -12,5 +13,7 @@ urlpatterns = [
         name = 'signup'
     ),
     path('email-verify/<slug:slug>/', email_verify, name = 'email_verify'),
-    path('registration/login/', CustomLoginView.as_view(), name = 'login')
+    path('registration/login/', CustomLoginView.as_view(), name = 'login'),
+    path('profile/<slug:slug>/', ProfileView.as_view(), name = 'profile'),
+    path('profile-edit/<slug:slug>/', ProfileUpdateView.as_view(), name = 'profile_edit')
 ]

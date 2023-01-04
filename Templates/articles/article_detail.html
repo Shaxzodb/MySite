@@ -1,0 +1,66 @@
+{% extends 'homepage.html' %}
+{% load hitcount_tags %}
+{% load static %}
+
+{% block content %}
+<script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
+{% load crispy_forms_tags %}
+{% for msg in messages %}
+<div class='mt-2'>
+    <div class="alert alert-primary ">{{ msg }}</div>
+</div>
+{% endfor %}
+{{object.title_at}}
+<br>
+{% get_hit_count for object as ob %}
+
+{{object.created_at}}
+<div class='ck-content'>
+{{object.content_at|safe}}
+</div>
+{{hitcount.total_hits}}
+
+<form action={% url 'comment' object.slug%} method="post">
+    {% csrf_token %}
+    <input name='comment'>
+    <button style='color:blue;' >Send Comment</button>
+
+<br>
+
+
+{% if confirmed_likes %}
+<form action={% url 'likes' object.slug%} method="post">
+    {% csrf_token %}
+    <button style='color:blue;' ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>{{likes}}
+</form>
+{% else %}
+<form action={% url 'likes' object.slug%} method="post">
+    {% csrf_token %}
+    <button ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>{{likes}}
+</form>
+{% endif %}
+{% if confirmed_dislikes %}
+<form action={% url 'dislikes' object.slug%} method="post">
+    {% csrf_token %}
+    <button style='color:red;'><svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path style='background-color:yellow;' d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>{{dislikes}}
+</form>
+{% else %}
+<form action={% url 'dislikes' object.slug%} method="post">
+    {% csrf_token %}
+    <button ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>{{dislikes}}
+</form>
+{% endif %}
+
+{% for comment in object.comments.all %}
+{% if comment.is_check %}
+    <b>{{comment.content_cm|safe}}</b><br>
+{% endif %}
+
+
+
+
+{% endfor %}
+
+
+
+{% endblock %}

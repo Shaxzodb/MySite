@@ -1,12 +1,14 @@
 from django.dispatch import receiver # add this
 import logging
-from django.core.mail import send_mail
+from django.core import mail
 from django.utils import translation
 from middleware.token import account_activation_token
 from django.dispatch import receiver # add this
 from django.db.models.signals import post_save, post_delete
 from django.conf import settings
 from .models import Profile, CustomUserModel, Token
+from django.contrib.sites.models import Site
+from django.template.loader import render_to_string
 
 db_logger = logging.getLogger('db')
 @receiver(post_save, sender=Profile) #add this
@@ -36,13 +38,31 @@ def user_create_profile(sender, instance, created, **kwargs):
             token = account_activation_token.make_token(instance)
         )
         user_language = translation.get_language()
-        send_mail(
-            'Email Tastiqlash',
-            f'http://127.0.0.1:8000/{user_language}/email-verify/{UserToken.token}/',
-            str(settings.EMAIL_HOST_USER),
-            [str(UserProfile.email)],
-            fail_silently=False,
-        )
+        current_site = Site.objects.get_current()
+        try:
+            html_message = render_to_string(
+            'accounts/email_verify.html', {
+                'username': UserProfile.user.username,
+                'current_site': current_site,
+                'user_language': user_language,
+                'UserToken': UserToken
+                }
+            )
+            with mail.get_connection() as connection:
+                msg = mail.EmailMessage(
+                    'Email Tastiqlash',
+                    html_message,
+                    str(settings.EMAIL_HOST_USER),
+                    [str(UserProfile.email)],
+                    connection=connection,
+                )
+                msg.content_subtype = "html"  # Main content is now text/html
+                msg.send()
+    
+        except:
+            db_logger.warning(
+                f'Foydalanuvchi {instance} - Email Xabar yuborishda Xato ruy berdi'
+            )
     
 @receiver(post_save, sender=CustomUserModel)
 def user_save_profile(sender, instance, **kwargs):

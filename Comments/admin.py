@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import CommentArticle
+from .models import ArticleComment
 from django.utils.html import format_html
 # Register your models here.
-
 
 @admin.display(description="Created Date | Updated Date")
 def create_updated(obj):
@@ -12,11 +11,13 @@ def create_updated(obj):
             obj.created_cm.strftime('%Y-%m-%d %H:%M:%S'),
             obj.updated_cm.strftime('%Y-%m-%d %H:%M:%S')
         )
-@admin.register(CommentArticle)
+        
+@admin.register(ArticleComment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['id','author',create_updated]
+    ordering = ['-updated_cm']
 
-
-class ArticleComment(admin.StackedInline):
-    model = CommentArticle
+class Comments(admin.StackedInline):
+    model = ArticleComment
+    ordering = ['-created_cm']
     extra = 0

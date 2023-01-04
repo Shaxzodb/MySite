@@ -1,3 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+# from django.http import Http404
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+from Articles.models import ArticleModel
+from django.contrib.auth.decorators import login_required
+from .models import ArticleComment
+from django.contrib import messages
 
 # Create your views here.
+@login_required()
+def created_comment(request, slug):
+    if request.method == 'POST':
+        article = get_object_or_404(ArticleModel, slug = slug)
+        content = request.POST['comment']
+        if content != '':
+            ArticleComment.objects.create(
+                author = request.user,
+                article_cm = article,
+                content_cm = content
+            )
+        messages.success(request,'Comment bo\'sh bo\'lishi mumkun emas')
+    return HttpResponseRedirect(reverse('article_detail', args=[str(slug)]))
+        

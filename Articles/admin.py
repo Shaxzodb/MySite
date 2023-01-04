@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import ArticleModel
 from django.utils.html import format_html
-from Comments.admin import ArticleComment
+from Comments.admin import Comments
 # Register your models here.
 
 @admin.display(description="Created Date | Updated Date")
@@ -14,39 +14,39 @@ def create_updated(obj):
         
 @admin.display(description="Title")
 def title(obj):
-    if len(obj.title)>=35:
+    if len(obj.title_at)>=35:
         return format_html(
             '<strong style="color:blue">{}</span></strong>',
-            obj.title[:35] + '...'     
+            obj.title_at[:35] + '...'     
         )
     else:
         return format_html(
            '<strong style="color:black">{}</span></strong>',
-            obj.title,
+            obj.title_at,
         )
 
 @admin.register(ArticleModel)
 class ArticlesAdmin(admin.ModelAdmin):
     list_filter = ('author',)
-    inlines = [ArticleComment]
+    inlines = [Comments]
     list_display = ['id', title,create_updated]
     add_fieldsets = (
         (None, {
             "fields": (
-                'title',
+                'title_at',
                 'author',
-                'content',
-                'image',
+                'content_at',
+                'image_at',
             ),
         }),
     )
     fieldsets = (
         (None, {
             "fields": (
-                'title',
+                'title_at',
                 'author',
-                'content',
-                'image',
+                'content_at',
+                'image_at',
                 'likes',
                 'dislikes'
             ),

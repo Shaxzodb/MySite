@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from django.utils.translation import gettext_lazy as _
 from pathlib import Path
+# import socket
 import os
 
 from dotenv import load_dotenv
@@ -61,7 +62,7 @@ INSTALLED_APPS = [
     'APIs.apps.ApisConfig',
     'Users.apps.UsersConfig',
     'Codes.apps.CodesConfig',
-    #'Profile.apps.ProfileConfig',
+    'Channels.apps.ChannelsConfig',
     'Articles.apps.ArticlesConfig',
     'Comments.apps.CommentsConfig',
 ]
@@ -80,7 +81,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'middleware.email_verification.EmailVerification',
+    'middleware.email_verify.EmailVerification',
 
     # AxesMiddleware should be the last middleware in the MIDDLEWARE list.
     # It only formats user lockout messages and renders Axes lockout responses
@@ -117,19 +118,19 @@ WSGI_APPLICATION = 'Config.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
-    
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'db_pos',
-        'USER' : 'postgres',
-        'PASSWORD' : '*************',
-        'HOST' : 'localhost',
-        'PORT' : '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+    
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'db_pos',
+    #     'USER' : 'postgres',
+    #     'PASSWORD' : 'ShaxzodMaster200',
+    #     'HOST' : 'localhost',
+    #     'PORT' : '5432',
+    # }
 }
 
 # Password validation
@@ -171,7 +172,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # So'rovlar Cheklovi RATELIMIT Sozlamalari
-RATELIMIT_VIEW = 'App.views.ratelimited'
+RATELIMIT_VIEW = 'App.views.rate_limited'
 
 CACHES = {
     'default': {
@@ -264,12 +265,14 @@ LOGGING = {
 }
 
 # Email Sozlamalari
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST = socket.gethostbyname('smtp.gmail.com')
 EMAIL_POST = 587
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Boshqaruvshilar Ruyxati
 ADMINS = [('Shaxzod', EMAIL_HOST_USER)]
@@ -316,9 +319,6 @@ customColorPalette = [
 # CKEDITOR_5_CUSTOM_CSS = 'path_to.css' # optional
 # CKEDITOR_5_FILE_STORAGE = "path_to_storage.CustomStorage" # optional
 CKEDITOR_5_CONFIGS = {
-    'extends_comment': {
-        'toolbar': ['bold', 'italic', 'link', 'underline', 'strikethrough' ],
-    },
     'extends_article': {
         'blockToolbar': [
             'paragraph', 'heading1', 'heading2', 'heading3',
@@ -375,7 +375,7 @@ CKEDITOR_5_CONFIGS = {
     'extends_profile':{
         'blockToolbar': [],
         'toolbar': [ 
-            'bold', 'italic', 'link','highlight','|','fontFamily'
+            'bold', 'italic', 'link','|','fontFamily'
         ],
         
     },

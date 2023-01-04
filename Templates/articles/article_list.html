@@ -1,18 +1,17 @@
-{% extends 'index.html' %}
+{% extends 'homepage.html' %}
 {% load static %}
-
+<link rel="stylesheet" href={% static 'css/ckeditor-styles.css' %} type="text/css">
 {% block title %}
      Some text
 {% endblock %}
 {% block content %}
-<link rel="stylesheet" href={% static 'css/styles.css' %} type="text/css">
 
 {% for article in object_list %}
 
     <div class='ck-content'>
         {{article.hit_count.hits}}
-        <a href="{% url 'article_detail' article.slug%}">{{article.title}}</a>
-    {{article.content|safe}}
+        <a href="{% url 'article_detail' article.slug%}">{{article.title_at}}</a>
+    {{article.content_at|safe}}
     
         
     {{article.created_at|date:'Y/m/d'}}
@@ -20,8 +19,8 @@
     
         <hr/>
 
-    {% for comment in article.article_comments.all %}
-    <b>{{comment.comment|safe}}</b>
+    {% for comment in article.comments.all %}
+    <b>{{comment.content_cm|safe}}</b>
 
     {% endfor %}
     </div>

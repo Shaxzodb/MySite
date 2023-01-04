@@ -12,15 +12,15 @@ class ArticleModel(models.Model, HitCountMixin):
         get_user_model(),
         on_delete=models.CASCADE,
     )
-    title = models.CharField(
+    title_at = models.CharField(
         max_length = 256
     )
-    image = models.ImageField(
+    image_at = models.ImageField(
         upload_to = 'articles_images/', 
         null =True,
         blank = True
     )
-    content = CKEditor5Field(
+    content_at = CKEditor5Field(
         config_name='extends_article'
     )
     created_at = models.DateTimeField(
@@ -60,13 +60,13 @@ class ArticleModel(models.Model, HitCountMixin):
     
     def save(self, *args, **kwargs):
         self.slug = slugify(
-            str(self.title),
+            str(self.title_at),
             allow_unicode = True
         )
         super().save(*args, **kwargs)
     
     def __str__(self) -> str:
-        return str(self.title[:35] + '...') if len(self.title) > 35 else str(self.title)
+        return str(self.title_at[:35] + '...') if len(self.title_at) > 35 else str(self.title_at)
     
     def get_absolute_url(self):
         return reverse("article_detail", kwargs={"slug": self.slug})

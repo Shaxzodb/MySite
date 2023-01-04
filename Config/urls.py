@@ -24,6 +24,7 @@ from Articles.models import ArticleModel
 from django.urls import reverse
 from django.contrib.sitemaps import views as sitemaps_views
 from django.views.decorators.cache import cache_page
+from App.views import robots
 
 class StaticViewSitemap(sitemaps.Sitemap):
     changefreq = "weekly"
@@ -54,7 +55,7 @@ sitemaps = {
 }
 
 urlpatterns = [
-    path('robots.txt',TemplateView.as_view(template_name="bots/robots.txt", content_type="text/plain")),
+    path('robots.txt',robots),
     path('sitemap.xml',
         cache_page(86400)(sitemaps_views.index),
         {'sitemaps': sitemaps, 'sitemap_url_name': 'sitemaps'},
@@ -69,9 +70,9 @@ urlpatterns = [
     path('',include('App.urls')),
     # path('',include('APIs.urls')),
     path('',include('Users.urls')),
-    # path('',include('Profile.urls')),
+    path('',include('Channels.urls')),
     path('',include('Articles.urls')),
-    # path('',include('Comments.urls')),
+    path('',include('Comments.urls')),
     path('registration/', include('django.contrib.auth.urls')),
     path('i18n/', include('django.conf.urls.i18n')),
     path("ckeditor5/", include('django_ckeditor_5.urls')),

@@ -13,7 +13,7 @@ urlpatterns = [
         (ArticleListView.as_view()),
         name = 'list'
     ),
-    path('news/<slug:slug>', 
+    path('news/<slug:slug>/', 
         ratelimit(
             key = 'ip', 
             method = 'GET',

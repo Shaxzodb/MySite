@@ -1,0 +1,6 @@
+{{object.name}}
+<br>
+{% for post in object.post.all %}
+{{post.author}}
+{{post.content_pt|safe}}
+{% endfor %}

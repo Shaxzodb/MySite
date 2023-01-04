@@ -1,24 +1,22 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from Articles.models import ArticleModel
-from django_ckeditor_5.fields import CKEditor5Field
 # Create your models here.
 
-class CommentArticle(models.Model):
+class ArticleComment(models.Model):
     author = models.ForeignKey(
         get_user_model(),
         on_delete = models.CASCADE
     )
     
-    article_comment = models.ForeignKey(
+    article_cm = models.ForeignKey(
         ArticleModel,
         on_delete = models.CASCADE,
-        related_name = 'article_comments'
+        related_name = 'comments'
     )
     
-    comment = CKEditor5Field(
-        max_length = 256,
-        config_name='extends_comment'
+    content_cm = models.TextField(
+        max_length = 256
     )
     
     created_cm = models.DateTimeField(
@@ -33,10 +31,12 @@ class CommentArticle(models.Model):
         default = True
     )
     
-    # likes = models.ManyToManyField(
-    #     get_user_model(),
-    #     related_name = 'comment_likes'
-    # )
+    likes = models.ManyToManyField(
+        get_user_model(),
+        related_name = 'comment_likes',
+        blank = True
+    )
     
     def __str__(self):
-        return (self.comment[:30] + '...') if len(self.comment) > 30 else self.comment
+        return str(self.article_cm.title_at[:30] + '...') \
+            if len(self.article_cm.title_at) > 30 else str(self.article_cm.title_at)
