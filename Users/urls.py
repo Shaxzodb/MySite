@@ -3,7 +3,7 @@ from .views import CreateUserView, CustomLoginView,\
     ProfileView, ProfileUpdateView, email_verify
 from django_ratelimit.decorators import ratelimit
 urlpatterns = [
-    path('registration/signup/',
+    path('register/signup/',
         ratelimit(
             key = 'ip', 
             method = 'POST',
@@ -12,8 +12,8 @@ urlpatterns = [
         (CreateUserView.as_view()), 
         name = 'signup'
     ),
-    path('email-verify/<slug:slug>/', email_verify, name = 'email_verify'),
-    path('registration/login/', CustomLoginView.as_view(), name = 'login'),
+    path('register/email-verify/<slug:slug>/', email_verify, name = 'email_verify'),
+    path('register/login/', CustomLoginView.as_view(), name = 'login'),
     path('profile/<slug:slug>/', ProfileView.as_view(), name = 'profile'),
     path('profile-edit/<slug:slug>/', ProfileUpdateView.as_view(), name = 'profile_edit')
 ]

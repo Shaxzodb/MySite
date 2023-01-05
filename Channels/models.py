@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django_ckeditor_5.fields import CKEditor5Field
 from .validate import validate_length
 from django.urls import reverse
-from middleware.token import account_activation_token
+
 # Create your models here.
 class Channel(models.Model):
     name = models.CharField(
@@ -13,6 +13,11 @@ class Channel(models.Model):
     owner = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
+    )
+    admins = models.ManyToManyField(
+        get_user_model(),
+        blank = True,
+        related_name='admins'
     )
     subscribers = models.ManyToManyField(
         get_user_model(),
@@ -25,7 +30,6 @@ class Channel(models.Model):
         validators = [validate_length],
         blank = True
     )
-    
     created_ch = models.DateTimeField(
         auto_now_add = True
     )
@@ -36,8 +40,11 @@ class Channel(models.Model):
     def total_subscribers(self):
         return self.subscribers.count()
     
+    def total_admins(self):
+        return self.admins.count()
+    
     def __str__(self) -> str:
-        return str(self.slug[:35] + '...') if len(str(self.slug)) > 35 else str(self.slug)
+        return str(self.name[:35] + '...') if len(str(self.name)) > 35 else str(self.name)
     
     def get_absolute_url(self):
         return reverse("channel", kwargs={"slug": self.slug})

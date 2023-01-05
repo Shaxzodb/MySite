@@ -8,10 +8,9 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
 class ArticleListView(ListView):
     model = ArticleModel
-    template_name = 'articles/article_page.html'
+    template_name = 'article/article_page.html'
 
     def get_queryset(self):
         qs =  super().get_queryset()
@@ -19,7 +18,7 @@ class ArticleListView(ListView):
 
 class ArticleDetailView(HitCountDetailView):
     model = ArticleModel
-    template_name: str = 'articles/article_detail.html'
+    template_name: str = 'article/article_detail.html'
     count_hit = True
    
     def get_context_data(self, **kwargs):

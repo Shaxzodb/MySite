@@ -41,11 +41,12 @@ def user_create_profile(sender, instance, created, **kwargs):
         current_site = Site.objects.get_current()
         try:
             html_message = render_to_string(
-            'accounts/email_verify.html', {
-                'username': UserProfile.user.username,
-                'current_site': current_site,
-                'user_language': user_language,
-                'UserToken': UserToken
+                'email/email_verify.html', 
+                {
+                    'username': UserProfile.user.username,
+                    'current_site': current_site,
+                    'user_language': user_language,
+                    'UserToken': UserToken
                 }
             )
             with mail.get_connection() as connection:
@@ -66,7 +67,6 @@ def user_create_profile(sender, instance, created, **kwargs):
     
 @receiver(post_save, sender=CustomUserModel)
 def user_save_profile(sender, instance, **kwargs):
-    
     try:
         Profile.objects.filter(
             user = instance
