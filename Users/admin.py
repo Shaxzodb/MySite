@@ -36,6 +36,7 @@ class CustomUserAdmin(UserAdmin):
     
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
+    ordering = ['friends']
     list_display = ['user','email','phone','last_name','first_name']
     
 admin.site.register(Token)

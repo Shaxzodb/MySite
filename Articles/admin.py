@@ -1,9 +1,9 @@
 from django.contrib import admin
 from .models import ArticleModel
 from django.utils.html import format_html
-from Comments.admin import Comments
-# Register your models here.
+from Comments.admin import CommentsInline
 
+# Register your models here.
 @admin.display(description="Created Date | Updated Date")
 def create_updated(obj):
         return format_html(
@@ -28,7 +28,7 @@ def title(obj):
 @admin.register(ArticleModel)
 class ArticlesAdmin(admin.ModelAdmin):
     list_filter = ('author',)
-    inlines = [Comments]
+    inlines = [CommentsInline]
     list_display = ['id', title,create_updated]
     add_fieldsets = (
         (None, {

@@ -215,3 +215,6 @@
 "GET /en/channels/ HTTP/1.1" 500 150804
 "GET /en/list/ HTTP/1.1" 500 125070
 "GET /en/list/ HTTP/1.1" 500 125339
+"POST /en/admin/Channels/channel/4/change/ HTTP/1.1" 500 156316
+"POST /en/admin/Channels/channel/4/change/ HTTP/1.1" 500 217526
+"POST /en/admin/Channels/channel/4/change/ HTTP/1.1" 500 217526

@@ -4,6 +4,13 @@ py = py manage.py
 run:
 	@$(py) runserver
 
+test:
+	@$(py) test
+
+# make APP=NEW_APP_NAME app
+app:
+	@$(py) startapp $(APP)
+
 # make APP=APP_NAME make or make make
 make:
 	@$(py) makemigrations $(APP)
@@ -25,11 +32,3 @@ compile:
 
 message:
 	@$(py) makemessages
-
-test:
-	@$(py) test
-
-# make APP=NEW_APP_NAME app
-app:
-	@$(py) startapp $(APP)
-

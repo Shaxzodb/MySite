@@ -5,7 +5,6 @@ from django.utils.html import format_html
 
 @admin.display(description="Created Date | Updated Date")
 def create_updated(obj):
-
         return format_html(
             "<strong style='color:black'>CR - {} <br/><hr/> <span style='color:red'>UD - {}</span></strong>",
             obj.created_cm.strftime('%Y-%m-%d %H:%M:%S'),
@@ -17,7 +16,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ['id','author',create_updated]
     ordering = ['-updated_cm']
 
-class Comments(admin.StackedInline):
+class CommentsInline(admin.StackedInline):
     model = ArticleComment
     ordering = ['-created_cm']
     extra = 0

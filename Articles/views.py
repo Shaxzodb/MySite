@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 
 class ArticleListView(ListView):
     model = ArticleModel
-    template_name = 'articles/article_list.html'
+    template_name = 'articles/article_page.html'
 
     def get_queryset(self):
         qs =  super().get_queryset()

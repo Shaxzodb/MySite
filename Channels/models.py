@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django_ckeditor_5.fields import CKEditor5Field
 from .validate import validate_length
 from django.urls import reverse
-
+from middleware.token import account_activation_token
 # Create your models here.
 class Channel(models.Model):
     name = models.CharField(
@@ -22,9 +22,10 @@ class Channel(models.Model):
     slug = models.SlugField(
         'username',
         max_length = 50,
-        validators=[validate_length],
-        unique = True
+        validators = [validate_length],
+        blank = True
     )
+    
     created_ch = models.DateTimeField(
         auto_now_add = True
     )

@@ -81,6 +81,14 @@ class Profile(models.Model):
     slug = models.SlugField(
         unique=True
     )
+    friends = models.ManyToManyField(
+        get_user_model(),
+       related_name = 'friends',
+       blank = True
+    )
+    
+    def total_friends(self):
+        return self.friends.count()
     
     def save(self, *args, **kwargs):
         value = self.user.username
