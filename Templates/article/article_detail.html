@@ -10,7 +10,20 @@
     <div class="alert alert-primary ">{{ msg }}</div>
 </div>
 {% endfor %}
-{{object.title_at}}
+{% if user.is_authenticated and user.id == object.author.id%}
+     
+    <a href="{% url 'article_edit' object.slug%}">Edit Article</a>
+    <form action={% url 'article_delete' object.slug%} method="post">
+        {% csrf_token %}
+        <button style='color:yellow;background-color:red;' >Delete Article</button>
+    </form>
+{% endif %}
+<br>
+{% if object.image_at %}
+<img src={{object.image_at.url}}  width='20' height='20' />
+{% endif %}
+
+
 <br>
 {% get_hit_count for object as ob %}
 
@@ -18,47 +31,44 @@
 <div class='ck-content'>
 {{object.content_at|safe}}
 </div>
-{{hitcount.total_hits}}
+Kurishlar:{{hitcount.total_hits}}
 
 <form action={% url 'comment' object.slug%} method="post">
     {% csrf_token %}
-    <input name='comment'>
+    <input name='comment' minlength="6" required>
     <button style='color:blue;' >Send Comment</button>
+
+</form>
 
 <br>
 
-
-{% if confirmed_likes %}
 <form action={% url 'likes' object.slug%} method="post">
     {% csrf_token %}
+    {% if confirmed_likes %}
+    
     <button style='color:blue;' ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>{{likes}}
-</form>
-{% else %}
-<form action={% url 'likes' object.slug%} method="post">
-    {% csrf_token %}
+
+    {% else %}
     <button ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>{{likes}}
+    {% endif %}
 </form>
-{% endif %}
-{% if confirmed_dislikes %}
 <form action={% url 'dislikes' object.slug%} method="post">
     {% csrf_token %}
+    {% if confirmed_dislikes %}
     <button style='color:red;'><svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path style='background-color:yellow;' d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>{{dislikes}}
-</form>
-{% else %}
-<form action={% url 'dislikes' object.slug%} method="post">
+
+    {% else %}
+
     {% csrf_token %}
     <button ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>{{dislikes}}
+    {% endif %}
 </form>
-{% endif %}
+
 
 {% for comment in object.comments.all %}
 {% if comment.is_check %}
-    <b>{{comment.content_cm|safe}}</b><br>
+    <b>{{comment.content_cm}}</b><br>
 {% endif %}
-
-
-
-
 {% endfor %}
 
 

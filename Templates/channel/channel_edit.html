@@ -1,0 +1,37 @@
+{% extends 'homepage.html' %}
+
+    {% block title %}
+    Ruyhattan utish
+    {% endblock title %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+<form method="post" class=''>
+    <div class="card">
+    
+      <div class="card-body">
+      
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        {% csrf_token %}
+       
+        {% crispy form %}
+        <button type="submit" class="btn btn-primary">Signup</button>
+        </div>
+        
+
+    </div>
+    </form>
+
+  <form action={% url 'channel_delete' object.slug%} method="post">
+    {% csrf_token %}
+    <button style='color:yellow;background-color:red;' >Delete Channel</button>
+  </form>
+    
+
+
+<script>
+  console.log('{{request.get_full_path}}')
+</script>
+    {% endblock content %}
+  

@@ -3,19 +3,18 @@ from django import forms
 from crispy_bootstrap5.bootstrap5 import FloatingField, BS5Accordion
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout
-from crispy_forms.bootstrap import Accordion, AccordionGroup
+from crispy_forms.bootstrap import AccordionGroup
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-class CustomCreateUserForm(UserCreationForm):
+class UserCreateForm(UserCreationForm):
+    username = forms.CharField(required=True, min_length=6, max_length=35)
     helper = FormHelper()
     helper.layout = Layout(
-        # self.helper.form_tag = False
-        # self.helper.include_media = False 
-            
-                FloatingField("username", autocomplete="username"),
-                FloatingField("email", autocomplete="email"),
-                FloatingField("password1", autocomplete="password1"),
-                FloatingField("password2", autocomplete="password2"),
+        FloatingField("username", autocomplete="username"),
+        FloatingField("email", autocomplete="email"),
+        FloatingField("password1", autocomplete="password1"),
+        FloatingField("password2", autocomplete="password2"),
+        'confirm'
     )
     
     def __init__(self, *args, **kwargs):
@@ -24,10 +23,10 @@ class CustomCreateUserForm(UserCreationForm):
         
     class Meta:
         model = CustomUserModel
-        fields = UserCreationForm.Meta.fields + ('email',)
+        fields = UserCreationForm.Meta.fields + ('email','confirm')
         widgets = {}
 
-class CustomUpdateUserForm(UserChangeForm):
+class UserUpdateForm(UserChangeForm):
     class Meta:
         model = CustomUserModel
         fields = UserChangeForm.Meta.fields

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Channel, Post
 
-# Register your models here.
+#Register your models here.
 class PostInlines(admin.StackedInline):
     model = Post
     ordering = ['-created_pt']
@@ -15,4 +15,5 @@ class PostAdmin(admin.ModelAdmin):
 class ChannelAdmin(admin.ModelAdmin):
     ordering = ['-created_ch']
     inlines = [PostInlines]
+
     list_display = ['slug', 'name', 'owner', 'total_subscribers']

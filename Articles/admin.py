@@ -28,6 +28,10 @@ def title(obj):
 @admin.register(ArticleModel)
 class ArticlesAdmin(admin.ModelAdmin):
     list_filter = ('author',)
+    # Render filtered options only after 5 characters were entered
+    filter_input_length = {
+        "author": 5,
+    }
     inlines = [CommentsInline]
     list_display = ['id', title,create_updated]
     add_fieldsets = (

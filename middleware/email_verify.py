@@ -1,6 +1,6 @@
 from Users.models import CustomUserModel
 from django.shortcuts import get_object_or_404
-
+from django.http import HttpResponse
 class EmailVerification:
     
     def __init__(self, get_response):

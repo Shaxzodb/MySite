@@ -39,6 +39,7 @@ sitemaps = {
 }
 
 urlpatterns = [
+    path('i18n/', include('django.conf.urls.i18n')),
     path('robots.txt',robots),
     path('sitemap.xml',
         cache_page(86400)(sitemaps_views.index),
@@ -49,6 +50,7 @@ urlpatterns = [
         {'sitemaps': sitemaps}, name='sitemaps'
     ),
     path('hitcount/', include(('hitcount.urls', 'hitcount'), namespace='hitcount')),
+    path("ckeditor5/", include('django_ckeditor_5.urls')),
 ] + i18n_patterns(
     path('admin/', admin.site.urls),
     path('',include('App.urls')),
@@ -58,8 +60,6 @@ urlpatterns = [
     path('',include('Articles.urls')),
     path('',include('Comments.urls')),
     path('register/', include('django.contrib.auth.urls')),
-    path('i18n/', include('django.conf.urls.i18n')),
-    path("ckeditor5/", include('django_ckeditor_5.urls')),
 ) + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
 ) + static(

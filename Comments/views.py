@@ -19,6 +19,7 @@ def created_comment(request, slug):
                 article_cm = article,
                 content_cm = content
             )
-        messages.success(request,'Comment bo\'sh bo\'lishi mumkun emas')
+        else:
+            messages.success(request,'Comment bo\'sh bo\'lishi mumkun emas')
     return HttpResponseRedirect(reverse('article_detail', args=[str(slug)]))
         

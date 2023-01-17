@@ -1,14 +1,17 @@
 from django.shortcuts import render
 from django.utils.translation import gettext as _
-from django.views.generic import TemplateView
 from django.contrib.sites.models import Site
-
+from middleware.language import LocaleMiddleware
+from django.shortcuts import get_object_or_404
+from Users.models import CustomUserModel
 # Create your views here.
-class Homepage(TemplateView):
+    
+@LocaleMiddleware
+def homepage(request):
     template_name = 'homepage.html'
-    def get(self, *args, **kwargs):
-        context = super().get(self, *args, **kwargs)
-        return context
+    user = get_object_or_404(CustomUserModel, id = request.user.id)
+    email_verification = user.email_verification
+    return render(request, template_name ,{'email_verification':email_verification})
     
 def rate_limited(request):
     template_name = '429.html'

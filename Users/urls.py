@@ -9,7 +9,7 @@ urlpatterns = [
             method = 'POST',
             rate ='10/5m'
         )
-        (CreateUserView.as_view()), 
+        (CreateUserView.as_view()),
         name = 'signup'
     ),
     path('register/email-verify/<slug:slug>/', email_verify, name = 'email_verify'),

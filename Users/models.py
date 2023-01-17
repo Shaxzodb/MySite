@@ -12,6 +12,11 @@ class CustomUserModel(AbstractUser):
         null = True,
         blank = True
     )
+    confirm = models.BooleanField(
+        name = 'confirm',
+        help_text="Do you agree to send news to your email?",
+        default = False
+    )
     email_verification = models.BooleanField(
         default = False
     )
@@ -27,9 +32,9 @@ class Token(models.Model):
         on_delete = models.CASCADE 
     )
     token = models.CharField(max_length=256)
-        
+    
     def __str__(self) -> str:
-        return str(self.user)
+        return str(self.user.username)
     
 class Profile(models.Model):
     user = models.OneToOneField(
@@ -45,6 +50,7 @@ class Profile(models.Model):
         blank = True
     )
     user_pic = models.ImageField(
+        help_text='User Avatar',
         upload_to = 'profile_pics/',
         blank = True, 
         null  = True
@@ -83,8 +89,8 @@ class Profile(models.Model):
     )
     friends = models.ManyToManyField(
         get_user_model(),
-       related_name = 'friends',
-       blank = True
+        related_name = 'friends',
+        blank = True
     )
     
     def total_friends(self):
@@ -93,13 +99,27 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         value = self.user.username
         self.slug = slugify(
-            value, 
+            value,
             allow_unicode = True
         )
         super().save(*args, **kwargs)
         
     def __str__(self) -> str:
-        return str(self.user)
+        return str(self.user.username)
     
     def get_absolute_url(self):
         return reverse("profile", kwargs={"slug": self.slug})
+
+class AllSendEmail(models.Model):
+    subject = models.CharField(
+        'Subject',
+        max_length = 256
+    )
+    message = CKEditor5Field(
+        config_name='default'
+    )
+    def total(self):
+        return self.user_email.count()
+    def __str__(self) -> str:
+        return str(self.subject[:30] + '...') \
+            if len(self.subject) > 30 else str(self.subject)

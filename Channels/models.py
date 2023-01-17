@@ -13,6 +13,13 @@ class Channel(models.Model):
     owner = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
+        related_name ='owner'
+    )
+    image_ch = models.ImageField(
+        'channel image',
+        upload_to = 'channel_images/', 
+        blank = True,
+        null = True
     )
     admins = models.ManyToManyField(
         get_user_model(),
@@ -27,8 +34,9 @@ class Channel(models.Model):
     slug = models.SlugField(
         'username',
         max_length = 50,
+        unique = True,
+        blank= True,
         validators = [validate_length],
-        blank = True
     )
     created_ch = models.DateTimeField(
         auto_now_add = True
@@ -48,7 +56,7 @@ class Channel(models.Model):
     
     def get_absolute_url(self):
         return reverse("channel", kwargs={"slug": self.slug})
-
+ 
 class Post(models.Model):
     author = models.ForeignKey(
         get_user_model(),
@@ -60,14 +68,14 @@ class Post(models.Model):
         related_name='post'
     )
     content_pt = CKEditor5Field(
-        config_name='extends_article'
+        config_name='default'
     )
-    likes = models.ManyToManyField(
+    likes_ps = models.ManyToManyField(
         get_user_model(),
         blank = True,
         related_name='likes_pt'
     )
-    dislikes = models.ManyToManyField(
+    dislikes_ps = models.ManyToManyField(
         get_user_model(),
         blank = True,
         related_name='dislikes_pt'
