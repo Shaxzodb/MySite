@@ -4,7 +4,8 @@ from crispy_bootstrap5.bootstrap5 import FloatingField, BS5Accordion
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout
 from crispy_forms.bootstrap import AccordionGroup
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm,AuthenticationForm
+
 
 class UserCreateForm(UserCreationForm):
     username = forms.CharField(required=True, min_length=6, max_length=35)
@@ -25,6 +26,23 @@ class UserCreateForm(UserCreationForm):
         model = CustomUserModel
         fields = UserCreationForm.Meta.fields + ('email','confirm')
         widgets = {}
+        
+class UserLoginForm(AuthenticationForm):
+    username = forms.CharField(required=True, min_length=6, max_length=35)
+    helper = FormHelper()
+    helper.layout = Layout(
+        FloatingField("username", autocomplete="username"),
+        FloatingField("password", autocomplete="password"),
+    )
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+    class Meta:
+        model = CustomUserModel
+        fields = ['username','password']
+        widgets = {}
+    
 
 class UserUpdateForm(UserChangeForm):
     class Meta:
@@ -37,20 +55,23 @@ class ProfileForm(forms.ModelForm):
         # self.helper.form_tag = False
         # self.helper.include_media = False 
         BS5Accordion(
-            AccordionGroup('username and email',
-                
-                'bio',
+            AccordionGroup('#1',  
                 FloatingField("last_name", autocomplete="last_name"),
                 FloatingField("first_name", autocomplete="first_name"),
                 'user_pic'
             ),
-            AccordionGroup('password',
+            AccordionGroup('#2',
+                'bio',
+            ),
+            AccordionGroup('#3',
                 FloatingField("location", autocomplete="location"),
                 FloatingField("website", autocomplete="website"),
                 FloatingField("phone", autocomplete="phone"),
+                FloatingField("birth_date", autocomplete="birth_date"),
+                
             ),
             flush=True,
-            always_open=True
+            # always_open=True
         )
     )
     
@@ -60,5 +81,5 @@ class ProfileForm(forms.ModelForm):
         
     class Meta:
         model = Profile
-        fields = ['bio','last_name','first_name','location','website','phone','user_pic']
+        fields = ['bio','last_name','first_name','location','website','phone','user_pic',"birth_date"]
         widgets = {}

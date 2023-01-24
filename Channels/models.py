@@ -44,7 +44,10 @@ class Channel(models.Model):
     updated_ch = models.DateTimeField(
         auto_now = True
     )
-    
+    description = models.TimeField(
+        blank=True,
+        null=True
+    )
     def total_subscribers(self):
         return self.subscribers.count()
     
@@ -70,27 +73,12 @@ class Post(models.Model):
     content_pt = CKEditor5Field(
         config_name='default'
     )
-    likes_ps = models.ManyToManyField(
-        get_user_model(),
-        blank = True,
-        related_name='likes_pt'
-    )
-    dislikes_ps = models.ManyToManyField(
-        get_user_model(),
-        blank = True,
-        related_name='dislikes_pt'
-    )
     created_pt = models.DateTimeField(
         auto_now_add = True
     )
     updated_pt = models.DateTimeField(
         auto_now = True
     )
-    def total_likes(self):
-        return self.likes.count()
-    
-    def total_dislikes(self):
-        return self.dislikes.count()
     
     def __str__(self) -> str:
         return str(self.author[:35] + '...') if len(str(self.author)) > 35 else str(self.author)

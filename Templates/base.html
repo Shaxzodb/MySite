@@ -1,0 +1,35 @@
+{% load i18n %} {% load cache %} {% load static %}
+
+
+<!DOCTYPE html>
+<html lang="{{LANGUAGE_CODE}}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% comment %} <!-- {% cache 600 Meta %}  --> {% endcomment %}
+    {% include 'SEO/meta.html' %} 
+    {% comment %} <!-- {% endcache %}  -->
+    <!-- {% cache 600 Css %}  --> {% endcomment %}
+    {% include 'SEO/css.html' %} 
+    {% comment %} <!-- {% endcache %} --> {% endcomment %}
+    
+    <title>
+      {% block title %} {% trans "Bosh sahifa" %} {% endblock title %}
+    </title>
+  </head>
+  <body>
+    <nav>{% include 'navbar.html' %}</nav>
+
+    {% block content %}
+    <div class='container'></div>
+    {% endblock content %}
+
+    <footer>{% include 'footer.html' %}</footer>
+
+    {% comment %} <!-- {% cache 600 Scripts %}  --> {% endcomment %}
+    {% include 'SEO/script.html' %} 
+    {% comment %} <!-- {% endcache %} --> {% endcomment %}
+    
+  </body>
+</html>

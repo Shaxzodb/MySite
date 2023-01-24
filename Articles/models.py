@@ -1,7 +1,6 @@
 from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
 from django.contrib.auth import get_user_model
-from django.utils.text import slugify
 from hitcount.models import HitCount, HitCountMixin
 from django.contrib.contenttypes.fields import GenericRelation
 from django.urls import reverse
@@ -11,7 +10,9 @@ from autoslug import AutoSlugField
 class ArticleModel(models.Model, HitCountMixin):
     author = models.ForeignKey(
         get_user_model(),
-        on_delete=models.CASCADE,
+        null = True,
+        blank=True,
+        on_delete=models.SET_NULL,
         related_name = 'article'
     )
     title_at = models.CharField(

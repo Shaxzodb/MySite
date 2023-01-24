@@ -1,11 +1,11 @@
-{% extends 'homepage.html' %}
+{% extends 'base.html' %}
 {% load static %}
 <link rel="stylesheet" href={% static 'css/ckeditor-styles.css' %} type="text/css">
 {% block title %}
      Some text
 {% endblock %}
 {% block content %}
-
+<div class="container mt-2">
 {% for article in object_list %}
 
     <div class='ck-content'>
@@ -26,5 +26,5 @@
     </div>
     <br/>
 {% endfor %}
-
+</div>
 {% endblock content %}

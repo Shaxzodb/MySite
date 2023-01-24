@@ -1,12 +1,46 @@
-<form method="post" class=''>
-    <div class="card">
-   
-      <div class="card-body">
-   
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit" class="btn btn-primary">Signup</button>
-        <button type="reset" class="btn btn">Reset</button>
-      </div>
+{% extends 'base.html' %} 
+{% load i18n %} 
+{% load static %}
+{% load crispy_forms_tags %} 
+
+{%block title %} 
+  {% trans  "Tizimga kirish" %} 
+{% endblock title %} 
+
+{% block content %}
+{% trans  "Tizimga kirish" as login %}
+<div class='row'>
+  <div class='col-lg-5 login'>
+  </div>
+  <div class='col-lg-7'>
+    <div class="container d-flex justify-content-center">
+      <form method="post" class="form-login mt-3">
+        <div class="row">
+          <div class="card col">
+            <div class="card-body">
+              <div class="d-flex justify-content-center">
+                <div class ='card-title'>
+                  <center>  
+                    <img src={% static 'img/user_default_pic.png' %} style='border-radius:100%'  width='100' height='100' /> 
+                  </center>
+                  <h4><b>{{login}}</b></h4>
+                </div>
+              </div>
+              <p class="card-text">
+                {% trans "Katta va kichik harflarga e'tibor bering" %}
+              </p>
+              {% csrf_token %} {% crispy form %}
+              <div class='user-login'>
+                <button type="submit" class="btn btn-primary">{{login}} <i class="fas fa-sign-in-alt"></i></button>
+              </div>
+            </div>
+            <dev class="card-footer">
+            
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
-    </form>
+  </div>
+</div>
+{% endblock content %}

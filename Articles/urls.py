@@ -1,11 +1,11 @@
 from django.urls import path
 from .views import article_list, ArticleDetailView,\
-    LikesView, DisLikesView, ArticleCreate, ArticleEdit, article_delete
+    ArticleCreate, ArticleEdit, article_delete, likes_article, dislikes_article
 from django_ratelimit.decorators import ratelimit
 
 urlpatterns = [
     path(
-        'list/', 
+        'articles/', 
         ratelimit(
             key = 'ip',
             method = 'GET',
@@ -24,8 +24,8 @@ urlpatterns = [
         (ArticleDetailView.as_view()),
         name = 'article_detail'
     ),
-    path('likes/<slug:slug>', LikesView, name ='likes'),
-    path('dislikes/<slug:slug>', DisLikesView, name ='dislikes'),
+    path('likes/<slug:slug>', likes_article, name ='likes'),
+    path('dislikes/<slug:slug>', dislikes_article, name ='dislikes'),
     path(
         'create-article/', 
         ratelimit(

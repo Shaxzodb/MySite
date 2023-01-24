@@ -3,8 +3,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.urls import reverse
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.utils.text import slugify
 from django_ckeditor_5.fields import CKEditor5Field
+from autoslug import AutoSlugField
 
 # Create your models here.     
 class CustomUserModel(AbstractUser):
@@ -21,7 +21,8 @@ class CustomUserModel(AbstractUser):
         default = False
     )
     def __str__(self) -> str:
-        return str(self.username)
+        return str(self.username[:15] + '...') if len(self.username) > 15 else str(self.username)
+    
     
     def get_absolute_url(self):
         return reverse('login')
@@ -84,9 +85,11 @@ class Profile(models.Model):
         null = True,
         blank = True
     )
-    slug = models.SlugField(
-        unique=True
+    slug = AutoSlugField(
+        populate_from='user',
+        unique = True
     )
+ 
     friends = models.ManyToManyField(
         get_user_model(),
         related_name = 'friends',
@@ -96,14 +99,6 @@ class Profile(models.Model):
     def total_friends(self):
         return self.friends.count()
     
-    def save(self, *args, **kwargs):
-        value = self.user.username
-        self.slug = slugify(
-            value,
-            allow_unicode = True
-        )
-        super().save(*args, **kwargs)
-        
     def __str__(self) -> str:
         return str(self.user.username)
     

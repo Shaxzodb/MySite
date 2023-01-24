@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+    {% block title %}
+    Ruyhattan utish
+    {% endblock title %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+<h2>Kanal Adminlar Ruyhati</h2>
+
+{% for admin in object.admins.all %}
+{{admin.username}} <a href="{% url 'channel_remove_admin' user=admin.profile.slug channel=object.slug%}">Remove</a>
+    <br/>
+{% endfor %}
+<form method="post" class=''>
+    <div class="card">
+    
+      <div class="card-body">
+      
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        {% csrf_token %}
+       
+        {% crispy form %}
+        <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+        
+
+    </div>
+    </form>
+
+    {% comment %} Admin Add {% endcomment %}
+    <form action={% url 'channel_add_admin' object.slug%} method="post">
+      {% csrf_token %}
+      <div class="ui-widget">
+        <label for="birds">Tags: </label>
+        <input name='add_admin' id="birds" minlength="6" required>
+      </div>
+     
+      <button style='color:blue;' >Add Admin</button>
+  
+  </form>
+  {% comment %} Delete  Channel {% endcomment %}
+  <form action={% url 'channel_delete' object.slug%} method="post">
+    {% csrf_token %}
+    <button style='color:yellow;background-color:red;' >Delete Channel</button>
+  </form>
+    
+
+
+
+    {% endblock content %}
+  

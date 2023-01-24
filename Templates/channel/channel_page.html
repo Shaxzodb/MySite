@@ -1,6 +1,14 @@
-
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href={% static 'css/ckeditor-styles.css' %} type="text/css">
+{% block title %}
+     Some text
+{% endblock %}
+{% block content %}
 {% for object in object_list.all %}
     <a href="{% url 'channel' object.slug%}">{{object.name}}</a>
    <br>
     
 {% endfor %}
+
+{% endblock %}

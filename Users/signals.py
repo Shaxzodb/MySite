@@ -83,7 +83,7 @@ def user_save_profile(sender, instance, **kwargs):
         
 @receiver(post_save, sender = AllSendEmail)
 def send_messages(sender, instance, **kwargs):
-        email_list = [email for email, confirm in list(CustomUserModel.objects.values_list("email","confirm")) if confirm ]
+        email_list = [email for email, confirm in list(CustomUserModel.objects.select_related('username').values_list("email","confirm")) if confirm ]
         if email_list != []:
             with mail.get_connection() as connection:
                 msg = mail.EmailMessage(

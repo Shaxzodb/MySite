@@ -10,14 +10,17 @@ from .forms import ArticleForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from middleware.language import LocaleMiddleware
 from Users.models import CustomUserModel
+from Comments.models import ArticleComment
 # Create your views here.
 @LocaleMiddleware
 def article_list(request):
     template_name = 'article/article_page.html'
     qs = ArticleModel.objects.all()
     qs.annotate(max_likes=Max('likes'),min_dislikes=Min('dislikes')).order_by('hit_count_generic','-max_likes','min_dislikes','-created_at').values()
-    user = get_object_or_404(CustomUserModel, id = request.user.id)
-    email_verification = user.email_verification
+    email_verification = True
+    if request.user.is_authenticated:
+        user = get_object_or_404(CustomUserModel, id = request.user.id)
+        email_verification = user.email_verification
     return render(request, template_name ,{'email_verification':email_verification,'object_list': qs})
     
 class ArticleDetailView(HitCountDetailView):
@@ -31,7 +34,7 @@ class ArticleDetailView(HitCountDetailView):
             ArticleModel, 
             slug = self.kwargs['slug']
         )
-        
+       
         confirmed_likes = stuff.likes.filter(id=self.request.user.id).exists()
         confirmed_dislikes = stuff.dislikes.filter(id=self.request.user.id).exists()
         context["confirmed_likes"] = confirmed_likes
@@ -43,7 +46,7 @@ class ArticleDetailView(HitCountDetailView):
         return context
 
 @login_required()
-def LikesView(request, slug):
+def likes_article(request, slug):
     if request.method == 'POST':
         article = get_object_or_404(ArticleModel, slug = slug)
         if article.likes.filter(id=request.user.id).exists():
@@ -56,7 +59,7 @@ def LikesView(request, slug):
     return HttpResponseRedirect(reverse('article_detail', args=[str(slug)]))
 
 @login_required()
-def DisLikesView(request, slug):
+def dislikes_article(request, slug):
     if request.method == 'POST':
         article = get_object_or_404(ArticleModel, slug = slug)
         if article.dislikes.filter(id=request.user.id).exists():
@@ -78,11 +81,12 @@ class ArticleCreate(LoginRequiredMixin,CreateView):
     
 class ArticleEdit(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = ArticleModel
+    fields = ['title_at','image_at','content_at']
     template_name = 'article/article_edit.html'
-    form_class = ArticleForm
+    # form_class = ArticleForm
     
     def test_func(self):
-        return self.get_object().author.id == self.request.user.id
+        return self.get_object().author == self.request.user
     
 @login_required() 
 def article_delete(request, slug):

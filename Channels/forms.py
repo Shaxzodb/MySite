@@ -4,12 +4,12 @@ from .models import Channel, Post
 class ChannelCreateForm(forms.ModelForm):
     class Meta:
         model = Channel
-        fields = ['name','image_ch','slug']
+        fields = ['name','image_ch','description','slug']
 
 class ChannelEditFrom(forms.ModelForm):
     class Meta:
         model = Channel
-        fields = ['name','image_ch','slug','admins']
+        fields = ['name','image_ch','description','slug']
         
 class PostCreateForm(forms.ModelForm):
     class Meta:

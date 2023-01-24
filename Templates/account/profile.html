@@ -1,112 +1,21 @@
-{% extends 'homepage.html' %}
-{% load hitcount_tags %}
-{% load static %}
+{% extends 'base.html' %} 
+{% load i18n %}
 {% load crispy_forms_tags %}
+
+
+{% block title %}
+  {{object.user.username}} {% trans "Profile"%}
+{% endblock %}
 {% block content %}
-{% for msg in messages %}
-          <div class='mt-2'>
-              <div class="alert alert-primary ">{{ msg }}</div>
-    </div>
-{% endfor %}
-Username:{{object.user}}<br>
-Email:{{object.email}}<br/>
-<a href="{% url 'profile_edit' object.slug%}">Profile Edit</a><br/>
-  
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Create Channel
-  </button>
-  <a href="{% url 'article_create' %}">Create Article</a><br/><br/>
 
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form name="myForm" onsubmit="return validateForm()" action={% url 'channel_create'%} method="post">
-        <div class="modal-body">         
-                    {% csrf_token %}
-                   Name
-                   <input name ='name' minlength="6" required>
-                   <input name ='image_ch' type='file'>
-                   username
-                   <input name ='slug' minlength="6">
-                
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
-        </div>
-    </form>
-      </div>
-    </div>
+<div class="container-fluid mt-3">
+  <div class="card">
+    {% include './base.html' %}
+    {% include './user.html' %}
+    {% include './articles.html' %}
+    {% include './channels.html' %}
+    {% include './subscriptions.html' %}
   </div>
-  
-
-  <br/>
-  
-  <div class ='container'>
-    <div class ='card'>
-  <nav style="margin:10px;">
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <button class="nav-link active" id="nav-bio-tab" data-bs-toggle="tab" data-bs-target="#nav-bio" type="button" role="tab" aria-controls="nav-bio" aria-selected="true">USER BIOSI</button>
-      <button class="nav-link" id="nav-article-tab" data-bs-toggle="tab" data-bs-target="#nav-article" type="button" role="tab" aria-controls="nav-article" aria-selected="false">Mening Moqolalarim</button>
-      <button class="nav-link" id="nav-channel-tab" data-bs-toggle="tab" data-bs-target="#nav-channel" type="button" role="tab" aria-controls="nav-channel" aria-selected="false">Mening Kanallraim</button>
-      <button class="nav-link" id="nav-sub-tab" data-bs-toggle="tab" data-bs-target="#nav-sub" type="button" role="tab" aria-controls="nav-sub" aria-selected="false">Obuna Bulgan Kanallarim</button>
-    </div>
-  </nav>
-  <div class="tab-content m-3" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-bio" role="tabpanel" aria-labelledby="nav-bio-tab">
-      <h3>USER BIOSI</h3>
-      <div class='ck-content'>
-    
-        {{object.bio|safe}}
-        </div>
-    </div>
-    <div class="tab-pane fade" id="nav-article" role="tabpanel" aria-labelledby="nav-article-tab">
-      <h3> Mening Moqolalarim</h3>
-{% for article in object.user.article.all %}
-    : <a href="{% url 'article_detail' article.slug%}">{{article.title_at}}</a>
-    <br/>
-    
-{% endfor %}
-    </div>
-    <div class="tab-pane fade" id="nav-channel" role="tabpanel" aria-labelledby="nav-channel-tab">
-      <h3> Mening Kanallraim</h3>
-{% for channel in object.user.owner.all %}
-    : <a href="{% url 'channel' channel.slug%}">{{channel.name}}</a>
-    <br/>
-    
-{% endfor %}
-    </div>
-
-    <div class="tab-pane fade" id="nav-sub" role="tabpanel" aria-labelledby="nav-sub-tab">
-      <h3>Obuna Bulgan Kanallarim</h3>
-      {% for channels in object.user.subscription.all %}
-          : <a href="{% url 'channel' channels.slug%}">{{channels.name}}</a>
-          <br/>
-          
-          
-      {% endfor %}
-      
-    </div>
-  </div>
-
-
-
-
 </div>
 
-<!-- Button trigger modal -->
-<script>
-  function validateForm() {
-    let x = document.forms["myForm"]["fname"].value;
-    if (x == "") {
-      alert("Name must be filled out");
-      return false;
-    }
-  }
-</script>
-    {% endblock %}
+{% endblock %}

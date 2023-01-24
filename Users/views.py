@@ -1,14 +1,11 @@
 from django.contrib.auth.views import LoginView
 from django.views.generic import CreateView, DetailView, UpdateView
-from .forms import UserCreateForm, ProfileForm
+from .forms import UserCreateForm, ProfileForm, UserLoginForm
 from .models import CustomUserModel, Profile, Token
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from Channels.forms import ChannelCreateForm
-from django.http import HttpResponseRedirect
-from django.contrib.auth.decorators import login_required
-from django.urls import reverse
+
 # Create your views here.
 class CreateUserView(CreateView):
     form_class = UserCreateForm
@@ -16,15 +13,16 @@ class CreateUserView(CreateView):
 
     def get(self,*args, **kwargs):
         if self.request.user.is_authenticated:
-            return redirect('homepage')
+            return redirect('base')
         else:
             return super().get(self, *args, **kwargs)
         
 class CustomLoginView(LoginView):
+    form_class = UserLoginForm
     template_name: str = 'registration/login.html'
     def get(self,*args, **kwargs):
         if self.request.user.is_authenticated:
-            return redirect('homepage')
+            return redirect('base')
         else:
             return super().get(self, *args, **kwargs)
 
@@ -42,17 +40,6 @@ def email_verify(request, slug):
 class ProfileView(DetailView):
     model = Profile
     template_name = 'account/profile.html'
-    fields = [
-        'user',
-        'email',
-        'bio',
-        'last_name',
-        'first_name',
-        'location',
-        'website',
-        'phone',
-        'user_pic'
-    ]
     
     
 class ProfileUpdateView(UserPassesTestMixin,UpdateView):

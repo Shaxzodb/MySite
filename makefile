@@ -31,4 +31,4 @@ compile:
 	@$(py) compilemessages
 
 message:
-	@$(py) makemessages
+	@$(py) makemessages --all

@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import ArticleModel
 from django.utils.html import format_html
 from Comments.admin import CommentsInline
+from django.templatetags.static import static
 
 # Register your models here.
 @admin.display(description="Created Date | Updated Date")
@@ -33,27 +34,42 @@ class ArticlesAdmin(admin.ModelAdmin):
         "author": 5,
     }
     inlines = [CommentsInline]
-    list_display = ['id', title,create_updated]
-    add_fieldsets = (
-        (None, {
-            "fields": (
-                'title_at',
-                'author',
-                'content_at',
-                'image_at',
-            ),
-        }),
-    )
+    list_display = ['id','author', title, create_updated]
+    
     fieldsets = (
-        (None, {
+        ("General", {
             "fields": (
                 'title_at',
+                'headshot_image',
+                'image_at',
                 'author',
                 'content_at',
-                'image_at',
-                'likes',
-                'dislikes'
             ),
         }),
+        (
+            'Addition',
+            {
+                'fields' : (
+                    'likes',
+                    'dislikes',
+                )
+            }
+        ),
     )
     ordering = ['-updated_at']
+    list_per_page = 15
+    
+    readonly_fields = ["headshot_image","likes","dislikes"]
+    
+    def headshot_image(self, obj):
+        if not obj.image_at:
+            return format_html("<img src='{url}'  width='300px'/>".format(url = static('img/article_default_pic.jpg')))
+        return format_html("<img src='{url}'  width='300px'/>".format(url = obj.image_at.url)
+    )
+        
+    def save_model(self, request, obj, form, change):
+        if not obj.author:
+            obj.author = request.user
+        super().save_model(request, obj, form, change)
+    
+    # exclude = ['author',]

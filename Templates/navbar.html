@@ -1,0 +1,116 @@
+{% load i18n %}
+{% load cache %}
+<div class="container-fluid py-2 border-bottom d-none d-lg-block">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-6 text-center text-lg-start mb-2 mb-lg-0">
+              <div class="d-inline-flex align-items-center">
+                  <a class="text-decoration-none text-body pe-3" href=""><i class="fa-solid fa-phone"></i> +012 345 6789</a>
+                  <span class="text-body">|</span>
+                  <a class="text-decoration-none text-body px-3" href=""><i class="fa-solid fa-envelope"></i> info@example.com</a>
+              </div>
+          </div>
+          
+          <div class="col-md-6 text-center text-lg-end">
+              <div class="d-inline-flex align-items-center">
+                  <a class="text-body px-2" href="">
+                      <i class="fab fa-facebook-f"></i>
+                  </a>
+                  <a class="text-body px-2" href="">
+                      <i class="fab fa-twitter"></i>
+                  </a>
+                  <a class="text-body px-2" href="">
+                      <i class="fab fa-linkedin-in"></i>
+                  </a>
+                  <a class="text-body px-2" href="">
+                    <i class="fa-brands fa-instagram"></i>
+                  </a>
+                  <a class="text-body ps-2" href="">
+                      <i class="fab fa-youtube"></i>
+                  </a>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Topbar End -->
+
+
+<!-- Navbar Start -->
+<div class="container-fluid sticky-top mb-0 bg-white shadow-sm">
+  <div class="container">
+      <nav class="navbar navbar-expand-lg bg-white navbar-light my-3 py-2 py-lg-0 p-0">
+        
+          <a href="{% url 'base' %}" class="navbar-brand">
+              <h2 class="m-0 text-uppercase text-primary"><i class="fas fa-yin-yang"></i> <b>maqolauz</b></h2>
+          </a>
+          
+          <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+              <div class="navbar-nav ms-auto py-0">             
+                <a href="{% url 'article_list' %}" class="nav-item nav-link">ARTICLES</a>
+                <a href="{% url 'channels' %}" class="nav-item nav-link">CHANNELS</a>
+                {% if  user.is_authenticated %}
+                  <a href="{% url 'about' %}" class="nav-item nav-link">ABOUT</a>
+                  <div class="nav-item dropdown">
+                      <a href="#" class="text-uppercase nav-link dropdown-toggle" data-bs-toggle="dropdown">{{user}}</a>
+                      <div class="dropdown-menu m-0">
+                          <a href="{% url 'profile' user.profile.slug %}" class="dropdown-item"><i class="fas fa-user-circle"></i> Profile</a>
+                          <a href="" class="dropdown-item"><i class="fas fa-cog"></i> Account Sittings</a>
+                          
+                          <hr class="dropdown-divider"/>
+                          <a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                      </div>
+                  </div>
+                  
+                 {% else %}
+                    <a href="{% url 'about' %}" class="nav-item nav-link">ABOUT</a>
+                    <a href="{% url 'login' %}" class="nav-item nav-link">LOGIN</a>
+                    <a href="{% url 'signup' %}" class="nav-link">SIGN UP</a>
+                  {% endif %}
+                    
+                  <div class='mt-lg-3 my-lg-0 my-2 ms-lg-4 m-0'>
+                    <form class='row' action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                      <input name="next" type="hidden" value="{{ redirect_to }}">
+                      <select onchange="this.form.submit()"  class="form-select " name="language">
+                          {% get_current_language as LANGUAGE_CODE %}
+                          {% get_available_languages as LANGUAGES %}
+                          {% get_language_info_list for LANGUAGES as languages %}
+                          {% for language in languages %}
+                              <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                  {{ language.code }}
+                              </option>
+                          {% endfor %}
+                      </select>
+                  </form>
+                  </div>
+              </div>
+          </div>
+      </nav>
+  </div>
+</div>
+<!-- Navbar End -->
+
+<!-- Email check -->
+{% if user.is_authenticated and not email_verification %}
+      {% cache 600 language_email5 LANGUAGE_CODE %}
+        <div class="container" role="alert">
+          <div class="alert m-0 alert-warning" style="font-family: 'Sofia', sans-serif;" role="alert">
+            {% trans "Iltimos, elektron pochta manzilingizni tasdiqlang" %}
+          </div>
+        </div>
+      {% endcache %}
+{% endif %}
+<!-- End Email -->
+
+<!-- Start Messages -->
+<div class='messages'>
+  {% for msg in messages %}
+    <div class='mt-2 container'>
+      <div class="alert alert-primary ">{{ msg }}</div>
+    </div>
+  {% endfor %}
+</div>
+<!-- Messages End -->

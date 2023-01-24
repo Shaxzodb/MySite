@@ -5,10 +5,12 @@ from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import sitemaps
 from Articles.models import ArticleModel
+from Channels.models import Channel
 from django.urls import reverse
 from django.contrib.sitemaps import views as sitemaps_views
 from django.views.decorators.cache import cache_page
 from App.views import robots
+# from App.admin import admin_site
 
 class StaticViewSitemap(sitemaps.Sitemap):
     changefreq = "weekly"
@@ -21,7 +23,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
     def location(self, item):
         return reverse(item)
     
-class DetailViewSitemap(sitemaps.Sitemap):
+class ArticleDetailViewSitemap(sitemaps.Sitemap):
     changefreq = "always"
     priority = 1.0
     i18n = True
@@ -32,13 +34,27 @@ class DetailViewSitemap(sitemaps.Sitemap):
     
     def lastmod(self, obj):
         return obj.updated_at
- 
+    
+class ChannelDetailViewSitemap(sitemaps.Sitemap):
+    changefreq = "always"
+    priority = 1.0
+    i18n = True
+    limit = 50000 #default 50000
+    
+    def items(self):
+        return Channel.objects.all()
+    
+    def lastmod(self, obj):
+        return obj.updated_ch
+
 sitemaps = {
     'static': StaticViewSitemap,
-    'detail': DetailViewSitemap
+    'article-detail': ArticleDetailViewSitemap,
+    'channel-detail': ChannelDetailViewSitemap
 }
 
 urlpatterns = [
+    path('__debug__/', include('debug_toolbar.urls')),
     path('i18n/', include('django.conf.urls.i18n')),
     path('robots.txt',robots),
     path('sitemap.xml',
@@ -52,7 +68,8 @@ urlpatterns = [
     path('hitcount/', include(('hitcount.urls', 'hitcount'), namespace='hitcount')),
     path("ckeditor5/", include('django_ckeditor_5.urls')),
 ] + i18n_patterns(
-    path('admin/', admin.site.urls),
+    path('special/auth/admin/', admin.site.urls),
+    # path('special/admin/', admin_site.urls),
     path('',include('App.urls')),
     # path('',include('APIs.urls')),
     path('',include('Users.urls')),

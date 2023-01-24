@@ -1,7 +1,4 @@
 User-Agent: *
-
-Disallow: /directory/
-Disallow: /page1
-Disallow: /page2
+Disallow: special/*
 
 Sitemap: http://{{site_domain}}/sitemap.xml

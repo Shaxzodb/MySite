@@ -533,7 +533,7 @@ CKEDITOR_5_CONFIGS = {
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'Users.CustomUserModel'
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'homepage'
+LOGIN_REDIRECT_URL = 'base'
 LOGOUT_REDIRECT_URL = 'login'
 
 # Xafsizlik HTTP -> HTTPS
