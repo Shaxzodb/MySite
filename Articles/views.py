@@ -5,23 +5,26 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from django.db.models import Max, Min
+from django.core.paginator import Paginator
 from .forms import ArticleForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from middleware.language import LocaleMiddleware
 from Users.models import CustomUserModel
-from Comments.models import ArticleComment
+from .filters import ArticleFilter
+from django.db.models import Max, Min
+
 # Create your views here.
 @LocaleMiddleware
 def article_list(request):
     template_name = 'article/article_page.html'
-    qs = ArticleModel.objects.all()
-    qs.annotate(max_likes=Max('likes'),min_dislikes=Min('dislikes')).order_by('hit_count_generic','-max_likes','min_dislikes','-created_at').values()
+    
+    filter = ArticleFilter(request.GET, queryset=ArticleModel.objects.all().annotate(max_likes=Max('likes'),min_dislikes=Min('dislikes')).order_by('hit_count_generic','-max_likes','min_dislikes','-created_at'))
     email_verification = True
+
     if request.user.is_authenticated:
         user = get_object_or_404(CustomUserModel, id = request.user.id)
         email_verification = user.email_verification
-    return render(request, template_name ,{'email_verification':email_verification,'object_list': qs})
+    return render(request, template_name ,{'email_verification':email_verification, 'filter': filter})
     
 class ArticleDetailView(HitCountDetailView):
     model = ArticleModel

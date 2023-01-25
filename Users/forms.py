@@ -28,11 +28,13 @@ class UserCreateForm(UserCreationForm):
         widgets = {}
         
 class UserLoginForm(AuthenticationForm):
+    remember_me = forms.BooleanField(required=False)
     username = forms.CharField(required=True, min_length=6, max_length=35)
     helper = FormHelper()
     helper.layout = Layout(
         FloatingField("username", autocomplete="username"),
         FloatingField("password", autocomplete="password"),
+        'remember_me'
     )
     
     def __init__(self, *args, **kwargs):
@@ -50,6 +52,7 @@ class UserUpdateForm(UserChangeForm):
         fields = UserChangeForm.Meta.fields
         
 class ProfileForm(forms.ModelForm):
+    
     helper = FormHelper()
     helper.layout = Layout(
         # self.helper.form_tag = False

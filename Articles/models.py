@@ -60,7 +60,7 @@ class ArticleModel(models.Model, HitCountMixin):
         return self.dislikes.count()
     
     def __str__(self) -> str:
-        return str(self.title_at[:40] + '...') if len(self.title_at) > 40 else str(self.title_at)
+        return str(self.title_at[:50] + '...') if len(self.title_at) > 50 else str(self.title_at)
     
     def get_absolute_url(self):
         return reverse("article_detail", kwargs={"slug": self.slug})

@@ -6,3 +6,5 @@ class ArticleForm(forms.ModelForm):
         model = ArticleModel
         fields = ['title_at','image_at','content_at']
         widgets = {}
+        
+

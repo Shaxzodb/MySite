@@ -19,7 +19,7 @@ class ChannelView(ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.annotate(max_subscribers=Max('subscribers')).values().order_by('-max_subscribers', '-created_ch')
+        return qs.annotate(max_subscribers=Max('subscribers')).order_by('-max_subscribers', '-created_ch')
 
 
 class ChannelDetailView(DetailView):

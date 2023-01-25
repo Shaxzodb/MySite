@@ -1,5 +1,6 @@
 {% extends 'base.html' %} {% load static %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 
 {% block title %} 
 {% trans "Maqolalat Sahifasi" %} 
@@ -11,20 +12,30 @@
         object-fit: cover;
     }
     .card-body{
-        aspect-ratio: 1.4;
+        aspect-ratio: 3;
+    }
+    a{
+        text-decoration-line:none;
+    }
+    .sc{
+        display:none;
     }
 </style>
+
 <div class="container mt-3">
-    <div class='mb-2 justify-content-end row'>
+
+    <div class='mb-2 w-100'>
+        <form class="d-flex justify-content-end row" method='GET'>
         <div class='col-lg-5 col-10 pe-0'>
-            <input class='w-100 form-control'>
+            {{filter.form }} 
         </div>
         <div class='col-lg-1 col-2 mb-1'>
             <button class='w-100 btn btn-outline-primary'><i class="fa-solid fa-magnifying-glass"></i></button>
         </div>
+    </form>
     </div>
     <div class="row row-cols-1 row-cols-md-2 g-4">
-    {% for article in object_list %}
+        {% for article in filter.qs %}
         <div class="col">
             <div class="card p-0 rounded-0">
                 <div class="row g-0">
@@ -37,8 +48,8 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">       
-                            <h5 class="card-title"><a href="{% url 'article_detail' article.slug %}">{{article}}</a></h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>     
+                            <h6 class="card-title"><a href="{% url 'article_detail' article.slug %}">{{article}}</a></h6>
+                            
                         </div>
                         <div class='card-footer'>
                             <div class="card-text d-flex justify-content-between"><small class="text-muted">{{article.created_at}}</small><strong class='text-muted'>{{article.hit_count.hits}} <i class="fa-solid fa-eye"></i></strong></div>
@@ -50,4 +61,11 @@
     {% endfor %}
     </div>
 </div>
+<script>
+    var label=document.querySelector("label[for='id_title_at__icontains']");
+    var input=document.querySelector("#id_title_at__icontains");
+    label.classList.add("sc")
+    input.classList.add("form-control", "w-100")
+    
+</script>
 {% endblock content %}

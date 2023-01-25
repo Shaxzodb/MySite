@@ -17,7 +17,7 @@ class PostAdmin(admin.ModelAdmin):
 def Avatar(obj):
     if not obj.image_ch:
         return format_html(
-            f"</style><div style='width:30px;margin:0;padding:0;height:30px'><center><p style='background-color:blue; margin:0;padding:0;color:fff !important;border-radius:50%'>{obj.name[0]}</p></center></div>"
+            f"<div style='width:30px;margin:0;color:#fff;padding:0;height:30px'><center><p style='background-color:blue; width:30px;margin:0;color:#fff;padding:0;height:30px;color:fff !important;border-radius:50%'>{obj.name[0]}</p></center></div>"
         )
     return format_html(f"<img src='{str(obj.image_ch.url)}' style='border-radius:100%'  width='30' height='30' />")
     

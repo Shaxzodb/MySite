@@ -55,7 +55,7 @@ class Channel(models.Model):
         return self.admins.count()
     
     def __str__(self) -> str:
-        return str(self.name[:35] + '...') if len(str(self.name)) > 35 else str(self.name)
+        return str(self.name[:30] + '...') if len(str(self.name)) > 30 else str(self.name)
     
     def get_absolute_url(self):
         return reverse("channel", kwargs={"slug": self.slug})
