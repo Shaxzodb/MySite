@@ -716,3 +716,5 @@
 "GET /en/register/login/ HTTP/1.1" 500 202198
 "POST /en/register/login/ HTTP/1.1" 500 161349
 "POST /en/register/login/ HTTP/1.1" 500 161349
+"GET /en/articles/ HTTP/1.1" 500 218295
+"GET /en/articles/ HTTP/1.1" 500 218315

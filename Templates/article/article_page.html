@@ -1,30 +1,53 @@
-{% extends 'base.html' %}
-{% load static %}
-<link rel="stylesheet" href={% static 'css/ckeditor-styles.css' %} type="text/css">
-{% block title %}
-     Some text
-{% endblock %}
+{% extends 'base.html' %} {% load static %}
+{% load i18n %}
+
+{% block title %} 
+{% trans "Maqolalat Sahifasi" %} 
+{% endblock %} 
 {% block content %}
-<div class="container mt-2">
-{% for article in object_list %}
-
-    <div class='ck-content'>
-        {{article.hit_count.hits}}
-        <a href="{% url 'article_detail' article.slug%}">{{article.title_at}}</a>
-    {{article.content_at|safe}}
-    
-        
-    {{article.created_at|date:'Y/m/d'}}
-    {{article.author}}
-    
-        <hr/>
-
-    {% for comment in article.comments.all %}
-    <b>{{comment.content_cm|safe}}</b>
-
+<style>
+    img{
+        aspect-ratio: 3/2;
+        object-fit: cover;
+    }
+    .card-body{
+        aspect-ratio: 1.4;
+    }
+</style>
+<div class="container mt-3">
+    <div class='mb-2 justify-content-end row'>
+        <div class='col-lg-5 col-10 pe-0'>
+            <input class='w-100 form-control'>
+        </div>
+        <div class='col-lg-1 col-2 mb-1'>
+            <button class='w-100 btn btn-outline-primary'><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for article in object_list %}
+        <div class="col">
+            <div class="card p-0 rounded-0">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        {% if article.image_at %}
+                        <img src="{{article.image_at.url}}" class="card-img-top rounded-0" alt="...">
+                        {% else %}
+                        <img src="{% static 'img/woocommerce-placeholder-300x300.png' %}" class="card-img-top rounded-0" alt="...">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">       
+                            <h5 class="card-title"><a href="{% url 'article_detail' article.slug %}">{{article}}</a></h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>     
+                        </div>
+                        <div class='card-footer'>
+                            <div class="card-text d-flex justify-content-between"><small class="text-muted">{{article.created_at}}</small><strong class='text-muted'>{{article.hit_count.hits}} <i class="fa-solid fa-eye"></i></strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endfor %}
     </div>
-    <br/>
-{% endfor %}
 </div>
 {% endblock content %}

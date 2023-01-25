@@ -4,7 +4,7 @@ from Articles.models import ArticleModel
 
 # Register your models here.
 
-admin.site.index_title = _('Super Admin Panel')
+admin.site.index_title = _('Admin Panel')
 admin.site.site_header  = _('OKIAN.UZ')
 admin.site.site_title = _('OKIAN.UZ')
 
