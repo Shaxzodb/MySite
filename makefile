@@ -32,3 +32,6 @@ compile:
 
 message:
 	@$(py) makemessages --all
+
+cachs:
+	python manage.py createcachetable

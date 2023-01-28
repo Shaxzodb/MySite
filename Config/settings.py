@@ -145,14 +145,14 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Kirishlar Cheklovi AXES Sozlamalari
-AXES_ENABLED = os.getenv('AXES_ENABLED',True)
+AXES_ENABLED = True#os.getenv('AXES_ENABLED',True)
 AXES_FAILURE_LIMIT = 10  # Notug'ri Kirishlar soni
 AXES_ACCESS_FAILURE_LOG_PER_USER_LIMIT = 100
 # True Agar muvaqiyatli kirish avalgi muvaqiyatsiz kirishlarni uchiradi
 AXES_RESET_ON_SUCCESS = True
 AXES_ONLY_ADMIN_SITE = False  # True bo'lsa faqat Admin panel uchun urinli
 AXES_COOLOFF_TIME = 1  # Soat
-AXES_LOCKOUT_TEMPLATE = 'accounts/user_block.html'  # Shablon
+AXES_LOCKOUT_TEMPLATE = 'account/user_block.html'  # Shablon
 AXES_HTTP_RESPONSE_CODE = 429  # Status code
 # Agar bo'lsa True, Axes hech qachon HTTP GET so'rovlarini bloklamaydi.
 AXES_NEVER_LOCKOUT_GET = True
@@ -170,12 +170,20 @@ RATELIMIT_VIEW = 'App.views.rate_limited'
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': [
-            str(os.getenv('REDIS', 'redis://127.0.0.1:6379'))
-        ],
+        'LOCATION': [str(os.getenv('REDIS', 'redis://127.0.0.1:6379'))]
+        
         # 'TIMEOUT': 300 ,
     }
 }
+
+# Ma'lumotlar bazasida keshni sozlash
+# Loyihaning settings.py fayliga quyidagilarni qo'shing -
+# CACHES = {
+#    'default': {
+#       'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#       'LOCATION': 'my_table_name',
+#    }
+# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -551,3 +559,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 HITCOUNT_KEEP_HIT_ACTIVE = { 'days': 7 }
 # default value
 HITCOUNT_KEEP_HIT_IN_DATABASE = { 'days': 30 }
+
+PAGINATION_DEFAULT_PAGINATION=2
+PAGINATION_DEFAULT_ORPHANS=0
+PAGINATION_INVALID_PAGE_RAISES_404=True

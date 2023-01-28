@@ -1,0 +1,60 @@
+
+
+<br>
+{% if object.image_at %}
+<img src={{object.image_at.url}}  width='200' height='200' />
+{% endif %}
+
+
+<br>
+{% get_hit_count for object as ob %}
+
+<br>
+{% if  object.author %}
+{{object.author}}
+{% else %}
+Account Delete
+{% endif %}
+<div class='ck-content'>
+{{object.content_at|safe}}
+</div>
+
+
+
+
+<br>
+
+<form action={% url 'likes' object.slug%} method="post">
+{% csrf_token %}
+{% if confirmed_likes %}
+
+<button style='color:blue;' ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>{{likes}}
+
+{% else %}
+<button ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>{{likes}}
+{% endif %}
+</form>
+<form action={% url 'dislikes' object.slug%} method="post">
+{% csrf_token %}
+{% if confirmed_dislikes %}
+<button style='color:red;'><svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path style='background-color:yellow;' d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>{{dislikes}}
+
+{% else %}
+
+{% csrf_token %}
+<button ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>{{dislikes}}
+{% endif %}
+</form>
+
+{% for comment in object.comments.all %}
+{% if comment.is_check %}
+<b>{{comment.content_cm}}</b>
+    {{comment.is_parent}}
+    <a href="{% url 'like_and_unlike_comment' pk=comment.id article=object.slug%}" >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+    </a>{{comment.likes.count}}   
+<br/>
+{% endif %}
+{% endfor %}

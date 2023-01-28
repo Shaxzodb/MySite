@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% load static %}
 {% load i18n %}
 {% load crispy_forms_tags %}
-
+{% load pagination_tags %}
 {% block title %} 
 {% trans "Maqolalat Sahifasi" %} 
 {% endblock %} 
@@ -23,19 +23,32 @@
 </style>
 
 <div class="container mt-3">
-
+    
     <div class='mb-2 w-100'>
-        <form class="d-flex justify-content-end row" method='GET'>
-        <div class='col-lg-5 col-10 pe-0'>
-            {{filter.form }} 
+        <div class='row'>
+            <div class='col-lg-6'>
+                {% autopaginate object_list 10 %}
+   
+                {% if paginator.num_pages %}
+                <div class="pagination">
+                    {% paginate %}
+                </div>
+                {% endif %}
+            </div>
+            <div class='col-lg-6'>
+                <form class="d-flex justify-content-end row " method='GET'>
+                    <div class='col-10 pe-0'>
+                    {{filter.form }} 
+                    </div>
+                    <div class='col-2 '>
+                        <button class='w-100 btn btn-outline-primary'><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class='col-lg-1 col-2 mb-1'>
-            <button class='w-100 btn btn-outline-primary'><i class="fa-solid fa-magnifying-glass"></i></button>
-        </div>
-    </form>
     </div>
     <div class="row row-cols-1 row-cols-md-2 g-4">
-        {% for article in filter.qs %}
+        {% for article in object_list.all %}
         <div class="col">
             <div class="card p-0 rounded-0">
                 <div class="row g-0">

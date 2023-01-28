@@ -8,13 +8,11 @@
 {% endblock %}
 {% block content %}
 
-<div class="container-fluid mt-3">
+<div class="container mt-3">
   <div class="card">
-    {% include './base.html' %}
-    {% include './user.html' %}
-    {% include './articles.html' %}
-    {% include './channels.html' %}
-    {% include './subscriptions.html' %}
+    <div class='card-body'>
+      {% include './base.html' %}
+    </div>
   </div>
 </div>
 

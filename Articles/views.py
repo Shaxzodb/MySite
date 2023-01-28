@@ -1,4 +1,4 @@
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView
 from hitcount.views import HitCountDetailView
 from .models import ArticleModel
 from django.shortcuts import get_object_or_404, render, redirect
@@ -14,17 +14,28 @@ from .filters import ArticleFilter
 from django.db.models import Max, Min
 
 # Create your views here.
-@LocaleMiddleware
-def article_list(request):
-    template_name = 'article/article_page.html'
-    
-    filter = ArticleFilter(request.GET, queryset=ArticleModel.objects.all().annotate(max_likes=Max('likes'),min_dislikes=Min('dislikes')).order_by('hit_count_generic','-max_likes','min_dislikes','-created_at'))
-    email_verification = True
 
-    if request.user.is_authenticated:
-        user = get_object_or_404(CustomUserModel, id = request.user.id)
-        email_verification = user.email_verification
-    return render(request, template_name ,{'email_verification':email_verification, 'filter': filter})
+class article_list(ListView):
+    template_name = 'article/article_page.html'
+    model = ArticleModel
+    #context_object_name = 'filter'
+    def get_queryset(self):
+        return ArticleFilter(
+                self.request.GET, 
+                queryset=super().get_queryset().all().annotate(max_likes=Max('likes'),
+                min_dislikes=Min('dislikes')).order_by('hit_count_generic','-max_likes','min_dislikes','-created_at')
+            ).qs
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = ArticleFilter(
+                self.request.GET, 
+                queryset=super().get_queryset().all().annotate(max_likes=Max('likes'),
+                min_dislikes=Min('dislikes')).order_by('hit_count_generic','-max_likes','min_dislikes','-created_at')
+            )
+        return context
+    
+
     
 class ArticleDetailView(HitCountDetailView):
     model = ArticleModel

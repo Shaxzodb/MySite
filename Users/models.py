@@ -21,7 +21,7 @@ class CustomUserModel(AbstractUser):
         default = False
     )
     def __str__(self) -> str:
-        return str(self.username[:15] + '...') if len(self.username) > 15 else str(self.username)
+        return str(self.username[:15] + '...') if len(str(self.username)) > 15 else str(self.username)
     
     
     def get_absolute_url(self):
@@ -86,9 +86,12 @@ class Profile(models.Model):
         blank = True
     )
     slug = AutoSlugField(
-        populate_from='user',
+        populate_from='_username',
         unique = True
     )
+    @property
+    def _username(self):
+        return self.user.username
  
     friends = models.ManyToManyField(
         get_user_model(),

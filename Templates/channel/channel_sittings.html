@@ -13,7 +13,7 @@
 {{admin.username}} <a href="{% url 'channel_remove_admin' user=admin.profile.slug channel=object.slug%}">Remove</a>
     <br/>
 {% endfor %}
-<form method="post" class=''>
+<form method="post" class='' enctype="multipart/form-data">
     <div class="card">
     
       <div class="card-body">

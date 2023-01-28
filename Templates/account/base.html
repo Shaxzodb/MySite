@@ -1,1 +1,22 @@
-<a href="{% url 'profile_edit' object.slug %}">Profile Edit</a><br/>
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <button class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="true">User</button>
+      <button class="nav-link" id="nav-articles-tab" data-bs-toggle="tab" data-bs-target="#nav-articles" type="button" role="tab" aria-controls="nav-articles" aria-selected="false">Articles</button>
+      <button class="nav-link" id="nav-channels-tab" data-bs-toggle="tab" data-bs-target="#nav-channels" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Channels</button>
+      <button class="nav-link" id="nav-sub-tab" data-bs-toggle="tab" data-bs-target="#nav-sub" type="button" role="tab" aria-controls="nav-sub" aria-selected="false">Sub</button>
+    </div>
+  </nav>
+  <div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+        {% include './user.html' %}
+    </div>
+    <div class="tab-pane fade" id="nav-articles" role="tabpanel" aria-labelledby="nav-articles-tab" tabindex="0">
+        {% include './articles.html' %}
+    </div>
+    <div class="tab-pane fade" id="nav-channels" role="tabpanel" aria-labelledby="nav-channels-tab" tabindex="0">
+        {% include './channels.html' %}
+    </div>
+    <div class="tab-pane fade" id="nav-sub" role="tabpanel" aria-labelledby="nav-sub-tab" tabindex="0">
+        {% include './subscriptions.html' %}
+    </div>
+  </div>

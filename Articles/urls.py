@@ -11,7 +11,7 @@ urlpatterns = [
             method = 'GET',
             rate ='50/5m'
         )   
-        (article_list),
+        (article_list.as_view()),
         name = 'article_list'
     ),
     path(

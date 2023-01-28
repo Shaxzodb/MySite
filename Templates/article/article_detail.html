@@ -1,83 +1,204 @@
-{% extends 'base.html' %}
-{% load hitcount_tags %}
-{% load static %}
+{% extends 'base.html' %} {% load hitcount_tags %} {% load crispy_forms_tags %}
+{% load static %} {% block content %}
+<style>
+    figure,.ck-content img {
+    aspect-ratio: 3/2;
+    width: 100% ;
+    max-width: 100% ;
+    object-fit: contain;
+  }
+  .comment-wrapper .panel-body {
+    max-height:400px;
+    overflow:auto;
+    width: 100%;
+   
+}
+.comment-wrapper ::-webkit-scrollbar {
+  display: none;
+}
+li{
+  list-style-type: none;
+}
+.comment-wrapper .media-list .media img {
+    width:64px;
+    height:64px;
+    border:2px solid #e5e7e8;
+}
+.comment-wrapper .media-list .media {
+    border-bottom:1px dashed #efefef;
+    margin-bottom:25px;
+}
+.form-control{
+  width: 100%;
+}
+</style>
 
-{% block content %}
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-lg-3">
+        <div class="card p-2 rounded-0 border-end border-0 border-secondary">
+  
+          <div>
+              <center><i class="fa-solid fa-eye"></i> {{hitcount.total_hits}}</center>
+          </div>
+          
+          <hr/>
+          <div class='d-flex justify-content-center'>
+              <form action={% url 'likes' object.slug%} method="post">
+                  {% csrf_token %}
+                  {% if confirmed_likes %}
+                  
+                  <button class='btn' style='color:blue;' ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>{{likes}}
+                  
+                  {% else %}
+                  <button class='btn'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>{{likes}}
+                  {% endif %}
+                  </form>
+                  <form action={% url 'dislikes' object.slug%} method="post">
+                  {% csrf_token %}
+                  {% if confirmed_dislikes %}
+                  <button class='btn' style='color:red;'><svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path style='background-color:yellow;' d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>{{dislikes}}
+                  
+                  {% else %}
+                  
+                  {% csrf_token %}
+                  <button class='btn'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>{{dislikes}}
+                  {% endif %}
+              </form>
+          </div>
+          <hr/>
+          <div class='my-2'>
+              <center>{{object.created_at}}</center>
+          </div>
+          <hr/>
+          {% if user.is_authenticated and user.id == object.author.id%}
+          <div class='justify-content-end'>
+            <center><a href="{% url 'article_edit' object.slug%}"><button class='btn'>Edit Article <i class="fa-solid fa-pen-to-square"></i></button></a></center>
+            <center><button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Article Delete <i class="fa-solid fa-trash"></i></button></center>
+            
 
-{% load crispy_forms_tags %}
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Ogohlantirish <i class="fa-sharp fa-solid fa-triangle-exclamation"></i></h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action={% url 'article_delete' object.slug%} method="post">
+                    <div class="modal-body">
+                   
+                        <div class="mb-3">
+                            
+                            {% csrf_token %}
+                                <p>Agar bu maqolani o'chirish neyatingiz qatiy bo'lsa o'chirish tugmasini bosib davom eting ammo keyin bu maqolani qaytib tiklab bo'lmaydi.</p>
+                            
+                        </div>
+                     
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button class='btn btn-danger' >Delete Article</button>
+                    </div>
+                </form>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+          <hr/>
+          {% endif %}
+          
+        </div>
+      </div>
+    <div class="col-lg-9">
+      <div
+        class="card border-bottom mt-1 rounded-0 border-end border-0 border-secondary"
+      >
+        <div class="card-body">
+          <h5 class="card-title">{{object.title_at}}</h5>
+          <hr class="border border-success" />
+          <div class="card-text-div ck-content">{{object.content_at|safe}}</div>
+          <time>
+            <p class="card-text">
+              <small class="text-muted"> {{object.created}} </small>
+            </p>
+          </time>
+        </div>
+        {% if object.image_at %}
+        <img
+          src="{{object.image_at.url}}"
+          class="p-3 card-img-bottom"
+          alt="..."
+        />
+        {% else %}
+        <img
+          src="{% static 'img/woocommerce-placeholder-300x300.png' %}"
+          class="p-3 card-img-bottom"
+          alt="..."
+        />
+        {% endif %}
+      </div>
+    </div>
 
-{% if user.is_authenticated and user.id == object.author.id%}
-     
-    <a href="{% url 'article_edit' object.slug%}">Edit Article</a>
-    <form action={% url 'article_delete' object.slug%} method="post">
-        {% csrf_token %}
-        <button style='color:yellow;background-color:red;' >Delete Article</button>
-    </form>
-{% endif %}
-<br>
-{% if object.image_at %}
-<img src={{object.image_at.url}}  width='200' height='200' />
-{% endif %}
+    <div class="card border-top mt-3 rounded-0 border-0 border-secondary">
+        <div class="container">
+        <div class="row bootstrap snippets bootdeys">
+            <div class="col">
+                <div class="comment-wrapper">
+                  
+                    <div class="panel panel-info ">
+                        <div class="panel-heading">
+                            Comment panel
 
-
-<br>
-{% get_hit_count for object as ob %}
-
-{{object.created_at}}<br>
-{% if  object.author %}
-{{object.author}}
-{% else %}
-Account Delete
-{% endif %}
-<div class='ck-content'>
-{{object.content_at|safe}}
+                            <form action={% url 'comment' object.slug%} method="post">
+                                {% csrf_token %}
+                                <textarea name='comment' minlength="6" required maxlength="250" name="message" class="form-control" placeholder="write a comment..." rows="3"></textarea>
+                                <div class="d-flex my-2  justify-content-end">
+                                    <button type="submit" class="btn m-0 btn-info pull-right ">Post</button>
+                                  </div>
+                                
+                                </form>
+                           
+                        </div>
+                        <div class="panel-body">
+                            
+                            
+                            <div class="clearfix"></div>
+                            <hr>
+                            <ul class="media-list">
+                                {% for comment in object.comments.all %}
+                                <li class="media">
+                                    <a href="{% url 'profile' comment.author.profile.slug%}" class="pull-left">
+                                        {% if comment.author.profile.user_pic %}
+                                        
+                                        <img src='{{comment.author.profile.user_pic.url}}' style='border:1px solid blue;aspect-ratio: 3/2; object-fit: contain;'  width='100' height='100' />
+                                        {% else %}
+                                            <img src="{% static 'img/user_1.jpg' %}" alt="" style='border:1px solid blue;aspect-ratio: 3/2; object-fit: contain;'  width='100' height='100' class="img-circle">
+                                        {% endif %}
+                                        
+                                    </a>
+                                    <div class="media-body">
+                                        <strong class="text-success"><a href="{% url 'profile' comment.author.profile.slug%}">@{{comment.author}}</a></strong>
+                                        <span class="text-muted pull-right">
+                                            <small class="text-muted">{{comment.created_cm}}</small>
+                                        </span>
+                                        
+                                        <p>
+                                            {{comment.content_cm}}
+                                        </p>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+        </div>
+    </div>
+  </div>
 </div>
-Kurishlar:{{hitcount.total_hits}}
-
-<form action={% url 'comment' object.slug%} method="post">
-    {% csrf_token %}
-    <input name='comment' minlength="6" required>
-    <button style='color:blue;' >Send Comment</button>
-
-</form>
-
-<br>
-
-<form action={% url 'likes' object.slug%} method="post">
-    {% csrf_token %}
-    {% if confirmed_likes %}
-    
-    <button style='color:blue;' ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>{{likes}}
-
-    {% else %}
-    <button ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>{{likes}}
-    {% endif %}
-</form>
-<form action={% url 'dislikes' object.slug%} method="post">
-    {% csrf_token %}
-    {% if confirmed_dislikes %}
-    <button style='color:red;'><svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path style='background-color:yellow;' d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>{{dislikes}}
-
-    {% else %}
-
-    {% csrf_token %}
-    <button ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>{{dislikes}}
-    {% endif %}
-</form>
-
-{% for comment in object.comments.all %}
-{% if comment.is_check %}
-    <b>{{comment.content_cm}}</b>
-        {{comment.is_parent}}
-        <a href="{% url 'like_and_unlike_comment' pk=comment.id article=object.slug%}" >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-            </svg>
-        </a>{{comment.likes.count}}   
-    <br/>
-{% endif %}
-{% endfor %}
-
-
-
 {% endblock %}

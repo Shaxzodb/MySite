@@ -1,68 +1,105 @@
-{% extends 'base.html' %}
-{% load static %}
-<link rel="stylesheet" href={% static 'css/ckeditor-styles.css' %} type="text/css">
-{% block title %}
-     Some text
-{% endblock %}
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% load pagination_tags %} 
+{% block title %} Some text {% endblock %} {% block content %}
 
-<div class='container'>
+<div class="container mt-3">
+  <div class="mb-2 w-100">
+    {% autopaginate object_list 4 %} {% if paginator.num_pages %}
+    <div class="pagination">{% paginate %}</div>
+    {% endif %}
+  </div>
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="card border-dark mb-3">
+        <div class="card-header">Header</div>
+        <div class="card-body text-dark">
+          <h5 class="card-title">Dark card title</h5>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="row row-cols-1 row-cols-md-1 g-4">
+        {% for object in object_list.all %}
 
-     <div class ='row'>
-          <div class='col-lg-4'>
-               <div class="card border-dark mb-3">
-                    <div class="card-header">Header</div>
-                    <div class="card-body text-dark">
-                      <h5 class="card-title">Dark card title</h5>
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-               </div>
-          </div>
-          <div class='col-lg-8'>
-               <div class="row row-cols-1 row-cols-md-1 g-4">
-               {% for object in object_list.all %}
-              
-                    
-                    <div class="col">
-                        <div class="card p-0 rounded-0">
-                            <div class="row g-0">
-                                <div class="col-md-2 d-flex justify-content-center align-items-center" >
-                                    {% if object.image_ch %}
-                                   
-                                    <img src="{{object.image_ch.url}}" style='width:90px; color:#fff;height:90px ; margin:0;padding:5px;color:fff !important;border-radius:50%' />
-                                    {% else %}
-                                    <div style='width:90px;margin:0;padding:5px;height:90px'><center><h3 class='d-flex justify-content-center align-items-center text-uppercase' style='width:80px; color:#fff;height:80px ;background-color:blue; margin:0;padding:0;color:fff !important;border-radius:50%'>{{object.name|slice:"0:1"}}</h3></center></div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">       
-                                        <table class='justify-content-between' style="width:100%">
-                                             <tr>
-                                                  <th>Name</th>
-                                                  <th>Follower</th>
-                                             </tr>
-                                             <tr>
-                                                  <td><h6 class="card-title"><a href="{% url 'channel' object.slug %}"><a href="{% url 'channel' object.slug%}">{{object}}</a></a></h6></td>  
-                                                  <td><h6><strong>{{object.total_subscribers}}</strong> <i class="fa-solid fa-users"></i></h6></td>  
-                                             </tr>
-                                             
-                                        </table>
-                                    </div>
-                                   
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-              
-             
-               
-               {% endfor %}
-          </div>
-          </div>
-     </div>
-    
-   
-    
+        <div class="col">
+          <div class="card p-0 rounded-0">
+            <div class="row g-0">
+              <div
+                class="col-md-2 d-flex justify-content-center align-items-center"
+              >
+                {% if object.image_ch %}
 
+                <img
+                  src="{{object.image_ch.url}}"
+                  style="
+                    width: 90px;
+                    color: #fff;
+                    height: 90px;
+                    margin: 0;
+                    padding: 5px;
+                    color: fff !important;
+                    border-radius: 50%;
+                  "
+                />
+                {% else %}
+                <div style="width: 90px; margin: 0; padding: 5px; height: 90px">
+                  <center>
+                    <h3
+                      class="d-flex justify-content-center align-items-center text-uppercase"
+                      style="
+                        width: 80px;
+                        color: #fff;
+                        height: 80px;
+                        background-color: blue;
+                        margin: 0;
+                        padding: 0;
+                        color: fff !important;
+                        border-radius: 50%;
+                      "
+                    >
+                      {{object.name|slice:"0:1"}}
+                    </h3>
+                  </center>
+                </div>
+                {% endif %}
+              </div>
+              <div class="col-md-8 w-70">
+                <div class="card-body w-100 ">
+                  <table  style="width: 100%">
+                    <tr class="d-flex justify-content-between align-items-center">
+                      <th>Name</th>
+                      <th>Follower</th>
+                    </tr>
+                    <tr class="d-flex justify-content-between align-items-center">
+                      <td>
+                        <h6 class="card-title">
+                          <a href="{% url 'channel' object.slug %}"
+                            ><a href="{% url 'channel' object.slug%}"
+                              >{{object}}</a
+                            ></a
+                          >
+                        </h6>
+                      </td>
+                      <td>
+                        <h6>
+                          <strong>{{object.total_subscribers}}</strong>
+                          <i class="fa-solid fa-users"></i>
+                        </h6>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

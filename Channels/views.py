@@ -5,7 +5,7 @@ from .models import Channel, Post
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.db.models import Max
+from django.db.models import Count
 from .forms import ChannelCreateForm, PostCreateForm
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -16,10 +16,10 @@ from Users.models import CustomUserModel, Profile
 class ChannelView(ListView):
     model = Channel
     template_name = 'channel/channel_page.html'
-
+    
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.annotate(max_subscribers=Max('subscribers')).order_by('-max_subscribers', '-created_ch')
+        return qs.annotate(max_subscribers=Count('subscribers')).order_by('-max_subscribers', '-created_ch')
 
 
 class ChannelDetailView(DetailView):
@@ -28,14 +28,16 @@ class ChannelDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        stuff = get_object_or_404(
-            Channel,
-            slug=self.kwargs['slug']
-        )
-
+        sub = False
+        if self.request.user.is_authenticated:
+            stuff = get_object_or_404(
+                Channel,
+                slug=self.kwargs['slug']
+            )
+            sub = stuff.subscribers.filter(id=self.request.user.id).exists()
         forms = PostCreateForm()
         context['form'] = forms
-        sub = stuff.subscribers.filter(id=self.request.user.id).exists()
+        
         context["subscribers"] = sub
         return context
 
