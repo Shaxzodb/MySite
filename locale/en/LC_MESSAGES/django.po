@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-18 01:44+0500\n"
+"POT-Creation-Date: 2023-01-30 02:05+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,34 +17,222 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: .\App\admin.py:4
+
+#: .\App\admin.py:7
 msgid "Admin Panel"
 msgstr ""
 
-#: .\App\admin.py:5
+#: .\App\admin.py:8 .\App\admin.py:9
 msgid "OKIAN.UZ"
 msgstr ""
 
-#: .\App\admin.py:6
-msgid "OKIAN-UZ"
-msgstr ""
-
-#: .\Config\settings.py:192
+#: .\Config\settings.py:200
 msgid "Uzbek"
 msgstr ""
 
-#: .\Config\settings.py:193
+#: .\Config\settings.py:201
 msgid "English"
 msgstr ""
 
-#: .\Config\settings.py:194
+#: .\Config\settings.py:202
 msgid "Russian"
 msgstr ""
 
-#: .\Templates\navbar.html:6
-msgid "Language"
+#: .\Templates\about.html:5
+msgid "Sayt haqida"
+msgstr "About"
+
+#: .\Templates\account\base.html:4
+msgid "Foydalanuvchi"
+msgstr "User"
+
+#: .\Templates\account\base.html:5
+msgid "Maqolalar"
+msgstr "Articles"
+
+#: .\Templates\account\base.html:6
+msgid "Kanallar"
+msgstr "Channels"
+
+#: .\Templates\account\base.html:7
+msgid "Obunalar"
+msgstr "Subscriptions"
+
+#: .\Templates\account\channels.html:67
+#: .\Templates\account\create_channel_button.html:38
+msgid "Name"
 msgstr ""
 
-#: .\Templates\navbar.html:24
-msgid "EMAILINGIZNI TASTIQLANG"
-msgstr "CONFIRM YOUR EMAIL"
+#: .\Templates\account\channels.html:68
+msgid "Follower"
+msgstr ""
+
+#: .\Templates\account\channels.html:71
+msgid "Setting"
+msgstr ""
+
+#: .\Templates\account\create_article_button.html:5
+msgid "Create Article"
+msgstr ""
+
+#: .\Templates\account\create_channel_button.html:11
+msgid "Create Channel"
+msgstr ""
+
+#: .\Templates\account\create_channel_button.html:25
+msgid "New Channel"
+msgstr ""
+
+#: .\Templates\account\create_channel_button.html:50
+msgid "Channel Avatar"
+msgstr ""
+
+#: .\Templates\account\create_channel_button.html:59
+msgid "Channel Username:"
+msgstr ""
+
+#: .\Templates\account\create_channel_button.html:76
+#: .\Templates\channel\channel_detail.html:122
+msgid "Close"
+msgstr ""
+
+#: .\Templates\account\create_channel_button.html:78
+msgid "Create"
+msgstr ""
+
+#: .\Templates\account\profile.html:4
+msgid "Profile"
+msgstr ""
+
+#: .\Templates\account\user.html:30
+msgid "Last Name"
+msgstr ""
+
+#: .\Templates\account\user.html:32
+msgid "First Name"
+msgstr ""
+
+#: .\Templates\account\user.html:36
+msgid "Birth date"
+msgstr ""
+
+#: .\Templates\account\user.html:38
+msgid "Location"
+msgstr ""
+
+#: .\Templates\account\user.html:43
+msgid "Profilni tahrirlash"
+msgstr "Profile Edit"
+
+#: .\Templates\article\article_detail.html:77
+msgid "Edit Article"
+msgstr ""
+
+#: .\Templates\article\article_page.html:6
+msgid "Maqolalat Sahifasi"
+msgstr "Article Page"
+
+#: .\Templates\base.html:21
+msgid "Bosh sahifa"
+msgstr "Homepage"
+
+#: .\Templates\channel\admins.html:51
+msgid "Remove"
+msgstr ""
+
+#: .\Templates\channel\channel_detail.html:57
+msgid "All Follower"
+msgstr ""
+
+#: .\Templates\channel\channel_detail.html:64
+msgid "Obunachilar mavjud emas."
+msgstr "There are no subscribers."
+
+#: .\Templates\channel\channel_detail.html:86
+msgid "Obunani bekor qilish"
+msgstr "Unsubscribe"
+
+#: .\Templates\channel\channel_detail.html:89
+#, fuzzy
+#| msgid "Obunalar"
+msgid "Obuna"
+msgstr "Subscriptions"
+
+#: .\Templates\channel\channel_detail.html:101
+#: .\Templates\channel\channel_sittings.html:3
+msgid "Settings Channel"
+msgstr ""
+
+#: .\Templates\channel\channel_detail.html:103
+msgid "New Post"
+msgstr ""
+
+#: .\Templates\channel\channel_sittings.html:31
+msgid "Kanal Adminlar Ruyhati"
+msgstr "Channel Admin List"
+
+#: .\Templates\channel\channel_sittings.html:42
+msgid "Recipient's username"
+msgstr ""
+
+#: .\Templates\channel\channel_sittings.html:52
+msgid "Admin mavjud emas"
+msgstr "Admin not available"
+
+#: .\Templates\channel\channel_sittings.html:70
+msgid "Delete Article"
+msgstr ""
+
+#: .\Templates\channel\channel_sittings.html:75
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                  Agar davom etsangiz, kanal o'chiriladi, lekin u bilan "
+#| "birga barcha obunachilar va postlar o'chiriladi.\n"
+#| "                "
+msgid ""
+"Agar davom etsangiz, kanal o'chiriladi, lekin u bilan birga barcha "
+"obunachilar va postlar o'chiriladi."
+msgstr ""
+"If you continue, the channel will be deleted, but with it all followers and "
+"posts will be deleted together."
+
+#: .\Templates\channel\channel_sittings.html:83
+msgid "Continue"
+msgstr ""
+
+#: .\Templates\channel\post.html:31
+msgid "Post Mullifi"
+msgstr "Post Author"
+
+#: .\Templates\navbar.html:101
+msgid "Iltimos, elektron pochta manzilingizni tasdiqlang"
+msgstr "Please confirm your email address"
+
+#: .\Templates\registration\login.html:7 .\Templates\registration\login.html:11
+msgid "Tizimga kirish"
+msgstr "Login"
+
+#: .\Templates\registration\login.html:30
+msgid "Katta va kichik harflarga e'tibor bering"
+msgstr "Pay attention to upper and lower case letters"
+
+#: .\Templates\registration\signup.html:7
+#: .\Templates\registration\signup.html:21
+msgid "Roʻyxatdan oʻtish"
+msgstr "Sign Up"
+
+#: .\Templates\registration\signup.html:25
+msgid "Roʻyxatdan oʻtish uchun quyidagi koʻrsatmalarga amal qiling"
+msgstr "Follow the steps to register"
+
+#: .\Templates\registration\signup.html:28
+msgid "Davom eting"
+msgstr "Keep going"
+
+#: .\Templates\registration\signup.html:29
+msgid "Qayta o'rnatish"
+msgstr "Reinstall"
+
+#~ msgid "EMAILINGIZNI TASTIQLANG"
+#~ msgstr "CONFIRM YOUR EMAIL"

@@ -1,60 +1,64 @@
+Kanal Nomi :{{object.name}}<br/>
+{% if user.id != object.owner.id %}
+<form action={% url 'subscribers' object.slug%} method="post">
+    {% csrf_token %}
+    {% if subscribers %}
+    
+    <button style='color:red;' >Obunani Bekor qilish</button>
 
-
-<br>
-{% if object.image_at %}
-<img src={{object.image_at.url}}  width='200' height='200' />
+    {% else %}
+    <button style='color:blue;'>Obuna Bulish</button>
+    {% endif %}
+</form>
 {% endif %}
 
+{% if user.is_authenticated and user.id == object.owner.id %}
 
-<br>
-{% get_hit_count for object as ob %}
-
-<br>
-{% if  object.author %}
-{{object.author}}
-{% else %}
-Account Delete
-{% endif %}
-<div class='ck-content'>
-{{object.content_at|safe}}
+    <a href="{% url 'channel_sittings' object.slug%}">Settings Channel</a>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Create Post
+      </button>
+     
+    
+      <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" class='' novalidate>
+            <div class="modal-body">                 
+ 
+                        {% csrf_token %}
+                       
+                        {% crispy form %}
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+            <div class="modal-footer">
+              
+            </div>
+            </form>
+     
+          </div>
+        </div>
+    </div>
 </div>
-
-
-
-
+    
+    
+{% endif %}
 <br>
+Kanal Obunachilar Soni : {{object.subscribers.all.count}}
+<h2>Kanal Obunachilar Ruyhati</h2>
 
-<form action={% url 'likes' object.slug%} method="post">
-{% csrf_token %}
-{% if confirmed_likes %}
+{% for obunachi in object.subscribers.all %}
+    {{obunachi}}<br/>
+{% endfor %}
 
-<button style='color:blue;' ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>{{likes}}
+<hr><h2>POSTLAR</h2>
+{% for post in object.post.all %}
+Post Mallifi: <strong>{{post.author}}</strong><br>
 
-{% else %}
-<button ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>{{likes}}
-{% endif %}
-</form>
-<form action={% url 'dislikes' object.slug%} method="post">
-{% csrf_token %}
-{% if confirmed_dislikes %}
-<button style='color:red;'><svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path style='background-color:yellow;' d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>{{dislikes}}
-
-{% else %}
-
-{% csrf_token %}
-<button ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>{{dislikes}}
-{% endif %}
-</form>
-
-{% for comment in object.comments.all %}
-{% if comment.is_check %}
-<b>{{comment.content_cm}}</b>
-    {{comment.is_parent}}
-    <a href="{% url 'like_and_unlike_comment' pk=comment.id article=object.slug%}" >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-        </svg>
-    </a>{{comment.likes.count}}   
-<br/>
-{% endif %}
+{{post.content_pt|safe}} <br>
 {% endfor %}

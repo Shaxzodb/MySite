@@ -1,9 +1,10 @@
+{% load i18n %}
 <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <button class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="true">User</button>
-      <button class="nav-link" id="nav-articles-tab" data-bs-toggle="tab" data-bs-target="#nav-articles" type="button" role="tab" aria-controls="nav-articles" aria-selected="false">Articles</button>
-      <button class="nav-link" id="nav-channels-tab" data-bs-toggle="tab" data-bs-target="#nav-channels" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Channels</button>
-      <button class="nav-link" id="nav-sub-tab" data-bs-toggle="tab" data-bs-target="#nav-sub" type="button" role="tab" aria-controls="nav-sub" aria-selected="false">Sub</button>
+      <button class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="true">{% trans "Foydalanuvchi" %}</button>
+      <button class="nav-link" id="nav-articles-tab" data-bs-toggle="tab" data-bs-target="#nav-articles" type="button" role="tab" aria-controls="nav-articles" aria-selected="false">{% trans "Maqolalar" %}</button>
+      <button class="nav-link" id="nav-channels-tab" data-bs-toggle="tab" data-bs-target="#nav-channels" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">{% trans "Kanallar" %}</button>
+      <button class="nav-link" id="nav-sub-tab" data-bs-toggle="tab" data-bs-target="#nav-sub" type="button" role="tab" aria-controls="nav-sub" aria-selected="false">{% trans "Obunalar" %}</button>
     </div>
   </nav>
   <div class="tab-content" id="nav-tabContent">

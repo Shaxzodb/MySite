@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-18 01:44+0500\n"
+"POT-Creation-Date: 2023-01-30 02:05+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,37 +16,219 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
-"(n%100>=11 && n%100<=14)? 2 : 3);\n"
-#: .\App\admin.py:4
-msgid "Admin Panel"
-msgstr ""
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\App\admin.py:5
+#: .\App\admin.py:7
+msgid "Admin Panel"
+msgstr "Панель администратора"
+
+#: .\App\admin.py:8 .\App\admin.py:9
 msgid "OKIAN.UZ"
 msgstr ""
 
-#: .\App\admin.py:6
-msgid "OKIAN-UZ"
-msgstr ""
-
-#: .\Config\settings.py:192
+#: .\Config\settings.py:200
 msgid "Uzbek"
 msgstr ""
 
-#: .\Config\settings.py:193
+#: .\Config\settings.py:201
 msgid "English"
 msgstr ""
 
-#: .\Config\settings.py:194
+#: .\Config\settings.py:202
 msgid "Russian"
 msgstr ""
 
-#: .\Templates\navbar.html:6
-msgid "Language"
-msgstr ""
+#: .\Templates\about.html:5
+msgid "Sayt haqida"
+msgstr "О сайте"
 
-#: .\Templates\navbar.html:24
-msgid "EMAILINGIZNI TASTIQLANG"
-msgstr "ПОДТВЕРДИТЕ ВАШ АДРЕС ЭЛЕКТРОННОЙ ПОЧТЫ"
+#: .\Templates\account\base.html:4
+msgid "Foydalanuvchi"
+msgstr "Пользователь"
+
+#: .\Templates\account\base.html:5
+msgid "Maqolalar"
+msgstr "Статьи"
+
+#: .\Templates\account\base.html:6
+msgid "Kanallar"
+msgstr "Kаналы"
+
+#: .\Templates\account\base.html:7
+msgid "Obunalar"
+msgstr "Подписки"
+
+#: .\Templates\account\channels.html:67
+#: .\Templates\account\create_channel_button.html:38
+msgid "Name"
+msgstr "Имя"
+
+#: .\Templates\account\channels.html:68
+msgid "Follower"
+msgstr "Последователь"
+
+#: .\Templates\account\channels.html:71
+msgid "Setting"
+msgstr "Hастройки"
+
+#: .\Templates\account\create_article_button.html:5
+msgid "Create Article"
+msgstr "Создать статью"
+
+#: .\Templates\account\create_channel_button.html:11
+msgid "Create Channel"
+msgstr "Создать канал"
+
+#: .\Templates\account\create_channel_button.html:25
+msgid "New Channel"
+msgstr "Создать канал"
+
+#: .\Templates\account\create_channel_button.html:50
+msgid "Channel Avatar"
+msgstr "Аватар канала"
+
+#: .\Templates\account\create_channel_button.html:59
+msgid "Channel Username:"
+msgstr "Имя пользователя канала:"
+
+#: .\Templates\account\create_channel_button.html:76
+#: .\Templates\channel\channel_detail.html:122
+msgid "Close"
+msgstr "Закрывать"
+
+#: .\Templates\account\create_channel_button.html:78
+msgid "Create"
+msgstr "Создавать"
+
+#: .\Templates\account\profile.html:4
+msgid "Profile"
+msgstr "Профиль"
+
+#: .\Templates\account\user.html:30
+msgid "Last Name"
+msgstr "Фамилия"
+
+#: .\Templates\account\user.html:32
+msgid "First Name"
+msgstr "Имя"
+
+#: .\Templates\account\user.html:36
+msgid "Birth date"
+msgstr "Дата рождения"
+
+#: .\Templates\account\user.html:38
+msgid "Location"
+msgstr "Место нахождения"
+
+#: .\Templates\account\user.html:43
+msgid "Profilni tahrirlash"
+msgstr "Редактировать профиль"
+
+#: .\Templates\article\article_detail.html:77
+msgid "Edit Article"
+msgstr "Редактировать статью"
+
+#: .\Templates\article\article_page.html:6
+msgid "Maqolalat Sahifasi"
+msgstr "Страница статей"
+
+#: .\Templates\base.html:21
+msgid "Bosh sahifa"
+msgstr "Домашняя страница"
+
+#: .\Templates\channel\admins.html:51
+msgid "Remove"
+msgstr "Удалять"
+
+#: .\Templates\channel\channel_detail.html:57
+msgid "All Follower"
+msgstr "Все подписчики"
+
+#: .\Templates\channel\channel_detail.html:64
+msgid "Obunachilar mavjud emas."
+msgstr "Подписчиков нет."
+
+#: .\Templates\channel\channel_detail.html:86
+msgid "Obunani bekor qilish"
+msgstr "Отписаться"
+
+#: .\Templates\channel\channel_detail.html:89
+#, fuzzy
+#| msgid "Obunalar"
+msgid "Obuna"
+msgstr "Подписка"
+
+#: .\Templates\channel\channel_detail.html:101
+#: .\Templates\channel\channel_sittings.html:3
+msgid "Settings Channel"
+msgstr "Канал настроек"
+
+#: .\Templates\channel\channel_detail.html:103
+msgid "New Post"
+msgstr "Новый пост"
+
+#: .\Templates\channel\channel_sittings.html:31
+msgid "Kanal Adminlar Ruyhati"
+msgstr "Список администраторов канала"
+
+#: .\Templates\channel\channel_sittings.html:42
+msgid "Recipient's username"
+msgstr "Имя пользователя получателя"
+
+#: .\Templates\channel\channel_sittings.html:52
+msgid "Admin mavjud emas"
+msgstr "Админ недоступен"
+
+#: .\Templates\channel\channel_sittings.html:70
+msgid "Delete Article"
+msgstr "Удалить статью"
+
+#: .\Templates\channel\channel_sittings.html:75
+msgid ""
+"Agar davom etsangiz, kanal o'chiriladi, lekin u bilan birga barcha "
+"obunachilar va postlar o'chiriladi."
+msgstr ""
+"Если вы продолжите, канал будет удален, но вместе с ним будут удалены все "
+"подписчики и посты."
+
+#: .\Templates\channel\channel_sittings.html:83
+msgid "Continue"
+msgstr "Продолжать"
+
+#: .\Templates\channel\post.html:31
+msgid "Post Mullifi"
+msgstr "Автор сообщения"
+
+#: .\Templates\navbar.html:101
+msgid "Iltimos, elektron pochta manzilingizni tasdiqlang"
+msgstr "Подтвердите ваш имейл, пожалуйста"
+
+#: .\Templates\registration\login.html:7 .\Templates\registration\login.html:11
+msgid "Tizimga kirish"
+msgstr "Авторизоваться"
+
+#: .\Templates\registration\login.html:30
+msgid "Katta va kichik harflarga e'tibor bering"
+msgstr "Обратите внимание на прописные и строчные буквы"
+
+#: .\Templates\registration\signup.html:7
+#: .\Templates\registration\signup.html:21
+msgid "Roʻyxatdan oʻtish"
+msgstr "Зарегистрироваться"
+
+#: .\Templates\registration\signup.html:25
+msgid "Roʻyxatdan oʻtish uchun quyidagi koʻrsatmalarga amal qiling"
+msgstr "Roʻyxatdan oʻtish uchun quyidagi koʻrsatmalarga amal qiling"
+
+#: .\Templates\registration\signup.html:28
+msgid "Davom eting"
+msgstr "Продолжать идти"
+
+#: .\Templates\registration\signup.html:29
+msgid "Qayta o'rnatish"
+msgstr "Переустановить"
+
+#~ msgid "EMAILINGIZNI TASTIQLANG"
+#~ msgstr "ПОДТВЕРДИТЕ ВАШ АДРЕС ЭЛЕКТРОННОЙ ПОЧТЫ"

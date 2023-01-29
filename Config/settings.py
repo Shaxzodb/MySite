@@ -142,8 +142,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-
-
 # Kirishlar Cheklovi AXES Sozlamalari
 AXES_ENABLED = True#os.getenv('AXES_ENABLED',True)
 AXES_FAILURE_LIMIT = 10  # Notug'ri Kirishlar soni
@@ -167,23 +165,23 @@ AUTHENTICATION_BACKENDS = [
 # So'rovlar Cheklovi RATELIMIT Sozlamalari
 RATELIMIT_VIEW = 'App.views.rate_limited'
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': [str(os.getenv('REDIS', 'redis://127.0.0.1:6379'))]
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+#         'LOCATION': [str(os.getenv('REDIS', 'redis://127.0.0.1:6379'))]
         
-        # 'TIMEOUT': 300 ,
-    }
-}
+#         # 'TIMEOUT': 300 ,
+#     }
+# }
 
 # Ma'lumotlar bazasida keshni sozlash
 # Loyihaning settings.py fayliga quyidagilarni qo'shing -
-# CACHES = {
-#    'default': {
-#       'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-#       'LOCATION': 'my_table_name',
-#    }
-# }
+CACHES = {
+   'default': {
+      'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+      'LOCATION': 'my_table_name',
+   }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/

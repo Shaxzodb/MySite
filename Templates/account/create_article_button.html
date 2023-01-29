@@ -1,5 +1,7 @@
-{% load static %} {% if user.id == object.user.id %}
+{% load static %}
+{% load i18n %}
+{% if user.id == object.user.id %}
 <div class="d-flex justify-content-end mb-3">
-  <a href="{% url 'article_create' %}">Create Article</a>
+  <a href="{% url 'article_create' %}">{% trans "Create Article" %}</a>
 </div>
 {% endif %}

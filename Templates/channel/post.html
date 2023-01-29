@@ -1,0 +1,43 @@
+{% load i18n %}
+<style>
+    figure,.ck-content img {
+        aspect-ratio: 3/2;
+        width: 100% ;
+        max-width: 100% ;
+        object-fit: contain;
+      }
+.post {
+    max-height:600px;
+    overflow:auto;
+    width: 100%;
+}
+.post::-webkit-scrollbar {
+  display: none;
+}
+
+</style>
+<div class='post'>
+{% for post in object.post.all reversed %}
+<div class='card mx-1 mb-2 p'>
+<div class='card-body ck-content'>
+
+{{post.content_pt|safe}} <br>
+</div>
+<div class='card-footer d-flex justify-content-between'>
+    <div>
+        {{post.created_pt}} 
+    </div>
+    <div>
+        {% trans "Post Mullifi" %}: <strong>{{post.author}}</strong>
+    </div>
+</div>
+</div>
+{% endfor %}
+<hr/>
+<div class='card mx-1 mb-2'>
+    
+    <div class='card-body bg-secondary text-white d-flex justify-content-center'>
+        <h4>Post End.</h4>
+    </div>
+</div>
+</div>

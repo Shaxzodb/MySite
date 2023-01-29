@@ -1,53 +1,95 @@
-{% extends 'base.html' %}
-
-    {% block title %}
-    Ruyhattan utish
-    {% endblock title %}
-
+{% extends 'base.html' %} {% load i18n %} 
+{% load crispy_forms_tags %} 
+{% block title %} {% trans "Settings Channel" %} {% endblock title %} 
 {% block content %}
-
-{% load crispy_forms_tags %}
-<h2>Kanal Adminlar Ruyhati</h2>
-
-{% for admin in object.admins.all %}
-{{admin.username}} <a href="{% url 'channel_remove_admin' user=admin.profile.slug channel=object.slug%}">Remove</a>
-    <br/>
-{% endfor %}
-<form method="post" class='' enctype="multipart/form-data">
-    <div class="card">
-    
-      <div class="card-body">
-      
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        {% csrf_token %}
-       
-        {% crispy form %}
+<div class="container mt-3">
+  <div class="card">
+    <div class="card-body">
+      <form method="post" class="" enctype="multipart/form-data">
+        <p class="card-text">
+          With supporting text below as a natural lead-in to additional content.
+        </p>
+        {% csrf_token %} 
+        {{ form|crispy  }}
         <button type="submit" class="btn btn-primary">Save</button>
-        </div>
-        
-
+      </form>
     </div>
-    </form>
+  </div>
 
-    {% comment %} Admin Add {% endcomment %}
-    <form action={% url 'channel_add_admin' object.slug%} method="post">
-      {% csrf_token %}
-      <div class="ui-widget">
-        <label for="birds">Tags: </label>
-        <input name='add_admin' id="birds" minlength="6" required>
-      </div>
-     
-      <button style='color:blue;' >Add Admin</button>
-  
-  </form>
-  {% comment %} Delete  Channel {% endcomment %}
-  <form action={% url 'channel_delete' object.slug%} method="post">
-    {% csrf_token %}
-    <button style='color:yellow;background-color:red;' >Delete Channel</button>
-  </form>
+  <div class='d-flex mt-3 justify-content-end'>
+    <div class='admin'>
+      <button type="button" class="me-1 btn" data-bs-toggle="modal"
+      data-bs-target="#exampleModal">All Admins View <i class="fa-solid fa-unlock"></i></button>
     
+    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1"
+      aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">{% trans "Kanal Adminlar Ruyhati" %}</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+    
+          <div class="modal-body">
+            <div>
+              <form action={% url 'channel_add_admin' object.slug%} method="post">
+                {% csrf_token %}
+
+                <div class="input-group mb-3">
+                  <input type="text" minlength="6" required name='add_admin'  class="form-control" placeholder="{% trans "Recipient's username" %}" aria-label="Recipient's username" aria-describedby="button-addon2">
+                  <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Add Admin</button>
+                </div>
+              </form>
+            </div>
+            <div>
+              {% if object.admins.exists %}
+              <h5>Adminlar ro'yxati</h5>
+              {% include './admins.html' %}
+              {% else %}
+              {% trans "Admin mavjud emas" %}
+              {% endif %}
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+     </div>
+      <div class='delete'>
 
 
+        <button class='btn btn-danger ' data-bs-toggle="modal" data-bs-target="#delete" data-bs-whatever="@mdo">Delete Channel <i class="fa-solid fa-trash"></i></button>
 
-    {% endblock content %}
-  
+        <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{% trans "Delete Article" %} <i class="fa-solid fa-triangle-exclamation"></i></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+               
+                  {% trans "Agar davom etsangiz, kanal o'chiriladi, lekin u bilan birga barcha obunachilar va postlar o'chiriladi." %} 
+                
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+             
+                <form action={% url 'channel_delete' object.slug%} method="post">
+                  {% csrf_token %}
+                  <button class='btn btn-danger'> {% trans "Continue" %}</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+      </div>
+  </div>
+</div>
+
+{% endblock content %}

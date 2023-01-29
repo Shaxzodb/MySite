@@ -1,27 +1,109 @@
-{% extends 'base.html' %}
-{% load static %}
-{% load crispy_forms_tags %}
-{% block content %}
-Kanal Nomi :{{object.name}}<br/>
-{% if user.id != object.owner.id %}
-<form action={% url 'subscribers' object.slug%} method="post">
-    {% csrf_token %}
-    {% if subscribers %}
-    
-    <button style='color:red;' >Obunani Bekor qilish</button>
+{% extends 'base.html' %} {% load hitcount_tags %} {% load crispy_forms_tags %}
+{% load static %} {% load i18n %}{% block content %}
 
-    {% else %}
-    <button style='color:blue;'>Obuna Bulish</button>
-    {% endif %}
-</form>
-{% endif %}
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-lg-3">
+        <div class="card p-2 rounded-0 border-end border-0 border-secondary">
+          <div class='d-flex justify-content-center'>
+            {% if object.image_ch %}
 
-{% if user.is_authenticated and user.id == object.owner.id %}
+            <img
+            src="{{object.image_ch.url}}"
+            style="
+            border:1px solid blue;aspect-ratio: 3/2; object-fit: cover;
+              width: 90px;
+              color: #fff;
+              height: 90px;
+              margin: 0;
+              padding: 5px;
+              color: fff !important;
+              border-radius: 100%;
+            "
+          />
 
-    <a href="{% url 'channel_sittings' object.slug%}">Settings Channel</a>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Create Post
-      </button>
+            {% else %}
+              
+
+            <div style="width: 90px; margin: 0; padding: 5px; height: 90px">
+              <center>
+                <h3
+                  class="d-flex justify-content-center align-items-center text-uppercase"
+                  style="
+                    width: 80px;
+                    color: #fff;
+                    height: 80px;
+                    background-color: blue;
+                    margin: 0;
+                    padding: 0;
+                    color: fff !important;
+                    border-radius: 100%;
+                  "
+                >
+                  {{object.name|slice:"0:1"}}
+                </h3>
+              </center>
+            </div>
+
+            {% endif %}
+            </div>
+          <div>
+              <center><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-bs-whatever="@mdo"><i class="fa-solid fa-users"></i> {{object.subscribers.all.count}}</button></center>
+              <center><p style="font-size:12px">{{object.description}}</p></center>
+              <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">{% trans "All Follower" %}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      {% if object.subscribers.exists %}
+                      {% include './follower.html' %}
+                      {% else %}
+                      <p>{% trans "Obunachilar mavjud emas." %}
+                      {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          
+           </div>
+          
+          
+          {% if user.id != object.owner.id %}
+          <hr/>
+          <div class='d-flex justify-content-center'>
+             
+           
+            <form action={% url 'subscribers' object.slug%} method="post">
+                {% csrf_token %}
+                {% if subscribers %}
+                
+                <button class="btn btn-danger">{% trans "Obunani bekor qilish" %} <i class="fa-solid fa-user-minus"></i></button>
+            
+                {% else %}
+                <button class="btn btn-dark">{% trans "Obuna" %} <i class="fa-solid fa-user-plus"></i></button>
+                {% endif %}
+            </form>
+            
+            
+          </div>
+         
+          {% endif %}
+          <hr/>
+         
+          {% if user.is_authenticated and user.id == object.owner.id %}
+          <div class=''>
+            <center><a class='btn' href="{% url 'channel_sittings' object.slug%}"><i class="fa-solid fa-gear"></i> {% trans "Settings Channel" %}</a></center>
+            <center><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              {% trans "New Post" as new_post %}
+              <i class="fa-sharp fa-solid fa-plus"></i> {{new_post}}
+            </button>
+          </center>
      
     
       <!-- Modal -->
@@ -29,17 +111,16 @@ Kanal Nomi :{{object.name}}<br/>
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+              <h1 class="modal-title fs-5" id="exampleModalLabel">{{new_post}}</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form method="post" class='' novalidate>
             <div class="modal-body">                 
  
-                        {% csrf_token %}
-                       
-                        {% crispy form %}
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+              {% csrf_token %}
+              {% crispy form %}
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
+              <button type="submit" class="btn btn-primary">{{new_post}}</button>
             <div class="modal-footer">
               
             </div>
@@ -50,21 +131,34 @@ Kanal Nomi :{{object.name}}<br/>
     </div>
 </div>
     
+          </div>
+          <hr/>
+          {% endif %}
+          
+        </div>
+      </div>
+    <div class="col-lg-9">
+      <div
+        class="card border-bottom mt-1 rounded-0 border-end border-0 border-secondary"
+      >
+        <div class="card-body mb-2 bg-primary text-white d-flex justify-content-center">
+          
+          <div class=''>
+            <h4 class="card-title">{{object.name}}</h4>
+          </div>
+          <hr class="border border-success" />
+          <div class="card-text-div ck-content">{{object.content_at|safe}}</div>
+          <time>
+            <p class="card-text">
+              <small class="text-muted"> {{object.created}} </small>
+            </p>
+          </time>
+        </div>
+        {% include './post.html' %}
+      </div>
+    </div>
+
     
-{% endif %}
-<br>
-Kanal Obunachilar Soni : {{object.subscribers.all.count}}
-<h2>Kanal Obunachilar Ruyhati</h2>
-
-{% for obunachi in object.subscribers.all %}
-    {{obunachi}}<br/>
-{% endfor %}
-
-<hr><h2>POSTLAR</h2>
-{% for post in object.post.all %}
-Post Mallifi: <strong>{{post.author}}</strong><br>
-
-{{post.content_pt|safe}} <br>
-{% endfor %}
-
-  {% endblock %}
+  </div>
+</div>
+{% endblock %}

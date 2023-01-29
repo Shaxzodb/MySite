@@ -1,3 +1,4 @@
+{% load i18n %}
 {% if user.id == object.user.id %}
   <div class="d-flex justify-content-end mb-3">
     <button
@@ -7,7 +8,7 @@
       data-bs-target="#exampleModal"
       data-bs-whatever="@getbootstrap"
     >
-      Create Channel
+      {% trans "Create Channel" %}
     </button>
   </div>
 
@@ -21,7 +22,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">New Channel</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{% trans "New Channel" %}</h5>
           <button
             type="button"
             class="btn-close"
@@ -34,7 +35,7 @@
             <div class="modal-body">
               {% csrf_token %}
               <div class="mb-3">
-                <label for="recipient-name" class="col-form-label">Name:</label>
+                <label for="recipient-name" class="col-form-label">{% trans "Name" %}:</label>
                 <input
                   type="text"
                   class="form-control"
@@ -46,7 +47,7 @@
               </div>
               <div class="mb-3">
                 <label for="recipient-name" class="col-form-label"
-                  >Channel Avatar:</label
+                  >{% trans "Channel Avatar" %}:</label
                 >
                 <input
                   class="form-control"
@@ -55,7 +56,7 @@
                   type="file"
                 />
                 <label for="recipient-name" class="col-form-label"
-                  >Channel Username:</label
+                  >{% trans "Channel Username:" %}</label
                 >
                 <input
                   type="text"
@@ -72,9 +73,9 @@
                 class="btn btn-secondary"
                 data-bs-dismiss="modal"
               >
-                Close
+                {% trans "Close" %}
               </button>
-              <button type="submit" class="btn btn-primary">Create</button>
+              <button type="submit" class="btn btn-primary">{% trans "Create" %}</button>
             </div>
           </form>
         </div>

@@ -1,0 +1,60 @@
+{% load i18n %}
+<div class="row mt-2 row-cols-1 row-cols-md-1 g-4">
+{% for admin in object.admins.all %}
+
+    <div class="col m-0">
+    <div class="card border-0 p-0 rounded-0">
+      <div class="row g-0">
+        <div class="col-md-2 d-flex justify-content-center align-items-center">
+          {% if admin.profile.user_pic %}
+
+          <img
+            src="{{admin.profile.user_pic.url}}"
+            
+            style="
+              border:1px solid blue;aspect-ratio: 3/2; object-fit: cover;
+              width: 80px;
+              color: #fff;
+              height: 80px;
+              margin: 5px;
+              padding: 5px;
+              color: fff !important;
+              border-radius: 100%;
+            "
+          />
+          {% else %}
+          <div style="width: 80px; margin: 5px; padding: 0; height: 80px">
+            <center>
+              <h3
+                class="d-flex justify-content-center align-items-center text-uppercase"
+                style="
+                  width: 80px;
+                  color: #fff;
+                  height: 80px;
+                  background-color: blue;
+                  margin: 0;
+                  padding: 0;
+                  color: fff !important;
+                  border-radius: 50%;
+                "
+              >
+                {{admin.username|slice:"0:1"}}
+              </h3>
+            </center>
+          </div>
+          {% endif %}
+        </div>
+        <div class="col-md-8">
+          <div class="card-body ">
+            <h6 class="card-title">
+              <a href="{% url 'profile' admin.profile.slug%}">{{admin.username}}</a>
+              <a style="text-decoration: none;" class='text-danger' href="{% url 'channel_remove_admin' user=admin.profile.slug channel=object.slug%}">{% trans "Remove" %} <i class="fa-sharp fa-solid fa-xmark"></i></a>
+            </h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endfor %}
+</div>

@@ -82,7 +82,7 @@ def channel_create(request):
 
 class ChannelSittings(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Channel
-    fields = ['name', 'image_ch', 'slug']
+    fields = ['name', 'image_ch', 'slug', 'description']
     template_name = 'channel/channel_sittings.html'
 
     def get_context_data(self, **kwargs):
@@ -129,8 +129,9 @@ def channel_add_admin(request, slug):
                 username=request.POST['add_admin'])
             if get_user.exists() and not get_user[0] == get_channel.owner:
                 get_channel.admins.add(get_user[0])
+                messages.info(request, f'{get_user[0].username} adminlar ro\'yxatiga qo\'shildi')
             else:
-                messages.info(request, 'bunday foydalanuvchi topilmadi')
+                messages.info(request, 'Bunday foydalanuvchi topilmadi')
     return redirect('channel_sittings', slug)
 
 
@@ -138,10 +139,12 @@ def channel_add_admin(request, slug):
 def channel_remove_admin(request, user, channel):
 
     get_channel = get_object_or_404(Channel, slug=channel)
-    if get_channel.owner.id == request.user.id and get_channel.admins.filter(id=request.user.id).exists():
+    
+    if get_channel.owner.id == request.user.id and not get_channel.admins.filter(id=request.user.id).exists():
         get_user = Profile.objects.filter(slug=user)
         if get_user.exists() and not get_user[0] == get_channel.owner:
             get_channel.admins.remove(get_user[0].user)
+            messages.info(request, f'{get_user[0].user.username} olib tashlandi')
         else:
-            messages.info(request, 'bunday Admin mavjud emas')
+            messages.info(request, 'Bunday admin mavjud emas')
     return redirect('channel_sittings', channel)

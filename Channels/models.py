@@ -44,7 +44,7 @@ class Channel(models.Model):
     updated_ch = models.DateTimeField(
         auto_now = True
     )
-    description = models.TimeField(
+    description = models.TextField(
         blank=True,
         null=True
     )

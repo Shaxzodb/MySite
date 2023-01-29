@@ -1,5 +1,5 @@
 {% load static %} 
-
+{% load i18n %}
 <div class="container">
   <div class="row my-3">
     <div class="col-lg-6">
@@ -27,20 +27,20 @@
               </center>
               <p class="card-text">Email: {{object.email}}</p>
               {% if object.last_name %}
-              <p class="card-text">Last Name: {{object.last_name}}</p>
+              <p class="card-text">{% trans "Last Name" %}: {{object.last_name}}</p>
               {% endif %} {% if object.first_name %}
-              <p class="card-text">First Name: {{object.first_name}}</p>
+              <p class="card-text">{% trans "First Name" %}: {{object.first_name}}</p>
               {% endif %} {% if object.phone %}
               <p class="card-text">Phone: {{object.phone}}</p>
               {% endif %} {% if object.birth_date %}
-              <p class="card-text">Birth date: {{object.birth_date}}</p>
+              <p class="card-text">{% trans "Birth date" %}: {{object.birth_date}}</p>
               {% endif %} {% if object.location %}
-              <p class="card-text">Location: {{object.location}}</p>
+              <p class="card-text">{% trans "Location" %}: {{object.location}}</p>
               {% endif %} {% if object.website %}
               <p class="card-text">Website: {{object.website}}</p>
               {% endif %}
               {% if user.is_authenticated and user.id == object.user.id%}
-              <a href="{% url 'profile_edit' object.slug %}">Profile Edit</a>
+              <a href="{% url 'profile_edit' object.slug %}">{% trans "Profilni tahrirlash" %}</a>
               {% endif %}
             </div>
           </div>
