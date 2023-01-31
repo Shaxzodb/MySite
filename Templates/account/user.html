@@ -5,17 +5,19 @@
     <div class="col-lg-6">
       <div class="card" style="width: 100%">
         <div class="row g-0">
-          <div class="col-md-4">
+          <div style='' class="col-md-4 p-2 d-flex justify-content-center">
             {% if object.user_pic %}
             <img
+              style="object-fit: contain;"
               src="{{object.user_pic.url}}"
-              class="m-1 img-fluid rounded-start"
+              class="img-fluid rounded"
               alt="..."
             />
             {% else %}
             <img
+              style="object-fit: contain;"
               src="{% static 'img/user.png' %}"
-              class="m-1 img-fluid rounded-start"
+              class="img-fluid rounded"
               alt="..."
             />
             {% endif %}
@@ -47,7 +49,8 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-6"><div class="accordion" id="accordionExample">
+    <div class="col-lg-6 mt-lg-0 mt-3">
+      <div class="accordion" id="accordionExample">
         <div class="accordion-item">
           <h2 class="accordion-header" id="headingOne">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">

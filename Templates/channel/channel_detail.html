@@ -54,7 +54,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="staticBackdropLabel">{% trans "All Follower" %}</h5>
+                      <h5 class="modal-title" id="staticBackdropLabel">{% trans "Followers" %}</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -65,6 +65,7 @@
                       {% endif %}
                     </div>
                     <div class="modal-footer">
+                      
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                   </div>
@@ -72,10 +73,11 @@
               </div>
           
            </div>
-          
-          
+           
+         
           {% if user.id != object.owner.id %}
           <hr/>
+          
           <div class='d-flex justify-content-center'>
              
            
@@ -96,7 +98,7 @@
           {% endif %}
           <hr/>
          
-          {% if user.is_authenticated and user.id == object.owner.id %}
+          {% if user.is_authenticated and user.id == object.owner.id or admin%}
           <div class=''>
             <center><a class='btn' href="{% url 'channel_sittings' object.slug%}"><i class="fa-solid fa-gear"></i> {% trans "Settings Channel" %}</a></center>
             <center><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -141,10 +143,10 @@
       <div
         class="card border-bottom mt-1 rounded-0 border-end border-0 border-secondary"
       >
-        <div class="card-body mb-2 bg-primary text-white d-flex justify-content-center">
+        <div class="card-body mb-2 bg-primary text-white m-0 py-1 d-flex align-items-center justify-content-center">
           
           <div class=''>
-            <h4 class="card-title">{{object.name}}</h4>
+            <h5 class="card-title m-0">{{object.name}}</h5>
           </div>
           <hr class="border border-success" />
           <div class="card-text-div ck-content">{{object.content_at|safe}}</div>

@@ -68,7 +68,7 @@ urlpatterns = [
     path('hitcount/', include(('hitcount.urls', 'hitcount'), namespace='hitcount')),
     path("ckeditor5/", include('django_ckeditor_5.urls')),
 ] + i18n_patterns(
-    path('special/auth/admin/', admin.site.urls),
+    path('auth/admin/', admin.site.urls),
     # path('special/admin/', admin_site.urls),
     path('',include('App.urls')),
     # path('',include('APIs.urls')),

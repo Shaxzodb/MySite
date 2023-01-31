@@ -29,14 +29,18 @@ class ChannelDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         sub = False
+        admin = False
         if self.request.user.is_authenticated:
+            
             stuff = get_object_or_404(
                 Channel,
                 slug=self.kwargs['slug']
             )
+            admin = stuff.admins.filter(id = self.request.user.id).exists()
             sub = stuff.subscribers.filter(id=self.request.user.id).exists()
         forms = PostCreateForm()
         context['form'] = forms
+        context['admin'] = admin
         
         context["subscribers"] = sub
         return context
@@ -44,17 +48,18 @@ class ChannelDetailView(DetailView):
     def post(self, *args, **kwargs):
         if self.request.user.is_authenticated:
             channel = Channel.objects.get(slug=self.kwargs['slug'])
-            form = PostCreateForm(
-                self.request.POST
-            )
-            if form.is_valid():
-                Post.objects.create(
-                    author=self.request.user,
-                    channel=channel,
-                    content_pt=self.request.POST['content_pt'],
+            if channel.admins.filter(id = self.request.user.id).exists() or channel.owner.id == self.request.user.id:
+                form = PostCreateForm(
+                    self.request.POST
                 )
-            else:
-                pass
+            
+                if form.is_valid():
+                    Post.objects.create(
+                        author=self.request.user,
+                        channel=channel,
+                        content_pt=self.request.POST['content_pt'],
+                    )
+                
         return redirect('channel', self.kwargs['slug'])
 
 
@@ -97,6 +102,9 @@ class ChannelSittings(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
     def test_func(self):
+        channel = Channel.objects.get(slug=self.kwargs['slug'])
+        if channel.admins.filter(id = self.request.user.id).exists():
+            return True
         return self.get_object().owner.id == self.request.user.id
 
 

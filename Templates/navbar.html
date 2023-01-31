@@ -39,17 +39,17 @@
 <!-- Navbar Start -->
 <div class="container-fluid sticky-top mb-0 bg-white shadow-sm">
   <div class="container">
-      <nav class="navbar navbar-expand-lg bg-white navbar-light my-3 py-2 py-lg-0 p-0">
+      <nav class="navbar navbar-expand-lg bg-white navbar-light my-3 py-2 py-lg-0">
         
           <a href="{% url 'base' %}" class="navbar-brand">
-              <h2 class="m-0 text-uppercase text-primary"><i class="fas fa-yin-yang"></i> <b>maqolauz</b></h2>
+              <h2 class="m-0 text-uppercase text-primary d-flex align-items-center"><i style='font-size:48px;' class="fas me-1 fa-yin-yang"></i> <b>maqolauz</b></h2>
           </a>
           
           <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
               <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-              <div class="navbar-nav ms-auto py-0">             
+          <div class="collapse ms-1 mx-lg-0 navbar-collapse" id="navbarCollapse">
+              <div class="navbar-nav ms-auto">             
                 <a href="{% url 'article_list' %}" class="nav-item nav-link">ARTICLES</a>
                 <a href="{% url 'channels' %}" class="nav-item nav-link">CHANNELS</a>
                 {% if  user.is_authenticated %}
@@ -70,8 +70,8 @@
                     <a href="{% url 'login' %}" class="nav-item nav-link">LOGIN</a>
                     <a href="{% url 'signup' %}" class="nav-link">SIGN UP</a>
                   {% endif %}
-                    
-                  <div class='mt-lg-3 my-lg-0 my-2 ms-lg-4 m-0'>
+                  <div class='row'>
+                  <div class='mt-lg-3 my-lg-0 my-2 ms-lg-4 col-lg-10 col-4 m-0'>
                     <form class='row' action="{% url 'set_language' %}" method="post">{% csrf_token %}
                       <input name="next" type="hidden" value="{{ redirect_to }}">
                       <select onchange="this.form.submit()"  class="form-select " name="language">
@@ -86,6 +86,7 @@
                       </select>
                   </form>
                   </div>
+                </div>
               </div>
           </div>
       </nav>

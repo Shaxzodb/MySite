@@ -18,26 +18,26 @@
 </style>
 <div class='post'>
 {% for post in object.post.all reversed %}
-<div class='card mx-1 mb-2 p'>
-<div class='card-body ck-content'>
+<div class='card mx-1 mb-1'>
+<div class='card-body  ck-content'>
 
-{{post.content_pt|safe}} <br>
+{{post.content_pt|safe}}
 </div>
 <div class='card-footer d-flex justify-content-between'>
     <div>
-        {{post.created_pt}} 
+        <p style="font-size:14px;">{{post.created_pt}} </p>
     </div>
     <div>
-        {% trans "Post Mullifi" %}: <strong>{{post.author}}</strong>
+        <p style="font-size:14px;">{% trans "Post Muallifi" %}: <strong>{{post.author}}</strong></p>
     </div>
 </div>
 </div>
 {% endfor %}
-<hr/>
-<div class='card mx-1 mb-2'>
+
+<div class='card rounded bg-secondary mx-1 mb-2'>
     
-    <div class='card-body bg-secondary text-white d-flex justify-content-center'>
-        <h4>Post End.</h4>
+    <div class='card-body  m-0 py-1 rounded text-white d-flex align-items-center justify-content-center'>
+        <h5 class="m-0">Post End.</h5>
     </div>
 </div>
 </div>

@@ -27,15 +27,20 @@ class CustomLoginView(LoginView):
             return super().get(self, *args, **kwargs)
 
 def email_verify(request, slug):
-    token = get_object_or_404(Token, token = slug)
-    CustomUserModel.objects.filter(
-        id = token.user.id
-    ).update(
-        email_verification = True
-    )
-    messages.success(request,'Emailingiz Tastiqlandi')
-    token.delete()
-    return redirect('homepage')
+    
+    
+    try:
+        token = get_object_or_404(Token, token = slug)
+        CustomUserModel.objects.filter(id = token.user.id ).update(
+            email_verification = True
+        )
+        token.delete()
+        messages.success(request,'Emailingiz Tastiqlandi')
+    except:
+        messages.success(request,'Xatolik Yuz berdi Uzur Suraymiz')
+    
+    
+    return redirect('base')
 
 class ProfileView(DetailView):
     model = Profile
