@@ -40,16 +40,14 @@
 
                 <div class="input-group mb-3">
                   <input type="text" minlength="6" required name='add_admin'  class="form-control" placeholder="{% trans "Recipient's username" %}" aria-label="Recipient's username" aria-describedby="button-addon2">
-                  <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Add Admin</button>
+                  <button class="btn btn-outline-secondary" type="submit" id="button-addon2">{% trans "Add Admin" %}</button>
                 </div>
               </form>
             </div>
             <div>
               {% if object.admins.exists %}
-              <h5>Adminlar ro'yxati</h5>
               {% include './admins.html' %}
-              {% else %}
-              {% trans "Admin mavjud emas" %}
+              
               {% endif %}
             </div>
           </div>
@@ -60,14 +58,14 @@
      </div>
       <div class='delete'>
 
-
+        {% if object.owner.id == user.id %}
         <button class='btn btn-danger ' data-bs-toggle="modal" data-bs-target="#delete" data-bs-whatever="@mdo">Delete Channel <i class="fa-solid fa-trash"></i></button>
 
         <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{% trans "Delete Article" %} <i class="fa-solid fa-triangle-exclamation"></i></h5>
+                <h5 class="modal-title" id="exampleModalLabel">{% trans "Delete Channel" %} <i class="fa-solid fa-triangle-exclamation"></i></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -86,6 +84,32 @@
             </div>
           </div>
         </div>
+
+        {% else %}
+
+        <button class='btn btn-danger ' data-bs-toggle="modal" data-bs-target="#exit_admin" data-bs-whatever="@mdo">{% trans "Opting out of admin" %} <i class="fas fa-times-circle"></i></button>
+
+        <div class="modal fade" id="exit_admin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{% trans "Opting out of admin" %} <i class="fa-solid fa-triangle-exclamation"></i></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+               
+                  {% trans "Agar davom etsangiz, kanal Adminlar ruyxatidan chiqarilasiz va sizda bu kanalni boshqarish uchun hechqanday xuquq bo'lmaydi." %} 
+                
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+             
+                <a style="text-decoration: none;" class='btn btn-danger' href="{% url 'channel_remove_admin' user=user.profile.slug channel=object.slug%}">{% trans "Continue" %}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
 
         
       </div>

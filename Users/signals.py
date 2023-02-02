@@ -20,7 +20,8 @@ def profile_save_user(sender, instance, **kwargs):
     user.email = profile.email
     user.phone = profile.phone
     user.save()
-    
+
+
 @receiver(post_delete, sender=Profile) #delete this
 def profile_delete_user(sender, instance, **kwargs):
     user = instance.user

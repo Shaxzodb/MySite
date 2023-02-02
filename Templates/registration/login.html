@@ -1,6 +1,7 @@
 {% extends 'base.html' %} 
 {% load i18n %} 
 {% load static %}
+
 {% load crispy_forms_tags %} 
 
 {%block title %} 
@@ -35,7 +36,9 @@
               </div>
             </div>
             <dev class="card-footer">
-            
+              {% comment %} {% load socialaccount %}
+              
+              <a href="{% provider_login_url "facebook" method="oauth2" %}">Facebook OAuth2</a> {% endcomment %}
             </div>
           </div>
         </div>

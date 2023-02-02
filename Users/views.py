@@ -2,6 +2,7 @@ from django.contrib.auth.views import LoginView
 from django.views.generic import CreateView, DetailView, UpdateView
 from .forms import UserCreateForm, ProfileForm, UserLoginForm
 from .models import CustomUserModel, Profile, Token
+from django.urls import reverse
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -10,7 +11,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 class CreateUserView(CreateView):
     form_class = UserCreateForm
     template_name: str = 'registration/signup.html'
-
     def get(self,*args, **kwargs):
         if self.request.user.is_authenticated:
             return redirect('base')
@@ -25,10 +25,10 @@ class CustomLoginView(LoginView):
             return redirect('base')
         else:
             return super().get(self, *args, **kwargs)
+    def get_success_url(self) -> str:
+        return reverse('profile', kwargs={'slug': self.request.user.profile.slug})
 
 def email_verify(request, slug):
-    
-    
     try:
         token = get_object_or_404(Token, token = slug)
         CustomUserModel.objects.filter(id = token.user.id ).update(
@@ -38,8 +38,6 @@ def email_verify(request, slug):
         messages.success(request,'Emailingiz Tastiqlandi')
     except:
         messages.success(request,'Xatolik Yuz berdi Uzur Suraymiz')
-    
-    
     return redirect('base')
 
 class ProfileView(DetailView):

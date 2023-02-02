@@ -18,7 +18,7 @@ SECRET_KEY = os.getenv('SECRET_KEY','$SECRET#KEY$')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', False)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*','127.0.0.1:8000']
 
 # Application definition
 
@@ -28,6 +28,11 @@ INSTALLED_APPS = [
     # 'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.facebook',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -40,6 +45,7 @@ INSTALLED_APPS = [
 
     'django_db_logger',
     "phonenumber_field",
+    "debug_toolbar",
     # Axes app can be in any position in the INSTALLED_APPS list.
     'axes',
     'hitcount',
@@ -59,6 +65,38 @@ INSTALLED_APPS = [
 ]
 
 SITE_ID = 1
+# AUTHENTICATION_BACKENDS = (
+#     'django.contrib.auth.backends.ModelBackend',
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# )
+# SOCIALACCOUNT_LOGIN_ON_GET = True
+# ACCOUNT_EMAIL_REQUIRED = True
+
+# SOCIALACCOUNT_PROVIDERS = {
+#     'facebook': {
+#         'METHOD': 'oauth2',
+#         #'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
+#         'SCOPE': ['email', 'public_profile'],
+#         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+#         'INIT_PARAMS': {'cookie': True},
+#         'FIELDS': [
+#             'id',
+#             'email',
+#             'first_name',
+#             'last_name',
+#             'middle_name',
+#             'name',
+#             'name_format',
+#             'picture',
+#             'short_name'
+#         ],
+#         'EXCHANGE_TOKEN': True,
+#         #'LOCALE_FUNC': 'path.to.callable',
+#         'VERIFIED_EMAIL': True,
+#         'VERSION': 'v13.0',
+#         'GRAPH_API_URL': 'https://graph.facebook.com/v13.0',
+#     }
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -72,6 +110,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'middleware.email_verify.EmailVerification',
+    
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django_pagination_bootstrap.middleware.PaginationMiddleware",
     # AxesMiddleware should be the last middleware in the MIDDLEWARE list.
     # It only formats user lockout messages and renders Axes lockout responses
@@ -561,3 +601,9 @@ HITCOUNT_KEEP_HIT_IN_DATABASE = { 'days': 30 }
 PAGINATION_DEFAULT_PAGINATION=2
 PAGINATION_DEFAULT_ORPHANS=0
 PAGINATION_INVALID_PAGE_RAISES_404=True
+
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]

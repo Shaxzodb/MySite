@@ -1,11 +1,65 @@
 {% load i18n %}
-<div class="row mt-2 row-cols-1 row-cols-md-1 g-4">
-{% for admin in object.admins.all %}
-
-    <div class="col m-0">
+<div class="row mt-2 row-cols-1 row-cols-md-1 g-0">
+  <h5>{% trans "Channel owner" %}</h5>
+  <div class="col m-0">
     <div class="card border-0 p-0 rounded-0">
-      <div class="row g-0">
+      <div class="row d-flex align-items-center">
         <div class="col-2 d-flex justify-content-center align-items-center">
+        {% if object.owner.profile.user_pic %}
+
+        <img
+          src="{{object.owner.profile.user_pic.url}}"
+          
+          style="
+            border:1px solid blue;aspect-ratio: 3/2; object-fit: cover;
+            width: 45px;
+            color: #fff;
+            height: 45px;
+            color: fff !important;
+            border-radius: 100%;
+          "
+        />
+        {% else %}
+        <div style="width: 40px height: 40px" class="">
+          <center>
+            <h5
+              class="d-flex justify-content-center align-items-center text-uppercase"
+              style="
+                width: 45px;
+                color: #fff;
+                height: 45px;
+                background-color: blue;
+                color: fff !important;
+                border-radius: 100%;
+              "
+            >
+              {{object.owner.username|slice:"0:1"}}
+            </h5>
+          </center>
+        </div>
+        {% endif %}
+      </div>
+      <div class="col">
+        <div class="card-body ">
+          <p style='font-size:12px'  class="card-title d-flex justify-content-between">
+           
+            <a class="" href="{% url 'profile' object.owner.profile.slug %}">{{object.owner.username}}</a>
+      
+            
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<hr/>
+<h5>{% trans "List of admins" %}</h5>
+{% for admin in object.admins.all %}
+  
+    <div class="col m-0">
+      <div class="card border-0 p-0 rounded-0">
+        <div class="row d-flex align-items-center">
+          <div class="col-2 d-flex justify-content-center align-items-center">
           {% if admin.profile.user_pic %}
 
           <img
@@ -13,43 +67,41 @@
             
             style="
               border:1px solid blue;aspect-ratio: 3/2; object-fit: cover;
-              width: 80px;
+              width: 45px;
               color: #fff;
-              height: 80px;
-              margin: 5px;
-              padding: 5px;
+              height: 45px;
               color: fff !important;
               border-radius: 100%;
             "
           />
           {% else %}
-          <div style="width: 80px; margin: 5px; padding: 0; height: 80px">
+          <div style="width: 40px height: 40px" class="">
             <center>
-              <h3
+              <h5
                 class="d-flex justify-content-center align-items-center text-uppercase"
                 style="
-                  width: 80px;
+                  width: 45px;
                   color: #fff;
-                  height: 80px;
+                  height: 45px;
                   background-color: blue;
-                  margin: 0;
-                  padding: 0;
                   color: fff !important;
-                  border-radius: 50%;
+                  border-radius: 100%;
                 "
               >
                 {{admin.username|slice:"0:1"}}
-              </h3>
+              </h5>
             </center>
           </div>
           {% endif %}
         </div>
-        <div class="col-8">
-          <div class="card-body ">
-            <h6 class="card-title">
-              <a href="{% url 'profile' admin.profile.slug%}">{{admin.username}}</a>
+        <div class="col">
+          <div class="card-body">
+            <p style='font-size:12px' class="card-title d-flex justify-content-between">
+              <a class="" href="{% url 'profile' admin.profile.slug%}">{{admin.username}}</a>
+              {% if user.id == object.owner.id %}
               <a style="text-decoration: none;" class='text-danger' href="{% url 'channel_remove_admin' user=admin.profile.slug channel=object.slug%}">{% trans "Remove" %} <i class="fa-sharp fa-solid fa-xmark"></i></a>
-            </h6>
+              {% endif %}
+            </p>
           </div>
         </div>
       </div>

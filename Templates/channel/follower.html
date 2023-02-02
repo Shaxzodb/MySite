@@ -1,58 +1,62 @@
-
+{% load i18n %}
 <div class="row row-cols-1 row-cols-md-1 g-1">
-  {% for object in object.subscribers.all|slice:":50" %}
-
+  {% for follower in object.subscribers.all|slice:":50" %}
+  {% if follower.id != user.id %}
   <div class="col">
     <div class="card border-0 p-0 rounded-0">
       <div class="row d-flex align-items-center">
-        <div class="col-2">
-          {% if object.profile.user_pic %}
+        <div class="col-2 d-flex justify-content-center align-items-center">
+          {% if follower.profile.user_pic %}
           <div class="mb-1">
           <img
-            src="{{object.profile.user_pic.url}}"
+            src="{{follower.profile.user_pic.url}}"
             
             style="
               border:1px solid blue; object-fit: cover;
-              width: 50px;
+              width: 45px;
               color: #fff;
-              height: 50px;
+              height: 45px;
               color: fff !important;
               border-radius: 100%;
             "
           />
           </div>
           {% else %}
-          <div style="width: 50px height: 50px" class="">
+          <div style="width: 40px height: 40px" class="">
             <center>
               <h5
                 class="d-flex justify-content-center align-items-center text-uppercase"
                 style="
-                  width: 50px;
+                  width: 45px;
                   color: #fff;
-                  height: 50px;
+                  height: 45px;
                   background-color: blue;
                   color: fff !important;
                   border-radius: 100%;
                 "
               >
-                {{object.username|slice:"0:1"}}
+                {{follower.username|slice:"0:1"}}
               </h5>
             </center>
           </div>
           {% endif %}
         </div>
-        <div class="col-8">
+        <div class="col p-0">
           <div class="card-body p-0">
-            <h6 class="card-title">
-              <a href="{% url 'profile' object.profile.slug%}">{{object.username}}</a>
-            </h6>
+            <p style='font-size:12px' class="card-title d-flex justify-content-between">
+              <a href="{% url 'profile' follower.profile.slug%}">{{follower.username}}</a>
+              {% if object.owner == user or admin %}
+                <a style="text-decoration: none;font-size:14px;" class='me-2 text-danger' href="{% url 'channel_remove_follower' user=follower.profile.slug channel=object.slug%}">{% trans "Remove" %} <i class="fa-sharp fa-solid fa-xmark"></i></a>
+              {% endif %}
+            </p>
           </div>
         </div>
       </div>
     </div>
   </div>
+  {% endif %}
   {% endfor %}
-  {% with qiymat=object.subscribers.all.count %}
+  {% with qiymat=follower.subscribers.all.count %}
   {% if qiymat|add:"-50" > 0 %}
     And {{qiymat|add:"-50"}} others
   {% endif %}

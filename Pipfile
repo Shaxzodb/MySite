@@ -29,6 +29,7 @@ django-ckeditor = "*"
 django-jazzmin = "*"
 django-debug-toolbar = "*"
 django-pagination-bootstrap = "*"
+django-allauth = "*"
 
 [dev-packages]
 

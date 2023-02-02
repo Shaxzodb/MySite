@@ -48,7 +48,7 @@
             {% endif %}
             </div>
           <div>
-              <center><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-bs-whatever="@mdo"><i class="fa-solid fa-users"></i> {{object.subscribers.all.count}}</button></center>
+              <center><button type="button" class="btn mt-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-bs-whatever="@mdo"><i class="fa-solid fa-users"></i> {{object.subscribers.all.count}}</button></center>
               <center><p style="font-size:12px">{{object.description}}</p></center>
               <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -150,11 +150,7 @@
           </div>
           <hr class="border border-success" />
           <div class="card-text-div ck-content">{{object.content_at|safe}}</div>
-          <time>
-            <p class="card-text">
-              <small class="text-muted"> {{object.created}} </small>
-            </p>
-          </time>
+          
         </div>
         {% include './post.html' %}
       </div>

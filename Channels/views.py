@@ -4,15 +4,14 @@ from django.views.generic import ListView, \
 from .models import Channel, Post
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.db.models import Count
 from .forms import ChannelCreateForm, PostCreateForm
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from Users.models import CustomUserModel, Profile
+from django.utils.html import format_html
 # Create your views here.
-
-
 class ChannelView(ListView):
     model = Channel
     template_name = 'channel/channel_page.html'
@@ -47,7 +46,10 @@ class ChannelDetailView(DetailView):
 
     def post(self, *args, **kwargs):
         if self.request.user.is_authenticated:
-            channel = Channel.objects.get(slug=self.kwargs['slug'])
+            channel = get_object_or_404(
+                Channel,
+                slug=self.kwargs['slug']
+            )
             if channel.admins.filter(id = self.request.user.id).exists() or channel.owner.id == self.request.user.id:
                 form = PostCreateForm(
                     self.request.POST
@@ -96,6 +98,7 @@ class ChannelSittings(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             Channel,
             slug=self.kwargs['slug']
         )
+        admin = stuff.admins.filter(id = self.request.user.id).exists()
         users = [users[0] for users in CustomUserModel.objects.all().values_list(
             'username') if stuff.owner.username != users[0]]
         context['users'] = users
@@ -115,6 +118,28 @@ def channel_delete(request, slug):
         if request.user.id == channel.owner.id:
             channel.delete()
     return redirect('profile', request.user.profile.slug)
+
+@login_required()
+def post_delete(request, pk):
+    if request.method == 'POST':
+        post = get_object_or_404(Post, id=pk)
+        if request.user.id == post.author.id or post.channel.owner.id == request.user.id:
+            post.delete()
+    return redirect('channel', post.channel.slug)
+
+class Edit_PostView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
+    template_name = 'channel/post_edit.html'
+    model = Post
+    fields =['content_pt']
+    
+    def test_func(self):
+        return self.get_object().author == self.request.user
+    
+    def get_success_url(self):
+        post = Post.objects.get(id=self.kwargs['pk'])
+        print(post.channel.slug)
+        return reverse('channel', args=[str(post.channel.slug)])
+
 
 
 @login_required()
@@ -147,12 +172,29 @@ def channel_add_admin(request, slug):
 def channel_remove_admin(request, user, channel):
 
     get_channel = get_object_or_404(Channel, slug=channel)
-    
-    if get_channel.owner.id == request.user.id and not get_channel.admins.filter(id=request.user.id).exists():
-        get_user = Profile.objects.filter(slug=user)
+    get_user = Profile.objects.filter(slug=user)
+   
+    if get_channel.owner.id == request.user.id and get_channel.admins.filter(id=get_user[0].user.id).exists():
         if get_user.exists() and not get_user[0] == get_channel.owner:
             get_channel.admins.remove(get_user[0].user)
             messages.info(request, f'{get_user[0].user.username} olib tashlandi')
         else:
             messages.info(request, 'Bunday admin mavjud emas')
-    return redirect('channel_sittings', channel)
+        return redirect('channel_sittings', channel)
+    if get_channel.admins.filter(id = request.user.id).exists():
+        get_channel.admins.remove(get_user[0].user)
+        messages.info(request, format_html(f'{get_user[0].user.username} Siz <strong>{get_channel.name}</strong> kanali adminligidan chiqdingiz.'))
+       
+    return redirect('profile', get_user[0].user.profile.slug)
+    
+@login_required()
+def channel_remove_follower(request, user, channel):
+    get_channel = get_object_or_404(Channel, slug=channel)
+    get_user = Profile.objects.filter(slug=user)
+    if get_channel.admins.filter(id = request.user.id).exists() or get_channel.owner.id == request.user.id:
+        if get_user.exists() and not get_user == get_channel.owner:
+            get_channel.subscribers.remove(get_user[0].user)
+            messages.info(request, f'{get_user[0].user.username} olib tashlandi')
+        else:
+            messages.info(request, 'Bunday foydalanuvchi mavjud emas')
+    return redirect('channel', channel)

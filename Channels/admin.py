@@ -35,8 +35,8 @@ class ChannelAdmin(admin.ModelAdmin):
                     'owner',
                     'image_ch',
                     'description',
-                    'created_ch',
-                    'updated_ch',
+                    # 'created_ch',
+                    # 'updated_ch',
                 ),
             }
         ),
@@ -56,4 +56,4 @@ class ChannelAdmin(admin.ModelAdmin):
         ),
     )
     list_display = [Avatar,'slug', 'name', 'owner', 'total_subscribers']
-    readonly_fields = ['created_ch','updated_ch',"subscribers",]
+    #readonly_fields = ['created_ch','updated_ch',"subscribers",]

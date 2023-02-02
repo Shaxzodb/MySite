@@ -31,11 +31,6 @@ class ArticleComment(models.Model):
         default = True
     )
     
-    likes = models.ManyToManyField(
-        get_user_model(),
-        related_name = 'comment_likes',
-        blank = True
-    )
     
     def __str__(self):
         return str(self.article_cm.title_at[:30] + '...') \

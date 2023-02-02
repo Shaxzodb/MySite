@@ -55,6 +55,7 @@ sitemaps = {
 
 urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
+    
     path('i18n/', include('django.conf.urls.i18n')),
     path('robots.txt',robots),
     path('sitemap.xml',
@@ -68,7 +69,8 @@ urlpatterns = [
     path('hitcount/', include(('hitcount.urls', 'hitcount'), namespace='hitcount')),
     path("ckeditor5/", include('django_ckeditor_5.urls')),
 ] + i18n_patterns(
-    path('auth/admin/', admin.site.urls),
+    #path('accounts/', include('allauth.urls')),
+    path('admin/', admin.site.urls),
     # path('special/admin/', admin_site.urls),
     path('',include('App.urls')),
     # path('',include('APIs.urls')),
