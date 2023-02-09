@@ -22,7 +22,7 @@
           />
           </div>
           {% else %}
-          <div style="width: 40px height: 40px" class="">
+          <div style="width: 45px height: 45px" class="">
             <center>
               <h5
                 class="d-flex justify-content-center align-items-center text-uppercase"
@@ -46,7 +46,7 @@
             <p style='font-size:12px' class="card-title d-flex justify-content-between">
               <a href="{% url 'profile' follower.profile.slug%}">{{follower.username}}</a>
               {% if object.owner == user or admin %}
-                <a style="text-decoration: none;font-size:14px;" class='me-2 text-danger' href="{% url 'channel_remove_follower' user=follower.profile.slug channel=object.slug%}">{% trans "Remove" %} <i class="fa-sharp fa-solid fa-xmark"></i></a>
+                <a style="text-decoration: none;font-size:12px;" class='me-2 text-danger' href="{% url 'channel_remove_follower' user=follower.profile.slug channel=object.slug%}">{% trans "Remove" %} <i class="fa-sharp fa-solid fa-xmark"></i></a>
               {% endif %}
             </p>
           </div>

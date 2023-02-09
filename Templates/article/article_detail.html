@@ -38,11 +38,16 @@ li{
   <div class="row">
     <div class="col-lg-3">
         <div class="card p-2 rounded-0 border-end border-0 border-secondary">
-  
-          <div>
-              <center><i class="fa-solid fa-eye"></i> {{hitcount.total_hits}}</center>
+          <div class='my-2'>
+            <center class='text-muted'><time>{{object.created_at|date:"d/m/y H:i"}}</time> <i class="fa-solid fa-calendar"></i></center>
           </div>
+          <hr/>
           
+         
+          <div>
+            <center class='text-muted'> {{hitcount.total_hits}} <i class="fa-solid fa-eye"></i></center>
+          </div>
+        
           <hr/>
           <div class='d-flex justify-content-center'>
               <form action={% url 'likes' object.slug%} method="post">
@@ -68,10 +73,7 @@ li{
               </form>
           </div>
           <hr/>
-          <div class='my-2'>
-              <center><time>{{object.created_at}}</time></center>
-          </div>
-          <hr/>
+          
           {% if user.is_authenticated and user.id == object.author.id%}
           <div class='justify-content-end'>
             <center><a href="{% url 'article_edit' object.slug%}"><button class='btn'>{% trans "Edit Article" %} <i class="fa-solid fa-pen-to-square"></i></button></a></center>

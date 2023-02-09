@@ -7,6 +7,7 @@ from django.urls import reverse
 from autoslug import AutoSlugField
 
 # Create your models here.
+DATE_FORMATS = ['%d-%m-%Y']
 class ArticleModel(models.Model, HitCountMixin):
     author = models.ForeignKey(
         get_user_model(),
@@ -30,7 +31,7 @@ class ArticleModel(models.Model, HitCountMixin):
         auto_now_add = True
     )
     updated_at = models.DateTimeField(
-        auto_now = True
+        auto_now = True,
     )
     slug = AutoSlugField(
         populate_from='title_at',

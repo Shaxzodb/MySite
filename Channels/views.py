@@ -185,7 +185,7 @@ def channel_remove_admin(request, user, channel):
         get_channel.admins.remove(get_user[0].user)
         messages.info(request, format_html(f'{get_user[0].user.username} Siz <strong>{get_channel.name}</strong> kanali adminligidan chiqdingiz.'))
        
-    return redirect('profile', get_user[0].user.profile.slug)
+    return redirect('channel', get_channel.slug)
     
 @login_required()
 def channel_remove_follower(request, user, channel):

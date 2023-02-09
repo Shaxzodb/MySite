@@ -94,17 +94,6 @@
 </div>
 <!-- Navbar End -->
 
-<!-- Email check -->
-{% if user.is_authenticated and not email_verification %}
-      {% cache 600 language_email5 LANGUAGE_CODE %}
-        <div class="container" role="alert">
-          <div class="alert m-0 alert-warning" style="font-family: 'Sofia', sans-serif;" role="alert">
-            {% trans "Iltimos, elektron pochta manzilingizni tasdiqlang" %}
-          </div>
-        </div>
-      {% endcache %}
-{% endif %}
-<!-- End Email -->
 
 <!-- Start Messages -->
 <div class='messages'>
