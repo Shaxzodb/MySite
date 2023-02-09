@@ -3,11 +3,13 @@
 <script src="{% static './js/bootstrap.js'%}"></script>
 <script src="{% static './js/jquery.js'%}"></script>
 <script src="{% static './js/jquery-ui.js'%}"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script>
-  let input = document.querySelector('#id_title_at__icontains')
-  input.classList.add('rounded-end-0')
   $( function() {
-    $( "#id_birth_date" ).datepicker({
+    $("#id_birth_date").datepicker({
       changeMonth: true,
       changeYear: true,
       yearRange: `1950:${new Date("YYYY")}`

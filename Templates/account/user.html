@@ -24,9 +24,9 @@
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <center>
-                <h5 class="card-title">{{object.user.username}}</h5>
-              </center>
+              
+              <h5 class="card-title">@{{object.user.username}}</h5>
+              <hr class="p-0 my-1 m-0">
               <p class="card-text">Email: {{object.email}}</p>
               {% if object.last_name %}
               <p class="card-text">{% trans "Last Name" %}: {{object.last_name}}</p>
@@ -39,7 +39,7 @@
               {% endif %} {% if object.location %}
               <p class="card-text">{% trans "Location" %}: {{object.location}}</p>
               {% endif %} {% if object.website %}
-              <p class="card-text">Website: {{object.website}}</p>
+              <p class="card-text">Website: <a href="{{object.website}}">{{object.website}}</a></p>
               {% endif %}
               {% if user.is_authenticated and user.id == object.user.id%}
               <a href="{% url 'profile_edit' object.slug %}">{% trans "Profilni tahrirlash" %}</a>

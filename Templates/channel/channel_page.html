@@ -9,7 +9,7 @@
   </div>
   <div class="row">
     <div class="col-lg-4">
-      <div class="card border-dark mb-3">
+      <div class="card rounded-0 border-dark mb-3">
         <div class="card-header">Header</div>
         <div class="card-body text-dark">
           <h5 class="card-title">Dark card title</h5>
@@ -71,20 +71,20 @@
                 <div class="card-body w-100 ">
                   <table  style="width: 100%">
                     <tr class="d-flex justify-content-between align-items-center">
-                      <th>Name</th>
-                      <th>Follower</th>
+                      <th class='w-50'>Name</th>
+                      <th class='w-50'><center>Follower</center></th>
                     </tr>
                     <tr class="d-flex justify-content-between align-items-center">
-                      <td>
+                      <td class='w-50'>
                         <h6 class="card-title">
                           <a style="text-decoration: none;" href="{% url 'channel' object.slug%}">{{object}}</a>
                         </h6>
                       </td>
-                      <td>
-                        <h6>
+                      <td class='w-50'>
+                        <center><h6>
                           <strong>{{object.total_subscribers}}</strong>
                           <i class="fa-solid fa-users"></i>
-                        </h6>
+                        </h6></center>
                       </td>
                     </tr>
                   </table>

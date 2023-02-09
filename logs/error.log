@@ -178,3 +178,5 @@
 "POST /en/post_edit/24/ HTTP/1.1" 500 162849
 "POST /en/post_edit/24/ HTTP/1.1" 500 135003
 "POST /en/post_edit/24/ HTTP/1.1" 500 150931
+"GET /en/articles/ HTTP/1.1" 500 268481
+"GET /en/articles/ HTTP/1.1" 500 268501

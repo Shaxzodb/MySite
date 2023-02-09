@@ -1,5 +1,15 @@
 {% load i18n %}
 {% load cache %}
+<noscript>
+    <div class='messages'>
+       
+          <hr class='p-0 m-0'>
+          <div class="border-0 rounded-0 m-0 alert alert-warning" role="alert">
+              <div class="container" style="font-family: 'Sofia', sans-serif;" role="alert">Sizda script kodlari ishlamaydi script kodlar ishlashiga ruxsat bering.</div>
+          </div>
+      
+      </div>
+</noscript>
 <div class="container-fluid py-2 border-bottom d-none d-lg-block">
   <div class="container">
       <div class="row">
@@ -94,12 +104,24 @@
 </div>
 <!-- Navbar End -->
 
-
+  <!-- Email check -->
+  {% if user.is_authenticated and not email_verification %}
+  {% cache 600 language_email LANGUAGE_CODE %}
+    <div class="alert border-0 rounded-0 m-0 alert-info" role="alert">
+      <div class="container" style="font-family: 'Sofia', sans-serif;">
+        {% trans "Iltimos, elektron pochta manzilingizni tasdiqlang" %}
+      </div>
+    </div>
+  {% endcache %}
+  {% endif %}
+  <!-- End Email -->
 <!-- Start Messages -->
+
 <div class='messages'>
   {% for msg in messages %}
-    <div class='mt-2 container'>
-      <div class="alert alert-primary ">{{ msg }}</div>
+    <hr class='p-0 m-0'>
+    <div class="border-0 rounded-0 m-0 alert alert-info" role="alert">
+        <div class="container" style="font-family: 'Sofia', sans-serif;" role="alert">{{ msg }}</div>
     </div>
   {% endfor %}
 </div>
