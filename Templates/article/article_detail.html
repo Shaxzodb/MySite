@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load static %} {% block content %}
 <style>
+ 
     figure,.ck-content img {
     
     width: 100% ;
@@ -32,95 +33,102 @@ li{
 .form-control{
   width: 100%;
 }
+p{
+  font-size:25px;
+}
 </style>
-
-<div class="container mt-3">
+<div class="bg-light py-lg-3 pb-3 pt-md-2 pt-1">
+<div class="container">
   <div class="row">
-    <div class="col-lg-3">
-        <div class="card p-2 rounded-0 border-end border-0 border-secondary">
-          <div class='my-2'>
-            <center class='text-muted'><time>{{object.created_at|date:"d/m/y H:i"}}</time> <i class="fa-solid fa-calendar"></i></center>
-          </div>
-          <hr/>
-          
-         
-          <div>
+    <div class="col-lg-3 p-0 pe-lg-1 mt-1 mt-lg-0">
+        <div style="position:sticky;top:150px;" class="card p-2 border-0 rounded-0 border-end  border-bottom border-secondary">
+          <div style="border-style: dashed!important;" class='p-2 border-0 border-bottom'>
             <center class='text-muted'> {{hitcount.total_hits}} <i class="fa-solid fa-eye"></i></center>
           </div>
         
-          <hr/>
-          <div class='d-flex justify-content-center'>
-              <form action={% url 'likes' object.slug%} method="post">
-                  {% csrf_token %}
-                  {% if confirmed_likes %}
-                  
-                  <button class='btn' style='color:blue;' ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>{{likes}}
-                  
-                  {% else %}
-                  <button class='btn'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>{{likes}}
-                  {% endif %}
-                  </form>
-                  <form action={% url 'dislikes' object.slug%} method="post">
-                  {% csrf_token %}
-                  {% if confirmed_dislikes %}
-                  <button class='btn' style='color:red;'><svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path style='background-color:yellow;' d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>{{dislikes}}
-                  
-                  {% else %}
-                  
-                  {% csrf_token %}
-                  <button class='btn'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>{{dislikes}}
-                  {% endif %}
-              </form>
-          </div>
-          <hr/>
+          
+          <div style="border-style: dashed!important;" class='p-2 border-0 border-bottom d-flex justify-content-center'>
+            <form action={% url 'likes' object.slug%} method="post">
+                {% csrf_token %}
+                {% if confirmed_likes %}
+                
+                <button class='btn' style='color:blue;' ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>{{likes}}
+                
+                {% else %}
+                <button class='btn'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></button>{{likes}}
+                {% endif %}
+                </form>
+                <form action={% url 'dislikes' object.slug%} method="post">
+                {% csrf_token %}
+                {% if confirmed_dislikes %}
+                <button class='btn' style='color:red;'><svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path style='background-color:yellow;' d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>{{dislikes}}
+                
+                {% else %}
+                
+                {% csrf_token %}
+                <button class='btn'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg></button>{{dislikes}}
+                {% endif %}
+            </form>
+        </div>
+        
+        
           
           {% if user.is_authenticated and user.id == object.author.id%}
-          <div class='justify-content-end'>
+ 
+          <div style="border-style: dashed!important;" class='border-0 p-2 border-bottom justify-content-end'>
             <center><a href="{% url 'article_edit' object.slug%}"><button class='btn'>{% trans "Edit Article" %} <i class="fa-solid fa-pen-to-square"></i></button></a></center>
             <center><button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">{% trans "Article Delete" %} <i class="fa-solid fa-trash"></i></button></center>
             
 
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="exampleModalLabel">{% trans "Ogohlantirish " %}<i class="fa-sharp fa-solid fa-triangle-exclamation"></i></h1>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action={% url 'article_delete' object.slug%} method="post">
-                    <div class="modal-body">
-                   
-                        <div class="mb-3">
-                            
-                            {% csrf_token %}
-                                <p>{% trans "Agar bu maqolani o'chirish neyatingiz qatiy bo'lsa o'chirish tugmasini bosib davom eting ammo keyin bu maqolani qaytib tiklab bo'lmaydi." %}</p>
-                            
-                        </div>
-                     
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
-                      <button class='btn btn-danger' >{% trans "Delete Article" %}</button>
-                    </div>
-                </form>
-                  </div>
-                </div>
-              </div>
+            
             
           </div>
-          <hr/>
+          
           {% endif %}
+          <div  class='p-2' >
+            <center class='text-muted'><time>{{object.created_at|date:"d/m/y H:i"}}</time> <i class="fa-solid fa-calendar"></i></center>
+            {% if object.changed %}
+            <center class='text-muted'><time>{{object.updated_at|date:"d/m/y H:i"}}</time> <i class="fa-sharp fa-solid fa-clock-rotate-left"></i></center>
+            {% endif %}
+          </div>
+          
           
         </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">{% trans "Ogohlantirish " %}<i class="fa-sharp fa-solid fa-triangle-exclamation"></i></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action={% url 'article_delete' object.slug%} method="post">
+              <div class="modal-body">
+             
+                  <div class="mb-3">
+                      
+                      {% csrf_token %}
+                          <p>{% trans "Agar bu maqolani o'chirish neyatingiz qatiy bo'lsa o'chirish tugmasini bosib davom eting ammo keyin bu maqolani qaytib tiklab bo'lmaydi." %}</p>
+                      
+                  </div>
+               
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
+                <button class='btn btn-danger' >{% trans "Delete Article" %}</button>
+              </div>
+          </form>
+            </div>
+          </div>
+        </div>
       </div>
-    <div class="col-lg-9">
-      <div
-        class="card border-bottom mt-1 rounded-0 border-end border-0 border-secondary"
+    <div class="col-lg-9 ps-lg-1 px-0 mt-1 mt-lg-0">
+      <div 
+        class="card border-bottom  rounded-0 border-end border-0 border-secondary"
       >
         <div class="card-body">
           <article>
-          <h5 class="card-title">{{object.title_at}}</h5>
-          <hr class="border border-success" />
+          <h1  style="border-style: dashed!important;" class="py-2 border-0 border-bottom fw-bold card-title">{{object.title_at}}</h1>
+
           <div class="card-text-div ck-content">{{object.content_at|safe}}</div>
           
         </div>
@@ -132,7 +140,7 @@ li{
         />
         {% else %}
         <img
-          src="{% static 'img/woocommerce-placeholder-300x300.png' %}"
+          src="{% static 'img/image-unavailable.png' %}"
           class="p-3 card-img-bottom"
           alt="..."
         />
@@ -182,7 +190,7 @@ li{
                                     <div class="media-body">
                                         <strong class="text-success"><a href="{% url 'profile' comment.author.profile.slug%}">@{{comment.author}}</a></strong>
                                         <span class="text-muted pull-right">
-                                            <small class="text-muted">{{comment.created_cm}}</small>
+                                            <small class="text-muted">{{comment.created_cm|timesince}}</small>
                                         </span>
                                         
                                         <p>
@@ -203,5 +211,6 @@ li{
         </div>
     </div>
   </div>
+</div>
 </div>
 {% endblock %}

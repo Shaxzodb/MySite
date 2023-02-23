@@ -1,10 +1,25 @@
 {% extends 'base.html' %} {% load hitcount_tags %} {% load crispy_forms_tags %}
 {% load static %} {% load i18n %}{% block content %}
-
-<div class="container mt-3">
+<style>
+  {% comment %} .bg-light{background-image: url({%static './img/images1.jfif'%});
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+  .menyu{background-image: url({%static './img/images1.jfif'%});
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+} {% endcomment %}
+</style>
+<div class="bg-light py-lg-3 pb-3 pt-md-2 pt-1">
+<div class="container">
   <div class="row">
-    <div class="col-lg-3">
-        <div class="card p-2 rounded-0 border-end border-0 border-secondary">
+    <div class="col-lg-3 mt-1 mt-lg-0 p-0 pe-lg-1">
+      <div style="position:sticky;top:150px;" class="card p-2 menyu border-0 rounded-0 border-end  border-bottom border-secondary">
+          
           <div class='d-flex justify-content-center'>
             {% if object.image_ch %}
 
@@ -49,104 +64,111 @@
             </div>
           <div>
               <center><button type="button" class="btn mt-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-bs-whatever="@mdo"><i class="fa-solid fa-users"></i> {{object.subscribers.all.count}}</button></center>
-              <center><p style="font-size:12px">{{object.description}}</p></center>
-              <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="staticBackdropLabel">{% trans "Followers" %}</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      {% if object.subscribers.exists %}
-                      {% include './follower.html' %}
-                      {% else %}
-                      <p>{% trans "Obunachilar mavjud emas." %}
-                      {% endif %}
-                    </div>
-                    <div class="modal-footer">
-                      
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                  </div>
+              <center>
+                <div style="border-style: dashed!important;" class='p-2 border-0 border-bottom'>
+                <p style="font-size:12px">{{object.description}}</p>
                 </div>
-              </div>
-          
+              </center>
+              
            </div>
            
          
-          {% if user.id != object.owner.id %}
-          <hr/>
-          
-          <div class='d-flex justify-content-center'>
+           {% if user.id != object.owner.id %}
+           <div class='p-3 d-flex justify-content-center'>
+              
+            
+             <form action={% url 'subscribers' object.slug%} method="post" >
+                 {% csrf_token %}
+                 {% if subscribers %}
+                 
+                 <button class="btn btn-danger">{% trans "Obunani bekor qilish" %} <i class="fa-solid fa-user-minus"></i></button>
              
-           
-            <form action={% url 'subscribers' object.slug%} method="post">
-                {% csrf_token %}
-                {% if subscribers %}
-                
-                <button class="btn btn-danger">{% trans "Obunani bekor qilish" %} <i class="fa-solid fa-user-minus"></i></button>
-            
-                {% else %}
-                <button class="btn btn-dark">{% trans "Obuna" %} <i class="fa-solid fa-user-plus"></i></button>
-                {% endif %}
-            </form>
-            
-            
-          </div>
+                 {% else %}
+                 <button class="btn btn-dark">{% trans "Obuna" %} <i class="fa-solid fa-user-plus"></i></button>
+                 {% endif %}
+             </form>
+             
+             
+           </div>
+          
+           {% endif %}
+          
+          
+          
          
-          {% endif %}
-          <hr/>
          
           {% if user.is_authenticated and user.id == object.owner.id or admin%}
-          <div class=''>
+          <div style="border-style: dashed!important;" class='p-2 border-0  border-top '>
             <center><a class='btn' href="{% url 'channel_sittings' object.slug%}"><i class="fa-solid fa-gear"></i> {% trans "Settings Channel" %}</a></center>
             <center><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
               {% trans "New Post" as new_post %}
               <i class="fa-sharp fa-solid fa-plus"></i> {{new_post}}
             </button>
           </center>
-     
-    
-      <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">{{new_post}}</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form method="post" class='' novalidate>
-            <div class="modal-body">                 
- 
-              {% csrf_token %}
-              {% crispy form %}
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
-              <button type="submit" class="btn btn-primary">{{new_post}}</button>
-            <div class="modal-footer">
-              
-            </div>
-            </form>
-     
           </div>
-        </div>
-    </div>
-</div>
-    
-          </div>
-          <hr/>
+         
           {% endif %}
           
         </div>
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{% trans "Followers" %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                {% if object.subscribers.exists %}
+                {% include './follower.html' %}
+                {% else %}
+                <p>{% trans "Obunachilar mavjud emas." %}
+                {% endif %}
+              </div>
+              <div class="modal-footer">
+                
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+         <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">{{new_post}}</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form  action={% url 'post' object.slug%} method="post" novalidate>
+            {% csrf_token %}
+            <div class="modal-body">                       
+            <div class="form-group">
+              {{form.media}}
+              
+              {{form.content |as_crispy_field}}
+            </div>
+           
+            
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
+            <button type="submit" class="btn btn-primary">{{new_post}}</button>
+          
+            </div>
+          </form>
+     
+        
+        </div>
       </div>
-    <div class="col-lg-9">
+    </div>
+      </div>
+    <div class="col-lg-9 mt-1 mt-lg-0 ps-lg-1 px-0">
       <div
-        class="card border-bottom mt-1 rounded-0 border-end border-0 border-secondary"
+        class="card border-bottom rounded-0 border-end border-0 border-secondary"
       >
         <div class="card-body bg-primary text-white m-0 py-1 d-flex align-items-center justify-content-center">
           
           <div class=''>
-            <h5 class="card-title m-0">{{object.name}}</h5>
+            <h5 class="card-title m-0"><b>{{object.name}}</b></h5>
           </div>
           <hr class="border border-success" />
           
@@ -159,4 +181,6 @@
     
   </div>
 </div>
+</div>
+
 {% endblock %}

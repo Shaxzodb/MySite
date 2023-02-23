@@ -1,10 +1,13 @@
 from django.urls import path
 from .views import ChannelView, ChannelDetailView, Edit_PostView,\
     ChannelSittings, subscribers, channel_create, channel_delete,\
-    channel_add_admin, channel_remove_admin, channel_remove_follower, post_delete
+    channel_add_admin, channel_remove_admin, channel_remove_follower, post_delete,\
+    ChannelListApi, save_post
 urlpatterns = [
+    path('api/channel_list/',ChannelListApi.as_view()),
     path('channels/', ChannelView.as_view(), name = 'channels'),
     path('post_edit/<int:pk>/', Edit_PostView.as_view(), name = 'post_edit'),
+    path('post/<slug:slug>/', save_post, name = 'post'),
     path('channel/<slug:slug>', ChannelDetailView.as_view(), name = 'channel'),
     path('channel-sittings/<slug:slug>/', ChannelSittings.as_view(), name = 'channel_sittings'),
     path('subscribers/<slug:slug>', subscribers, name = 'subscribers'),

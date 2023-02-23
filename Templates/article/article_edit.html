@@ -1,13 +1,27 @@
 {% extends 'base.html' %} 
 {% load crispy_forms_tags %}
 {% block title %} Edit Article {% endblock title %}
-{% block content %} 
-<div class='container mt-3'>
+{% block content %}
+<style>
+  label{
+    display:none;
+  }
+  input::placeholder {
+    font: 36px sans-serif;
+    font-weight: bold;
+}
+input[type="text"]
+{
+    font-size:36px;
+    font-weight: bold;
+}
+</style>
+<div class='container py-3'>
   <form method="post" class="" enctype="multipart/form-data" novalidate>
-    <div class="card">
+    <div class="card border-0">
       <div class="card-body">
         <p class="card-text">
-          With supporting text below as a natural lead-in to additional content.
+          
         </p>
         {% csrf_token %} {% crispy form %}
         <button type="submit" class="btn btn-primary">Save</button>

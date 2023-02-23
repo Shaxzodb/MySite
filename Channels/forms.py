@@ -12,6 +12,8 @@ class ChannelEditFrom(forms.ModelForm):
         fields = ['name','image_ch','description','slug']
         
 class PostCreateForm(forms.ModelForm):
+    
     class Meta:
         model = Post
-        fields = ['content_pt']
+        fields = ['content']
+        

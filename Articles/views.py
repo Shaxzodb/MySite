@@ -22,7 +22,7 @@ class article_list(ListView):
     def get_queryset(self):
         return ArticleFilter(
                 self.request.GET, 
-                queryset=super().get_queryset().all().annotate(max_likes=Max('likes'),
+                queryset=super().get_queryset().all().select_related('author').annotate(max_likes=Max('likes'),
                 min_dislikes=Min('dislikes')).order_by('hit_count_generic','-max_likes','min_dislikes','-created_at')
             ).qs
     
@@ -30,7 +30,7 @@ class article_list(ListView):
         context = super().get_context_data(**kwargs)
         context['filter'] = ArticleFilter(
                 self.request.GET, 
-                queryset=super().get_queryset().all().annotate(max_likes=Max('likes'),
+                queryset=super().get_queryset().all().select_related('author').annotate(max_likes=Max('likes'),
                 min_dislikes=Min('dislikes')).order_by('hit_count_generic','-max_likes','min_dislikes','-created_at')
             )
         return context
@@ -41,6 +41,9 @@ class ArticleDetailView(HitCountDetailView):
     model = ArticleModel
     template_name: str = 'article/article_detail.html'
     count_hit = True
+    
+    def get_queryset(self):
+        return super().get_queryset().select_related('author')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -95,10 +98,17 @@ class ArticleCreate(LoginRequiredMixin,CreateView):
     
 class ArticleEdit(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = ArticleModel
-    fields = ['title_at','image_at','content_at']
+    form_class = ArticleForm
+    #fields = ['title_at','image_at','content_at']
     template_name = 'article/article_edit.html'
     # form_class = ArticleForm
-    
+    def post(self, *args, **kwargs):
+        
+        
+        article = ArticleModel.objects.filter(slug=kwargs['slug'])
+        if not article[0].changed:
+            article.update(changed=True)
+        return super().post(self)
     def test_func(self):
         return self.get_object().author == self.request.user
     

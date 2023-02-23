@@ -39,10 +39,10 @@
               {% endif %} {% if object.location %}
               <p class="card-text">{% trans "Location" %}: {{object.location}}</p>
               {% endif %} {% if object.website %}
-              <p class="card-text">Website: <a href="{{object.website}}">{{object.website}}</a></p>
+              <p class="card-text">Website: {{object.website|urlize}}</p>
               {% endif %}
               {% if user.is_authenticated and user.id == object.user.id%}
-              <a href="{% url 'profile_edit' object.slug %}">{% trans "Profilni tahrirlash" %}</a>
+              <a class='text-secondary' href="{% url 'profile_edit' object.slug %}">{% trans "Profilni tahrirlash" %} <i class="fas fa-user-edit"></i></a>
               {% endif %}
             </div>
           </div>

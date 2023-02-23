@@ -11,25 +11,42 @@
       }
     
 .post {
-    max-height:600px;
+    max-height:800px;
     overflow:auto;
     width: 100%;
+    {% comment %} background-image: url({%static './img/photo_2023-02-16_15-10-12.jpg'%});
+    background-attachment: fixed; {% endcomment %}
+  
+ 
 }
+{% comment %} .messag {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: repeat;
+  background-size: cover;
+  background-image: url({%static './img/font4.jfif'%});
+} {% endcomment %}
 .post::-webkit-scrollbar {
   display: none;
 }
+{% comment %} pre code{
+  color:#fff;
+}
+.messag{
+  background:rgba(0,0,0,.75);
+} {% endcomment %}
 
 </style>
-<div class='post mt-lg-3  mt-2'>
+<div class='post pt-2'>
 {% for post in object.post.all reversed %}
-<div class='card mx-lg-3 mx-1 my-1'>
+<div class='card messag mx-lg-3 mx-1 my-1'>
     <div class='card-title px-2 m-1 d-flex justify-content-between align-items-center'>
         
-        <div class="col-2  d-flex justify-content-start align-items-center">
-            <div class="">
-                {% if post.author.profile.user_pic %}
-                <div class="mb-1">
-                <img
+      <div class="col-2  d-flex justify-content-start align-items-center">
+        <div class="">
+        {% if post.author.profile.user_pic %}
+          <div class="mb-1">
+            <img
                   src="{{post.author.profile.user_pic.url}}"
                   
                   style="
@@ -40,11 +57,11 @@
                     color: fff !important;
                     border-radius: 100%;
                   "
-                />
-                </div>
-                {% else %}
-                <div style="width: 30px height: 30px" class="">
-                  <center>
+            />
+          </div>
+        {% else %}
+          <div style="width: 30px height: 30px" class="">
+            <center>
                     <h6
                       class="d-flex justify-content-center m-0 align-items-center text-uppercase"
                       style="
@@ -94,14 +111,18 @@
     <hr class="mt-0 mb-0"/>
 <div class='card-body pb-0 ck-content'>
   
-{{post.content_pt|safe}}
+{{post.content|safe}}
 </div>
 <div class='card-footer d-flex justify-content-between'>
     <div>
-        <p style="font-size:14px;">{{post.created_pt}} </p>
+        <p style="font-size:14px;">{{post.created}} </p>
     </div>
    
-
+    {% if post.changed %}
+    <p style="font-size:14px;">{{post.updated|timesince}} ago <i class="fa-sharp fa-solid fa-clock-rotate-left"></i></p>
+    {% endif %}
+        
+    
 </div>
 </div>
 {% endfor %}

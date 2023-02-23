@@ -3,14 +3,17 @@ from .models import Channel, Post
 from django.utils.html import format_html
 
 #Register your models here.
-class PostInlines(admin.StackedInline):
-    model = Post
-    ordering = ['-created_pt']
-    extra = 0
+# class PostInlines(admin.StackedInline):
+#     model = Post
+#     ordering = ['-created']
+#     extra = 0
+
+
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = ['author','channel']
+    
     
 
 @admin.display(description="Images")
@@ -24,8 +27,8 @@ def Avatar(obj):
 
 @admin.register(Channel)
 class ChannelAdmin(admin.ModelAdmin):
-    ordering = ['-created_ch']
-    inlines = [PostInlines]
+    ordering = ['-created']
+    #inlines = [PostInlines]
     list_per_page = 15
     fieldsets = (
         ("General", 
@@ -57,3 +60,7 @@ class ChannelAdmin(admin.ModelAdmin):
     )
     list_display = [Avatar,'slug', 'name', 'owner', 'total_subscribers']
     #readonly_fields = ['created_ch','updated_ch',"subscribers",]
+    
+
+
+    

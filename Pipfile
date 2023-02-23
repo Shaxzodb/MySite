@@ -30,6 +30,7 @@ django-jazzmin = "*"
 django-debug-toolbar = "*"
 django-pagination-bootstrap = "*"
 django-allauth = "*"
+djangorestframework = "*"
 
 [dev-packages]
 

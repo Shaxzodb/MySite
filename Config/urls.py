@@ -45,7 +45,7 @@ class ChannelDetailViewSitemap(sitemaps.Sitemap):
         return Channel.objects.all()
     
     def lastmod(self, obj):
-        return obj.updated_ch
+        return obj.updated
 
 sitemaps = {
     'static': StaticViewSitemap,
@@ -79,6 +79,7 @@ urlpatterns = [
     path('',include('Articles.urls')),
     path('',include('Comments.urls')),
     path('register/', include('django.contrib.auth.urls')),
+    path('api-auth/', include('rest_framework.urls'))
 ) + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
 ) + static(

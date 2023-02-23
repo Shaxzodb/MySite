@@ -50,10 +50,11 @@ INSTALLED_APPS = [
     'axes',
     'hitcount',
     'crispy_forms',
-    "crispy_bootstrap5",
+    'crispy_bootstrap5',
     'django_ckeditor_5',
     'django_filters',
-    "django_pagination_bootstrap",
+    'django_pagination_bootstrap',
+    'rest_framework',
     # My Apps
     'App.apps.AppConfig',
     'APIs.apps.ApisConfig',
@@ -109,7 +110,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'middleware.email_verify.EmailVerification',
+    #'middleware.email_verify.EmailVerification',
     
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django_pagination_bootstrap.middleware.PaginationMiddleware",
@@ -601,7 +602,7 @@ HITCOUNT_KEEP_HIT_IN_DATABASE = { 'days': 30 }
 PAGINATION_DEFAULT_PAGINATION=2
 PAGINATION_DEFAULT_ORPHANS=0
 PAGINATION_INVALID_PAGE_RAISES_404=True
-DATE_INPUT_FORMATS = ['%d-%m-%Y']
+
 INTERNAL_IPS = [
     # ...
     "127.0.0.1",

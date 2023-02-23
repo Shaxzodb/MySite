@@ -43,6 +43,8 @@ def email_verify(request, slug):
 class ProfileView(DetailView):
     model = Profile
     template_name = 'account/profile.html'
+    def get_queryset(self):
+        return super().get_queryset().select_related('user')
     
     
 class ProfileUpdateView(UserPassesTestMixin,UpdateView):

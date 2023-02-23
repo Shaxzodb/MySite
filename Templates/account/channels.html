@@ -74,22 +74,22 @@
                 </tr>
                 <tr>
                   <td>
-                   <h6 class="card-title">
+                   <h5 class="card-title">
                       <a href="{% url 'channel' channel.slug %}">
                           {{channel}}</a>
-                    </h6>
+                    </h5>
                   </td>
                   <td>
-                    <center><h6>
+                    <center><h5>
                       <strong>{{channel.total_subscribers}}</strong>
                       <i class="fa-solid fa-users"></i>
-                    </h6></center>
+                    </h5></center>
                   </td>
                   {% if user.id == object.user.id %}
                   <td>
-                    <center><h6>
+                    <center><h5>
                       <a href="{% url 'channel_sittings' channel.slug%}"><i class="fa-solid fa-gear"></i></a>
-                    </h6></center>
+                    </h5></center>
                   </td>
                 {% endif %}
                 

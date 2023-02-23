@@ -3,9 +3,21 @@ from django.contrib.auth import get_user_model
 from django_ckeditor_5.fields import CKEditor5Field
 from .validate import validate_length
 from django.urls import reverse
+from django.core.exceptions import ValidationError
 
 # Create your models here.
-class Channel(models.Model):
+
+class CPTModel(models.Model):
+    created = models.DateTimeField(
+        auto_now_add = True
+    )
+    updated = models.DateTimeField(
+        auto_now = True
+    )
+    class Meta:
+        abstract = True
+        
+class Channel(CPTModel):
     name = models.CharField(
         validators=[validate_length],
         max_length=256,
@@ -38,15 +50,11 @@ class Channel(models.Model):
         blank= True,
         validators = [validate_length],
     )
-    created_ch = models.DateTimeField(
-        auto_now_add = True
-    )
-    updated_ch = models.DateTimeField(
-        auto_now = True
-    )
+    
     description = models.TextField(
         blank=True,
-        null=True
+        null=True,
+        max_length=256
     )
     def total_subscribers(self):
         return self.subscribers.count()
@@ -60,7 +68,8 @@ class Channel(models.Model):
     def get_absolute_url(self):
         return reverse("channel", kwargs={"slug": self.slug})
  
-class Post(models.Model):
+class Post(CPTModel):
+    
     author = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
@@ -70,15 +79,25 @@ class Post(models.Model):
         on_delete=models.CASCADE,
         related_name='post'
     )
-    content_pt = CKEditor5Field(
-        config_name='default'
-    )
-    created_pt = models.DateTimeField(
-        auto_now_add = True
-    )
-    updated_pt = models.DateTimeField(
-        auto_now = True
+    changed = models.BooleanField(default=False)
+    content = CKEditor5Field(
+        config_name='default',
+   
     )
     
+
+
     def __str__(self) -> str:
         return str(self.author[:35] + '...') if len(str(self.author)) > 35 else str(self.author)
+    
+    # def clean(self):
+    #     super().clean()
+    #     if self.quiz_mode == True:
+    #         raise ValidationError('Qiymat mavjud emas')
+    # def save(self, *args, **kwargs):
+    #     if self.question != '':
+    #         self.quiz_mode = True
+    #     super(Post, self).save(*args, **kwargs)
+        
+    
+    

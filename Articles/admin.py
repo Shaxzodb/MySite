@@ -63,7 +63,7 @@ class ArticlesAdmin(admin.ModelAdmin):
     
     def headshot_image(self, obj):
         if not obj.image_at:
-            return format_html("<img src='{url}'  width='300px'/>".format(url = static('img/article_default_pic.jpg')))
+            return format_html("<img src='{url}'  width='300px'/>".format(url = static('img/908418-200.png')))
         return format_html("<img src='{url}'  width='300px'/>".format(url = obj.image_at.url)
     )
         

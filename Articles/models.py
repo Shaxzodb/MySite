@@ -7,7 +7,7 @@ from django.urls import reverse
 from autoslug import AutoSlugField
 
 # Create your models here.
-DATE_FORMATS = ['%d-%m-%Y']
+
 class ArticleModel(models.Model, HitCountMixin):
     author = models.ForeignKey(
         get_user_model(),
@@ -51,9 +51,11 @@ class ArticleModel(models.Model, HitCountMixin):
         related_name = 'dislikes'
     )
     hit_count_generic = GenericRelation(
+        
         HitCount, object_id_field='object_pk',
         related_query_name='hit_count_generic_relation'
     )
+    changed = models.BooleanField(default=False)
     def total_likes(self):
         return self.likes.count()
     

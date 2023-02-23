@@ -174,10 +174,10 @@ div.pagination::-webkit-scrollbar {
   display: none;
 }
 
-.card{
+/* .card{
     box-sizing: border-box;
     border-color: var(--secondary);
-}
+} */
 .card-text-div{
     color:black;
 }
@@ -218,9 +218,7 @@ div.pagination::-webkit-scrollbar {
   background-repeat: no-repeat;
   background-size: cover;
 }
-h1{
-  height: 45px;
-}
+
 .container-fluid, .sticky-top mb-0 ,.bg-white ,.shadow-sm{
     margin:0 !important;
 }

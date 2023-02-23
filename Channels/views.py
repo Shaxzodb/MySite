@@ -5,26 +5,39 @@ from .models import Channel, Post
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
-from django.db.models import Count
+from django.db.models import Count, Max
 from .forms import ChannelCreateForm, PostCreateForm
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from Users.models import CustomUserModel, Profile
 from django.utils.html import format_html
+from rest_framework.generics import ListAPIView
+from .serializes import ChannelSerialize
 # Create your views here.
+
+class ChannelListApi(ListAPIView):
+    queryset = Channel.objects.all()
+    serializer_class = ChannelSerialize
+    
+    
+    
+
 class ChannelView(ListView):
     model = Channel
     template_name = 'channel/channel_page.html'
     
     def get_queryset(self):
-        qs = super().get_queryset()
-        return qs.annotate(max_subscribers=Count('subscribers')).order_by('-max_subscribers', '-created_ch')
+        qs = super().get_queryset().select_related('owner')
+        return qs.annotate(max_subscribers=Count('subscribers')).order_by('-max_subscribers', '-created')
 
 
 class ChannelDetailView(DetailView):
     model = Channel
     template_name = 'channel/channel_detail.html'
-
+    
+    def get_queryset(self):
+        return super().get_queryset().all().select_related('owner')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         sub = False
@@ -43,26 +56,35 @@ class ChannelDetailView(DetailView):
         
         context["subscribers"] = sub
         return context
-
-    def post(self, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            channel = get_object_or_404(
-                Channel,
-                slug=self.kwargs['slug']
-            )
-            if channel.admins.filter(id = self.request.user.id).exists() or channel.owner.id == self.request.user.id:
-                form = PostCreateForm(
-                    self.request.POST
-                )
+    
+@login_required()
+def save_post(request,slug):
+    if request.method=='POST':
+        
+        channel = get_object_or_404(
+            Channel,
+            slug=slug
+        )
             
-                if form.is_valid():
-                    Post.objects.create(
-                        author=self.request.user,
-                        channel=channel,
-                        content_pt=self.request.POST['content_pt'],
-                    )
+        if channel.admins.filter(id = request.user.id).exists() or channel.owner.id == request.user.id:
+            form = PostCreateForm(
+                request.POST
+            )
                 
-        return redirect('channel', self.kwargs['slug'])
+            if form.is_valid():
+                    
+                   
+                    
+              Post.objects.create(
+                author=request.user,
+                channel=channel,
+                content=request.POST['content'],
+                        
+                )
+                  
+                                     
+    return redirect('channel', slug)
+        
 
 
 @login_required()
@@ -130,14 +152,20 @@ def post_delete(request, pk):
 class Edit_PostView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     template_name = 'channel/post_edit.html'
     model = Post
-    fields =['content_pt']
-    
+    fields =['content']
+    def post(self, *args, **kwargs):
+        
+        
+        post = Post.objects.filter(id=kwargs['pk'])
+        if not post[0].changed:
+            post.update(changed=True)
+        return super().post(self)
     def test_func(self):
         return self.get_object().author == self.request.user
     
     def get_success_url(self):
         post = Post.objects.get(id=self.kwargs['pk'])
-        print(post.channel.slug)
+   
         return reverse('channel', args=[str(post.channel.slug)])
 
 
