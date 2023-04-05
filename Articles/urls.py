@@ -2,7 +2,7 @@ from django.urls import path
 from .views import article_list, ArticleDetailView,\
     ArticleCreate, ArticleEdit, article_delete, likes_article, dislikes_article
 from django_ratelimit.decorators import ratelimit
-
+from .feeds import LatestNewsFeed
 urlpatterns = [
     path(
         'articles/', 
@@ -26,6 +26,7 @@ urlpatterns = [
     ),
     path('likes/<slug:slug>', likes_article, name ='likes'),
     path('dislikes/<slug:slug>', dislikes_article, name ='dislikes'),
+    path('feed', LatestNewsFeed(), name ='feed'),
     path(
         'create-article/', 
         ratelimit(

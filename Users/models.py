@@ -103,7 +103,7 @@ class Profile(models.Model):
         return self.friends.count()
     
     def __str__(self) -> str:
-        return str(self.user.username)
+        return str(self._username)
     
     def get_absolute_url(self):
         return reverse("profile", kwargs={"slug": self.slug})
